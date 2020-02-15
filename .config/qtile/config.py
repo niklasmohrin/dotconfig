@@ -31,6 +31,9 @@ from libqtile.config import Key, Screen, Group, Drag, Click
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook
 
+with open("/home/niklas/qtile_dbg", "w") as f:
+    f.write(str(widget.__dict__))
+
 from typing import List  # noqa: F401
 
 mod = "mod4" # Super / Windows Key
@@ -86,8 +89,8 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font='sans',
-    fontsize=12,
+    font='Cascadia Code Bold',
+    fontsize=13,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
@@ -99,15 +102,16 @@ screens = [
                 widget.GroupBox(),
                 widget.Prompt(),
                 widget.WindowName(),
-                #widget.QuickExit(),
                 widget.Net(interface=net_interface),
                 widget.CurrentLayout(),
+                widget.Pacman(),
                 widget.Memory(),
+                widget.CPUGraph(),
                 widget.Systray(),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
             ],
             opacity=0.8,
-            size=25,
+            size=28,
         ),
     ),
 ]
