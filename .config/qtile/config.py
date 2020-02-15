@@ -31,6 +31,7 @@ from libqtile import layout, bar, widget
 from typing import List  # noqa: F401
 
 mod = "mod4"
+net_interface = "enp0s3"
 
 keys = [
     # Switch between windows in current stack pane
@@ -60,7 +61,6 @@ keys = [
 
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
-#    Key([mod], "r", lazy.spawncmd()),
     Key([mod], "r", lazy.spawn("rofi -show run")),
 ]
 
@@ -77,7 +77,8 @@ for i in groups:
 
 layouts = [
     layout.Max(),
-    layout.Stack(num_stacks=2)
+    layout.Stack(num_stacks=2),
+    layout.MonadTall(),
 ]
 
 widget_defaults = dict(
@@ -89,12 +90,14 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        bottom=bar.Bar(
+        top=bar.Bar(
             [
                 widget.GroupBox(),
                 widget.Prompt(),
                 widget.WindowName(),
-                widget.TextBox("default config", name="default"),
+                widget.Net(interface=net_interface),
+                widget.CurrentLayout(),
+                widget.Memory(),
                 widget.Systray(),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
             ],
