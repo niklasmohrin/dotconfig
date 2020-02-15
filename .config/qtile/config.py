@@ -24,6 +24,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+### Imports
+
 import os
 import subprocess
 
@@ -31,14 +33,15 @@ from libqtile.config import Key, Screen, Group, Drag, Click
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook
 
-with open("/home/niklas/qtile_dbg", "w") as f:
-    f.write(str(widget.__dict__))
-
 from typing import List  # noqa: F401
+
+### Global constants
 
 mod = "mod4" # Super / Windows Key
 net_interface = "enp0s3"
 terminal_emulator = "alacritty"
+
+### Keys
 
 keys = [
     # Switch between windows in current stack pane
@@ -71,6 +74,23 @@ keys = [
     Key([mod], "r", lazy.spawn("rofi -show run")),
 ]
 
+# Mouse events
+mouse = [
+    Drag([mod], "Button1", lazy.window.set_position_floating(),
+         start=lazy.window.get_position()),
+    Drag([mod], "Button3", lazy.window.set_size_floating(),
+         start=lazy.window.get_size()),
+    Click([mod], "Button2", lazy.window.bring_to_front())
+]
+
+### Groups
+
+# group_labels = ["Web", "Code", "Doc", "Media", "Com"]
+# groups = [
+#     Group(i, label=label.upper())
+#     for i, label in enumerate(group_labels)
+# ]
+
 groups = [Group(i) for i in "asdfuiop"]
 
 for i in groups:
@@ -82,11 +102,16 @@ for i in groups:
         Key([mod, "shift"], i.name, lazy.window.togroup(i.name)),
     ])
 
+
+### Layouts
+
 layouts = [
-    layout.Max(),
-    layout.Stack(num_stacks=2),
     layout.MonadTall(),
+    layout.Stack(num_stacks=2),
+    layout.Max(),
 ]
+
+### Widgets
 
 widget_defaults = dict(
     font='Cascadia Code Bold',
@@ -116,14 +141,7 @@ screens = [
     ),
 ]
 
-# Drag floating layouts.
-mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(),
-         start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(),
-         start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front())
-]
+### Constants that I don't fully understand
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
@@ -149,19 +167,11 @@ floating_layout = layout.Floating(float_rules=[
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
+wmname = "LG3D"
+
+### Autostart script
 
 @hook.subscribe.startup_once
 def start_once():
     home = os.path.expanduser("~")
     subprocess.call([home + "/.config/qtile/autostart.sh"])
-
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
-wmname = "LG3D"
-
