@@ -85,22 +85,30 @@ mouse = [
 
 ### Groups
 
-# group_labels = ["Web", "Code", "Doc", "Media", "Com"]
-# groups = [
-#     Group(i, label=label.upper())
-#     for i, label in enumerate(group_labels)
-# ]
+group_labels = ["Web", "Code", "Doc", "Media", "Com"]
+groups = [
+    Group(label.upper())
+    for label in group_labels
+]
 
-groups = [Group(i) for i in "asdfuiop"]
+### Groups keybindings
+for i, label in enumerate(group_labels, 1):
+    keys.append(Key([mod], str(i), lazy.group[label].toscreen()))
+    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(label)))
 
-for i in groups:
-    keys.extend([
-        # mod1 + letter of group = switch to group
-        Key([mod], i.name, lazy.group[i.name].toscreen()),
+with open("qtiledbg", "w") as f:
+    f.write(str(keys))
 
-        # mod1 + shift + letter of group = switch to & move focused window to group
-        Key([mod, "shift"], i.name, lazy.window.togroup(i.name)),
-    ])
+# groups = [Group(i) for i in "asdfuiop"]
+
+# for i in groups:
+#     keys.extend([
+#         # mod1 + letter of group = switch to group
+#         Key([mod], i.name, lazy.group[i.name].toscreen()),
+
+#         # mod1 + shift + letter of group = switch to & move focused window to group
+#         Key([mod, "shift"], i.name, lazy.window.togroup(i.name)),
+#     ])
 
 
 ### Layouts
