@@ -40,6 +40,7 @@ from typing import List  # noqa: F401
 mod = "mod4" # Super / Windows Key
 net_interface = "enp0s3"
 terminal_emulator = "alacritty"
+file_manager = "nemo"
 
 ### Keys
 
@@ -72,6 +73,7 @@ keys = [
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod], "r", lazy.spawn("rofi -show run")),
+    Key([mod], "e", lazy.spawn(file_manager)),
 ]
 
 # Mouse events
