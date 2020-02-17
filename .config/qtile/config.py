@@ -100,10 +100,17 @@ for i, label in enumerate(group_labels, 1):
 
 ### Layouts
 
+layout_theme = {
+    "border_width": 2,
+    "border_focus": "FBA922",
+    "border_normal": "1D1F21",
+    "margin": 4,
+}
+
 layouts = [
-    layout.MonadTall(),
-    layout.Stack(num_stacks=2),
-    layout.Max(),
+    layout.MonadTall(**layout_theme),
+    layout.Stack(num_stacks=2, **layout_theme),
+    layout.Max(**layout_theme),
 ]
 
 ### Widgets
