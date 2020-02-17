@@ -197,4 +197,10 @@ case $(basename "$(cat "/proc/$PPID/comm")") in
     ;;
 esac
 
+## fzf bindings
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+
+
+## neofetch greeting
 neofetch
