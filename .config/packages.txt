@@ -1,6 +1,6 @@
 acpi
 acpid
-alacritty
+alacritty-git
 amd-ucode
 asciiquarium
 autoconf
@@ -38,6 +38,7 @@ filesystem
 findutils
 flex
 fortune-mod
+fzf
 gawk
 gcc
 gcc-libs
@@ -82,6 +83,7 @@ manjaro-system
 manjaro-zsh-config
 mdadm
 memtest86+
+mesa-demos
 mhwd
 mhwd-db
 mkinitcpio-openswap
@@ -133,7 +135,9 @@ virtualbox-guest-utils
 wget
 which
 wpa_supplicant
+xcb-util-cursor
 xclip
+xcursor-breeze
 xf86-input-vmmouse
 xf86-video-intel
 xf86-video-vmware
