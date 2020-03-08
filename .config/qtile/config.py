@@ -106,7 +106,7 @@ layout_theme = {
     "border_width": 2,
     "border_focus": "FBA922",
     "border_normal": "1D1F21",
-    "margin": 4,
+    "margin": 10,
 }
 
 layouts = [
@@ -129,7 +129,6 @@ screens = [
         top=bar.Bar(
             [
                 widget.GroupBox(),
-                widget.Prompt(),
                 widget.WindowName(),
                 widget.Net(interface=net_interface),
                 widget.CurrentLayout(),
