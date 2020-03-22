@@ -24,7 +24,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-### Imports
+# Imports
 
 import os
 import subprocess
@@ -35,14 +35,16 @@ from libqtile import layout, bar, widget, hook
 
 from typing import List  # noqa: F401
 
-### Global constants
+# Global constants
 
-mod = "mod4" # Super / Windows Key
+mod = "mod4"  # Super / Windows Key
 net_interface = "enp0s3"
 terminal_emulator = "alacritty"
 file_manager = "nemo"
+application_runner = "rofi -show run"
+web_browser = "firefox-developer-edition"
 
-### Keys
+# Keys
 
 keys = [
     # Switch between windows in current stack pane
@@ -72,8 +74,9 @@ keys = [
 
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
-    Key([mod], "r", lazy.spawn("rofi -show run")),
+    Key([mod], "r", lazy.spawn(application_runner)),
     Key([mod], "e", lazy.spawn(file_manager)),
+    Key([mod], "b", lazy.spawn(web_browser)),
 ]
 
 # Mouse events
@@ -85,22 +88,22 @@ mouse = [
     Click([mod], "Button2", lazy.window.bring_to_front())
 ]
 
-### Groups
+# Groups
 
-group_labels = ["Web", "Code", "Doc", "Media", "Com"]
+group_labels = ["Term", "Code", "Web", "Media", "Com"]
 group_labels = [s.upper() for s in group_labels]
 groups = [
     Group(label)
     for label in group_labels
 ]
 
-### Groups keybindings
+# Groups keybindings
 for i, label in enumerate(group_labels, 1):
     keys.append(Key([mod], str(i), lazy.group[label].toscreen()))
     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(label)))
 
 
-### Layouts
+# Layouts
 
 layout_theme = {
     "border_width": 2,
@@ -115,7 +118,7 @@ layouts = [
     layout.Max(**layout_theme),
 ]
 
-### Widgets
+# Widgets
 
 widget_defaults = dict(
     font='Cascadia Code Bold',
@@ -129,13 +132,19 @@ screens = [
         top=bar.Bar(
             [
                 widget.GroupBox(),
+                widget.Sep(),
                 widget.WindowName(),
-                widget.Net(interface=net_interface),
                 widget.CurrentLayout(),
-                widget.Pacman(),
-                widget.Memory(),
-                widget.CPUGraph(),
+                widget.Sep(),
+                widget.Battery(format="{percent:2.0%} {hour:d}:{min:02d}"),
+                widget.BatteryIcon(),
+                widget.Sep(),
+                widget.Backlight(backlight_name="intel_backlight"),
+                widget.Sep(),
+                widget.Volume(),
+                widget.Sep(),
                 widget.Systray(),
+                widget.Sep(),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
             ],
             opacity=0.8,
@@ -144,7 +153,7 @@ screens = [
     ),
 ]
 
-### Constants that I don't fully understand
+# Constants that I don't fully understand
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
@@ -172,7 +181,8 @@ auto_fullscreen = True
 focus_on_window_activation = "smart"
 wmname = "LG3D"
 
-### Autostart script
+# Autostart script
+
 
 @hook.subscribe.startup_once
 def start_once():
