@@ -56,9 +56,9 @@ bindkey '^[[Z' undo                                             # Shift+tab undo
 alias cp="cp -i"                                                # Confirm before overwriting something
 alias df='df -h'                                                # Human-readable sizes
 alias free='free -m'                                            # Show sizes in MB
-alias gitu='git add . && git commit && git push'
 alias dotfilecfg='/usr/bin/git --git-dir=/home/niklas/dotfiles/ --work-tree=/home/niklas'
-alias exa='exa --long --all --classify --tree --level=2 --git'
+alias exa='exa --long --all --classify --git --header'
+alias xclip='xclip -sel clip'
 
 
 # Theming section  
