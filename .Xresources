@@ -35,4 +35,4 @@
 *.color7:       #c5c8c6
 *.color15:      #ffffff
 
-Xcursor.theme: Breeze
+xcursor.theme: Breeze
