@@ -114,8 +114,9 @@ layout_theme = {
 
 layouts = [
     layout.MonadTall(**layout_theme),
-    layout.Stack(num_stacks=2, **layout_theme),
     layout.Max(**layout_theme),
+    layout.Matrix(columns=3, **layout_theme),
+    layout.Stack(num_stacks=2, **layout_theme),
 ]
 
 # Widgets
@@ -132,20 +133,21 @@ screens = [
         top=bar.Bar(
             [
                 widget.GroupBox(),
-                widget.Sep(),
+                widget.Sep(padding=5, foreground="ffffff"),
                 widget.WindowName(),
-                widget.Clock(format='%H:%M'),
-                widget.Sep(),
+                widget.Clock(format='%H:%M / %d. %b %y \ %A'),
+                widget.Sep(padding=5, foreground="ffffff"),
                 widget.Systray(),
-                widget.Sep(),
+                widget.Sep(padding=5, foreground="ffffff"),
                 widget.Backlight(
                     format="☀{percent: 2.0%}", backlight_name="intel_backlight"),
-                widget.Sep(),
-                widget.Volume(),
-                widget.Sep(),
+                widget.Sep(padding=5, foreground="ffffff"),
+                widget.Mpris2(objname="org.mpris.MediaPlayer2.spotify", display_metadata=[
+                              "xesam:title", "xesam:artist"], scroll_wait_intervals=10000, scroll_chars=50),
+                widget.Sep(padding=5, foreground="ffffff"),
                 widget.BatteryIcon(),
                 widget.Battery(format="{percent:2.0%}"),
-                widget.Sep(),
+                widget.Sep(padding=5, foreground="ffffff"),
                 widget.CurrentLayout(),
             ],
             opacity=0.8,
@@ -154,14 +156,10 @@ screens = [
     ),
 ]
 
-# Constants that I don't fully understand
 
-dgroups_key_binder = None
-dgroups_app_rules = []  # type: List
-main = None
-follow_mouse_focus = True
-bring_front_click = False
-cursor_warp = False
+# Configuration constants
+# http://docs.qtile.org/en/latest/manual/config/index.html#configuration-variables
+
 floating_layout = layout.Floating(float_rules=[
     {'wmclass': 'confirm'},
     {'wmclass': 'dialog'},
@@ -178,13 +176,11 @@ floating_layout = layout.Floating(float_rules=[
     {'wname': 'pinentry'},  # GPG key password entry
     {'wmclass': 'ssh-askpass'},  # ssh-askpass
 ])
-auto_fullscreen = True
-focus_on_window_activation = "smart"
+
+
 wmname = "LG3D"
 
 # Autostart script
-
-
 @hook.subscribe.startup_once
 def start_once():
     home = os.path.expanduser("~")
