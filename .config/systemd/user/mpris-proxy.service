@@ -1,0 +1,11 @@
+# systemctl --user enable mpris-proxy.service
+
+[Unit]
+Description=Forward bluetooth controls to mpris2
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/mpris-proxy
+
+[Install]
+WantedBy=default.target
