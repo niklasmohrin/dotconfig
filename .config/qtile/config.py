@@ -43,13 +43,14 @@ terminal_emulator = "alacritty"
 file_manager = "nemo"
 application_runner = "rofi -show run"
 web_browser = "firefox-developer-edition"
+email_program = "thunderbird"
 
 # Keys
 
 keys = [
     # Switch between windows in current stack pane
-    Key([mod], "k", lazy.layout.down()),
-    Key([mod], "j", lazy.layout.up()),
+    Key([mod], "j", lazy.layout.down()),
+    Key([mod], "k", lazy.layout.up()),
 
     # Move windows up or down in current stack
     Key([mod, "control"], "k", lazy.layout.shuffle_down()),
@@ -77,6 +78,7 @@ keys = [
     Key([mod], "r", lazy.spawn(application_runner)),
     Key([mod], "e", lazy.spawn(file_manager)),
     Key([mod], "b", lazy.spawn(web_browser)),
+    Key([mod], "m", lazy.spawn(email_program)),
 ]
 
 # Mouse events
