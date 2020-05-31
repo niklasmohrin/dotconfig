@@ -49,8 +49,8 @@ email_program = "thunderbird"
 
 keys = [
     # Switch between windows in current stack pane
-    Key([mod], "j", lazy.layout.down()),
-    Key([mod], "k", lazy.layout.up()),
+    Key([mod], "k", lazy.layout.down()),
+    Key([mod], "j", lazy.layout.up()),
 
     # Move windows up or down in current stack
     Key([mod, "control"], "k", lazy.layout.shuffle_down()),
@@ -118,7 +118,7 @@ layouts = [
     layout.MonadTall(**layout_theme),
     layout.Max(**layout_theme),
     layout.Matrix(columns=3, **layout_theme),
-    layout.Stack(num_stacks=2, **layout_theme),
+    layout.MonadWide(**layout_theme),
 ]
 
 # Widgets
@@ -130,26 +130,31 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+def sep():
+    return widget.TextBox("|", foreground="#aaaaaa")
+
 screens = [
     Screen(
         top=bar.Bar(
             [
                 widget.GroupBox(),
-                widget.Sep(padding=5, foreground="ffffff"),
+                sep(),
                 widget.WindowName(),
-                widget.Clock(format='%H:%M / %d. %b %y \ %A'),
-                widget.Sep(padding=5, foreground="ffffff"),
+                widget.Clock(format='%H:%M | %d. %b %y | %A'),
+                sep(),
+                widget.Net(format="{down} ↓↑ {up}"),
+                sep(),
                 widget.Systray(),
-                widget.Sep(padding=5, foreground="ffffff"),
+                sep(),
                 widget.Backlight(
                     format="☀{percent: 2.0%}", backlight_name="intel_backlight"),
-                widget.Sep(padding=5, foreground="ffffff"),
+                sep(),
                 widget.Mpris2(objname="org.mpris.MediaPlayer2.spotify", display_metadata=[
-                              "xesam:title", "xesam:artist"], scroll_wait_intervals=10000, scroll_chars=50),
-                widget.Sep(padding=5, foreground="ffffff"),
+                              "xesam:title", "xesam:artist"], scroll_wait_intervals=1000, scroll_chars=50, stop_pause_text="Paused"),
+                sep(),
                 widget.BatteryIcon(),
                 widget.Battery(format="{percent:2.0%}"),
-                widget.Sep(padding=5, foreground="ffffff"),
+                sep(),
                 widget.CurrentLayout(),
             ],
             opacity=0.8,

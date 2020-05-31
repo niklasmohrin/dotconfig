@@ -8,3 +8,5 @@ xss-lock -- xscreensaver-command -lock &
 pasystray &
 libinput-gestures-setup start
 blueman-applet &
+optimus-manager-qt &
+
