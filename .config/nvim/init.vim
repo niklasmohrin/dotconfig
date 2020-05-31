@@ -1,34 +1,51 @@
 " General settings
 set number relativenumber
-syntax enable
-set mouse=nicr
+syntax on
+set mouse=a
 set splitbelow splitright
-set list
+set wildmenu
+set wildmode=longest,list,full
+set spelllang=en_us,de_de
+set spell
+set termguicolors
+set nowrap
+set cursorline
 " Trailing whitespace and tab characters
-set listchars=trail:*,tab:>-
+set list
+set listchars=trail:·,tab:>-
 set tabstop=4
 set shiftwidth=4
-" Enable clang format for c and c++
-autocmd FileType c,cpp setlocal equalprg=clang-format
+set laststatus=2
+set expandtab
 
 " Plugins
+set nocompatible
+filetype off
+set rtp+=~/.config/base16/templates/vim/
 call plug#begin()
-	" Styling
-	Plug 'itchyny/lightline.vim'
-	" Navigation and extensions
-	Plug 'airblade/vim-rooter'
-	Plug 'junegunn/fzf'
-	Plug 'junegunn/fzf.vim'
-	Plug 'machakann/vim-highlightedyank'
-	" Language servers
-	Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	Plug 'rust-lang/rust.vim'
+    " Styling
+    Plug 'itchyny/lightline.vim'
+    " Navigation and extensions
+    Plug 'airblade/vim-rooter'
+    Plug 'junegunn/fzf'
+    Plug 'junegunn/fzf.vim'
+    Plug 'machakann/vim-highlightedyank'
+    Plug 'airblade/vim-gitgutter'
+    Plug 'junegunn/goyo.vim'
+    Plug 'jiangmiao/auto-pairs'
+    " Language servers
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'rust-lang/rust.vim'
+    Plug 'Chiel92/vim-autoformat'
 call plug#end()
 
 
 " Permanent undo
 set undodir=~/.config/nvim/.vimdid
 set undofile
+
+" Don't jump over closing bracket when it is on the next line
+let g:AutoPairsMultilineClose=0
 
 " Fzf Binding
 map <C-p> :Files<CR>
@@ -40,6 +57,33 @@ set cmdheight=2
 set updatetime=300
 set shortmess+=c
 set signcolumn=yes
+
+let base16colorspace=256
+let g:base16_shell_path="~/.config/base16/templates/shell/scripts"
+colorscheme base16-atelier-dune
+hi Normal guibg=NONE ctermbg=NONE
+
+" Keybindings
+let mapleader=" "
+map <silent> <leader>f :Autoformat<Cr>
+
+" Slightly changed from default command (Base Style changed from Webkit to Google
+let s:configfile_def = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename=\"'.expand('%:p').'\" -style=file'"
+let s:noconfigfile_def = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename=\"'.expand('%:p').'\" -style=\"{BasedOnStyle: Google, AlignTrailingComments: true, '.(&textwidth ? 'ColumnLimit: '.&textwidth.', ' : '').(&expandtab ? 'UseTab: Never, IndentWidth: '.shiftwidth() : 'UseTab: Always').'}\"'"
+let g:formatdef_clangformat = "g:ClangFormatConfigFileExists() ? (" . s:configfile_def . ") : (" . s:noconfigfile_def . ")"
+
+" Coc extensions
+let g:coc_global_extensions = [
+    \ "coc-tsserver",
+    \ "coc-rls",
+    \ "coc-python",
+    \ "coc-json",
+    \ "coc-html",
+    \ "coc-css",
+    \ "coc-clangd",
+    \ ]
+
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
