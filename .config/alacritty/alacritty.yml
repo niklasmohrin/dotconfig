@@ -3,16 +3,10 @@
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
-#env:
-  # TERM variable
-  #
-  # This value is used to set the `$TERM` environment variable for
-  # each instance of Alacritty. If it is not present, alacritty will
-  # check the local terminfo database and use `alacritty` if it is
-  # available, otherwise `xterm-256color` is used.
-  #TERM: xterm-256color
+env:
+  TERM: xterm-256color
 
-window:
+# window:
   # Window dimensions (changes require restart)
   #
   # Specified in number of columns/lines, not pixels.
@@ -33,9 +27,9 @@ window:
   #
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
-  padding:
-   x: 10
-   y: 10
+  # padding:
+  #  x: 4
+  #  y: 4
 
   # Spread additional padding evenly around the terminal content.
   #dynamic_padding: false
@@ -90,15 +84,6 @@ window:
   # Scroll to the bottom when new text is written to the terminal.
   #auto_scroll: false
 
-# Spaces per Tab (changes require restart)
-#
-# This setting defines the width of a tab in cells.
-#
-# Some applications, like Emacs, rely on knowing about the width of a tab.
-# To prevent unexpected behavior in these applications, it's also required to
-# change the `it` value in terminfo when altering this setting.
-#tabspaces: 8
-
 # Font configuration
 font:
   # Normal (roman) font face
@@ -124,48 +109,43 @@ font:
   #  x: 0
   #  y: 0
 
-# Base16 Helios 256 - alacritty color config
-# Alex Meyer (https://github.com/reyemxela)
+
+# Base16 Eighties - alacritty color config
+# Chris Kempson (http://chriskempson.com)
 colors:
   # Default colors
   primary:
-    background: '0x1d2021'
-    foreground: '0xd5d5d5'
+    background: '0x2d2d2d'
+    foreground: '0xd3d0c8'
 
   # Colors the cursor will use if `custom_cursor_colors` is true
   cursor:
-    text: '0x1d2021'
-    cursor: '0xd5d5d5'
+    text: '0x2d2d2d'
+    cursor: '0xd3d0c8'
 
   # Normal colors
   normal:
-    black:   '0x1d2021'
-    red:     '0xd72638'
-    green:   '0x88b92d'
-    yellow:  '0xf19d1a'
-    blue:    '0x1e8bac'
-    magenta: '0xbe4264'
-    cyan:    '0x1ba595'
-    white:   '0xd5d5d5'
+    black:   '0x2d2d2d'
+    red:     '0xf2777a'
+    green:   '0x99cc99'
+    yellow:  '0xffcc66'
+    blue:    '0x6699cc'
+    magenta: '0xcc99cc'
+    cyan:    '0x66cccc'
+    white:   '0xd3d0c8'
 
   # Bright colors
   bright:
-    black:   '0x6f7579'
-    red:     '0xd72638'
-    green:   '0x88b92d'
-    yellow:  '0xf19d1a'
-    blue:    '0x1e8bac'
-    magenta: '0xbe4264'
-    cyan:    '0x1ba595'
-    white:   '0xe5e5e5'
+    black:   '0x747369'
+    red:     '0xf99157'
+    green:   '0x393939'
+    yellow:  '0x515151'
+    blue:    '0xa09f93'
+    magenta: '0xe8e6df'
+    cyan:    '0xd27b53'
+    white:   '0xf2f0ec'
 
-  indexed_colors:
-    - { index: 16, color: '0xeb8413' }
-    - { index: 17, color: '0xc85e0d' }
-    - { index: 18, color: '0x383c3e' }
-    - { index: 19, color: '0x53585b' }
-    - { index: 20, color: '0xcdcdcd' }
-    - { index: 21, color: '0xdddddd' }
+draw_bold_text_with_bright_colors: false
 
 # Background opacity
 #
@@ -182,18 +162,16 @@ background_opacity: 0.9
 # Allow terminal applications to change Alacritty's window title.
 #dynamic_title: true
 
-#cursor:
+cursor:
   # Cursor style
   #
   # Values for `style`:
   #   - ▇ Block
   #   - _ Underline
   #   - | Beam
-  #style: Block
+  style: Block
 
-  # If this is `true`, the cursor will be rendered as a hollow box when the
-  # window is not focused.
-  #unfocused_hollow: true
+  unfocused_hollow: true
 
 # Live config reload (changes require restart)
 #live_config_reload: true
