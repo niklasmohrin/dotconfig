@@ -37,12 +37,20 @@ call plug#begin()
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'rust-lang/rust.vim'
     Plug 'Chiel92/vim-autoformat'
+    Plug 'posva/vim-vue'
+    Plug 'alvan/vim-closetag'
+    Plug 'mattn/emmet-vim'
+    Plug 'turbio/bracey.vim'
+
+    Plug 'gruvbox-community/gruvbox'
 call plug#end()
 
 
 " Permanent undo
 set undodir=~/.config/nvim/.vimdid
 set undofile
+
+autocmd Filetype markdown setlocal colorcolumn=80
 
 " Don't jump over closing bracket when it is on the next line
 let g:AutoPairsMultilineClose=0
@@ -58,10 +66,14 @@ set updatetime=300
 set shortmess+=c
 set signcolumn=yes
 
-let base16colorspace=256
-let g:base16_shell_path="~/.config/base16/templates/shell/scripts"
-colorscheme base16-atelier-dune
+" let base16colorspace=256
+" let g:base16_shell_path="~/.config/base16/templates/shell/scripts"
+
+let g:gruvbox_italic=1
+colorscheme gruvbox
 hi Normal guibg=NONE ctermbg=NONE
+
+let g:closetag_filenames = "*.html,*.xhtml,*.vue"
 
 " Keybindings
 let mapleader=" "
@@ -81,6 +93,7 @@ let g:coc_global_extensions = [
     \ "coc-html",
     \ "coc-css",
     \ "coc-clangd",
+    \ "coc-emmet",
     \ ]
 
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()

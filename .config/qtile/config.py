@@ -44,6 +44,7 @@ file_manager = "nemo"
 application_runner = "rofi -show run"
 web_browser = "firefox-developer-edition"
 email_program = "thunderbird"
+lock_command = "xscreensaver-command -lock"
 
 # Keys
 
@@ -79,6 +80,7 @@ keys = [
     Key([mod], "e", lazy.spawn(file_manager)),
     Key([mod], "b", lazy.spawn(web_browser)),
     Key([mod], "m", lazy.spawn(email_program)),
+    Key([mod], "l", lazy.spawn(lock_command)),
 ]
 
 # Mouse events
@@ -130,8 +132,10 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+
 def sep():
     return widget.TextBox("|", foreground="#aaaaaa")
+
 
 screens = [
     Screen(
@@ -140,6 +144,7 @@ screens = [
                 widget.GroupBox(),
                 sep(),
                 widget.WindowName(),
+                sep(),
                 widget.Clock(format='%H:%M | %d. %b %y | %A'),
                 sep(),
                 widget.Net(format="{down} ↓↑ {up}"),
@@ -161,6 +166,11 @@ screens = [
             size=28,
         ),
     ),
+    Screen(top=bar.Bar([
+        widget.GroupBox(),
+        sep(),
+        widget.WindowName(),
+    ], opacity=0.8, size=28)),
 ]
 
 
