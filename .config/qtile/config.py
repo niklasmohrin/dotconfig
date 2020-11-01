@@ -29,7 +29,7 @@
 import os
 import subprocess
 
-from libqtile.config import Key, Screen, Group, Drag, Click
+from libqtile.config import Key, Screen, Group, Drag, Click, Match
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook
 
@@ -94,12 +94,17 @@ mouse = [
 
 # Groups
 
-group_labels = ["Term", "Code", "Web", "Media", "Com"]
-group_labels = [s.upper() for s in group_labels]
 groups = [
-    Group(label)
-    for label in group_labels
+    Group("Term"),
+    Group("Code", layout="max"),
+    Group("Web"),
+    Group("Media", matches=[Match(wm_instance_class=["spotify"])]),
+    Group("Com", matches=[
+        Match(wm_class=["discord"]),
+    ]),
 ]
+
+group_labels = [g.name for g in groups]
 
 # Groups keybindings
 for i, label in enumerate(group_labels, 1):
@@ -113,7 +118,7 @@ layout_theme = {
     "border_width": 2,
     "border_focus": "FBA922",
     "border_normal": "1D1F21",
-    "margin": 10,
+    "margin": 8,
 }
 
 layouts = [
@@ -141,7 +146,8 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.GroupBox(),
+                widget.GroupBox(disable_drag=True, highlight_method="line", highlight_color=[
+                                "000000", "553388"]),
                 sep(),
                 widget.WindowName(),
                 sep(),
@@ -155,7 +161,7 @@ screens = [
                     format="☀{percent: 2.0%}", backlight_name="intel_backlight"),
                 sep(),
                 widget.Mpris2(objname="org.mpris.MediaPlayer2.spotify", display_metadata=[
-                              "xesam:title", "xesam:artist"], scroll_wait_intervals=1000, scroll_chars=50, stop_pause_text="Paused"),
+                              "xesam:title", "xesam:artist"], scroll_wait_intervals=10000, scroll_chars=50, stop_pause_text="Paused"),
                 sep(),
                 widget.BatteryIcon(),
                 widget.Battery(format="{percent:2.0%}"),
