@@ -44,7 +44,8 @@ file_manager = "nemo"
 application_runner = "rofi -show run"
 web_browser = "firefox-developer-edition"
 email_program = "thunderbird"
-lock_command = "xscreensaver-command -lock"
+# lock_command = "xscreensaver-command -lock"
+lock_command = "systemctl suspend-then-hibernate"
 
 # Keys
 
@@ -73,7 +74,6 @@ keys = [
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout()),
     Key([mod], "w", lazy.window.kill()),
-
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod], "r", lazy.spawn(application_runner)),
@@ -85,9 +85,13 @@ keys = [
 
 # Mouse events
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(),
+    Drag([mod],
+         "Button1",
+         lazy.window.set_position_floating(),
          start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(),
+    Drag([mod],
+         "Button3",
+         lazy.window.set_size_floating(),
          start=lazy.window.get_size()),
     Click([mod], "Button2", lazy.window.bring_to_front())
 ]
@@ -98,7 +102,7 @@ groups = [
     Group("Term"),
     Group("Code", layout="max"),
     Group("Web"),
-    Group("Media", matches=[Match(wm_instance_class=["spotify"])]),
+    Group("Media", matches=[Match(wm_class=["spotify", "Spotify"])]),
     Group("Com", matches=[
         Match(wm_class=["discord"]),
     ]),
@@ -110,7 +114,6 @@ group_labels = [g.name for g in groups]
 for i, label in enumerate(group_labels, 1):
     keys.append(Key([mod], str(i), lazy.group[label].toscreen()))
     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(label)))
-
 
 # Layouts
 
@@ -143,67 +146,111 @@ def sep():
 
 
 screens = [
-    Screen(
-        top=bar.Bar(
-            [
-                widget.GroupBox(disable_drag=True, highlight_method="line", highlight_color=[
-                                "000000", "553388"]),
-                sep(),
-                widget.WindowName(),
-                sep(),
-                widget.Clock(format='%H:%M | %d. %b %y | %A'),
-                sep(),
-                widget.Net(format="{down} ↓↑ {up}"),
-                sep(),
-                widget.Systray(),
-                sep(),
-                widget.Backlight(
-                    format="☀{percent: 2.0%}", backlight_name="intel_backlight"),
-                sep(),
-                widget.Mpris2(objname="org.mpris.MediaPlayer2.spotify", display_metadata=[
-                              "xesam:title", "xesam:artist"], scroll_wait_intervals=10000, scroll_chars=50, stop_pause_text="Paused"),
-                sep(),
-                widget.BatteryIcon(),
-                widget.Battery(format="{percent:2.0%}"),
-                sep(),
-                widget.CurrentLayout(),
-            ],
-            opacity=0.8,
-            size=28,
-        ),
-    ),
+    Screen(top=bar.Bar(
+        [
+            widget.GroupBox(disable_drag=True,
+                            highlight_method="line",
+                            highlight_color=["000000", "553388"]),
+            sep(),
+            widget.WindowName(),
+            sep(),
+            widget.Clock(format='%H:%M | %d. %b %y | %A'),
+            sep(),
+            widget.Net(format="{down} ↓↑ {up}"),
+            sep(),
+            widget.Systray(),
+            sep(),
+            widget.Backlight(format="☀{percent: 2.0%}",
+                             backlight_name="intel_backlight"),
+            sep(),
+            widget.Mpris2(objname="org.mpris.MediaPlayer2.spotify",
+                          display_metadata=["xesam:title", "xesam:artist"],
+                          scroll_wait_intervals=10000,
+                          scroll_chars=50,
+                          stop_pause_text="Paused"),
+            sep(),
+            widget.BatteryIcon(),
+            widget.Battery(format="{percent:2.0%}"),
+            sep(),
+            widget.CurrentLayout(),
+        ],
+        opacity=0.8,
+        size=28,
+    )),
     Screen(top=bar.Bar([
-        widget.GroupBox(),
+        widget.GroupBox(disable_drag=True,
+                        highlight_method="line",
+                        highlight_color=["000000", "553388"]),
         sep(),
         widget.WindowName(),
-    ], opacity=0.8, size=28)),
+        sep(),
+        widget.Clock(format='%H:%M | %d. %b %y | %A'),
+        sep(),
+        widget.Mpris2(objname="org.mpris.MediaPlayer2.spotify",
+                      display_metadata=["xesam:title", "xesam:artist"],
+                      scroll_wait_intervals=10000,
+                      scroll_chars=50,
+                      stop_pause_text="Paused"),
+        sep(),
+        widget.CurrentLayout(),
+    ],
+                       opacity=0.8,
+                       size=28)),
 ]
-
 
 # Configuration constants
 # http://docs.qtile.org/en/latest/manual/config/index.html#configuration-variables
 
 floating_layout = layout.Floating(float_rules=[
-    {'wmclass': 'confirm'},
-    {'wmclass': 'dialog'},
-    {'wmclass': 'download'},
-    {'wmclass': 'error'},
-    {'wmclass': 'file_progress'},
-    {'wmclass': 'notification'},
-    {'wmclass': 'splash'},
-    {'wmclass': 'toolbar'},
-    {'wmclass': 'confirmreset'},  # gitk
-    {'wmclass': 'makebranch'},  # gitk
-    {'wmclass': 'maketag'},  # gitk
-    {'wname': 'branchdialog'},  # gitk
-    {'wname': 'pinentry'},  # GPG key password entry
-    {'wmclass': 'ssh-askpass'},  # ssh-askpass
+    {
+        'wmclass': 'confirm'
+    },
+    {
+        'wmclass': 'dialog'
+    },
+    {
+        'wmclass': 'download'
+    },
+    {
+        'wmclass': 'error'
+    },
+    {
+        'wmclass': 'file_progress'
+    },
+    {
+        'wmclass': 'notification'
+    },
+    {
+        'wmclass': 'splash'
+    },
+    {
+        'wmclass': 'toolbar'
+    },
+    {
+        'wmclass': 'confirmreset'
+    },  # gitk
+    {
+        'wmclass': 'makebranch'
+    },  # gitk
+    {
+        'wmclass': 'maketag'
+    },  # gitk
+    {
+        'wname': 'branchdialog'
+    },  # gitk
+    {
+        'wname': 'pinentry'
+    },  # GPG key password entry
+    {
+        'wmclass': 'ssh-askpass'
+    },  # ssh-askpass
 ])
-
 
 wmname = "LG3D"
 
 # Autostart script
+
+
 @hook.subscribe.startup_once
 def start_once():
     home = os.path.expanduser("~")
