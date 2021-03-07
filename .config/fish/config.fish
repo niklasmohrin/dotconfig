@@ -1,13 +1,24 @@
-set PATH $PATH $HOME/.cargo/bin
-set PATH $PATH $HOME/go/bin
-set PATH $PATH /snap/bin
-set PATH $PATH $HOME/.local/bin
-set PATH $PATH $HOME/CTF/tools/bin
-set PATH $PATH $HOME/.config/yarn/global/node_modules/.bin/
+set -x PATH \
+    /usr/local/sbin \
+    /usr/local/bin \
+    /usr/bin \
+    $HOME/.cargo/bin \
+    $HOME/go/bin \
+    $HOME/.local/bin \
+    $HOME/.config/yarn/global/node_modules/.bin \
+    $HOME/CTF/tools/bin \
+    /snap/bin \
+    $HOME/.gem/ruby/2.7.0/bin \
+    /usr/bin/site_perl \
+    /usr/bin/vendor_perl \
+    /usr/bin/core_perl
 
 set VISUAL nvim
 set EDITOR nvim
 set FZF_DEFAULT_COMMAND "rg --files --hidden --iglob '!.git/**'"
+# set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+set -x MANPAGER "nvim -c 'set ft=man' -"
+set XDG_DATA_HOME "$HOME/.local/share"
 
 abbr exa exa -lahF
 alias vim nvim
