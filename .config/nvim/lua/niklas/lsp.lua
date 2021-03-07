@@ -3,7 +3,7 @@ vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
 
 local lspconfig = require('lspconfig')
 local completion = require('completion')
-local servers = { 'rust_analyzer', 'clangd', 'pyls', 'tsserver', 'html', 'cssls', 'texlab', 'r_language_server', 'vimls', 'dockerls' }
+local servers = { 'rust_analyzer', 'clangd', 'pyls', 'tsserver', 'html', 'cssls', 'texlab', 'r_language_server', 'vimls', 'dockerls', 'clojure_lsp' }
 
 for _, server in ipairs(servers) do
 	lspconfig[server].setup({ on_attach = completion.on_attach })
