@@ -23,11 +23,12 @@ return require("packer").startup {
         use "stephpy/vim-yaml"
         use "tikhomirov/vim-glsl"
         use "dag/vim-fish"
-        use "rust-lang/rust.vim"
-        -- use {
-        --     "nvim-treesitter/nvim-treesitter",
-        --     run = function() vim.cmd [[TSUpdate]] end
-        -- }
+        -- use "rust-lang/rust.vim"
+        use "elixir-editors/vim-elixir"
+        use {
+            "nvim-treesitter/nvim-treesitter",
+            run = function() vim.cmd [[TSUpdate]] end
+        }
 
         -- LSP
         use "neovim/nvim-lspconfig"
@@ -38,8 +39,8 @@ return require("packer").startup {
         -- Colorschemes
         use "tjdevries/colorbuddy.nvim"
         use "tjdevries/gruvbuddy.nvim"
-        -- use "gruvbox-community/gruvbox"
-        -- use "ayu-theme/ayu-vim"
+        use "gruvbox-community/gruvbox"
+        use "ayu-theme/ayu-vim"
 
         -- use "dstein64/vim-startuptime"
     end

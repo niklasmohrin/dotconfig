@@ -33,3 +33,7 @@ lspconfig["sumneko_lua"].setup {
         },
     },
 }
+
+lspconfig["elixirls"].setup {
+    cmd = { vim.fn.expand "~/Tools/elixir-ls/language_server.sh" },
+}

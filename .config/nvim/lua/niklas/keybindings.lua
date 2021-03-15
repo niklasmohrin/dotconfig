@@ -11,6 +11,7 @@ local normal_bindings = {
     { "<leader>pf", "require('telescope.builtin').find_files()" },
     { "<leader>ps", "require('telescope.builtin').grep_string({ search = vim.fn.input(\"Grep For > \")})" },
     { "<leader>pw", "require('telescope.builtin').grep_string({ search = vim.fn.expand(\"<cword>\") })" },
+    { "<leader>pn", "require('niklas.telescope').edit_neovim()"  },
     { "gd", "vim.lsp.buf.definition()" },
     { "K", "vim.lsp.buf.hover()" },
     { "gr", "vim.lsp.buf.references()" },
