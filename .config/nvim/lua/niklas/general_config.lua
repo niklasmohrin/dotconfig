@@ -17,8 +17,8 @@ vim.wo.list = true
 vim.wo.listchars = "trail:·,tab:>-"
 
 -- local to buffer
-vim.o.tabstop = 4
+vim.bo.tabstop = 4
 vim.o.shiftwidth = 4
-vim.o.expandtab = true
+vim.bo.expandtab = true
 vim.o.undofile = true
 vim.o.spelllang = "en_us,de_de"
