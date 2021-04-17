@@ -1,4 +1,5 @@
 set -x PATH \
+    /bin \
     /usr/local/sbin \
     /usr/local/bin \
     /usr/bin \
@@ -7,7 +8,7 @@ set -x PATH \
     $HOME/.local/bin \
     $HOME/.config/yarn/global/node_modules/.bin \
     $HOME/CTF/tools/bin \
-    /snap/bin \
+    $HOME/Documents/Studium/CompProg/toolbin \
     $HOME/.gem/ruby/2.7.0/bin \
     /usr/bin/site_perl \
     /usr/bin/vendor_perl \
