@@ -99,7 +99,7 @@ mouse = [
 # Groups
 
 groups = [
-    Group("Term"),
+    Group("Side"),
     Group("Code", layout="max"),
     Group("Web"),
     Group("Media", matches=[Match(wm_class=["spotify", "Spotify"])]),
@@ -119,7 +119,7 @@ for i, label in enumerate(group_labels, 1):
 
 layout_theme = {
     "border_width": 2,
-    "border_focus": "FBA922",
+    "border_focus": "773388",
     "border_normal": "1D1F21",
     "margin": 8,
 }
@@ -129,6 +129,7 @@ layouts = [
     layout.Max(**layout_theme),
     layout.Matrix(columns=3, **layout_theme),
     layout.MonadWide(**layout_theme),
+    layout.Stack(**layout_theme),
 ]
 
 # Widgets
