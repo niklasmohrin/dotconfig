@@ -1,20 +1,23 @@
 local telescope = require "telescope"
 local telescope_builtin = require "telescope.builtin"
-local telescope_sorters = require "telescope.sorters"
+-- local telescope_sorters = require "telescope.sorters"
 
-telescope.setup {
-    defaults = {
-        file_sorter = telescope_sorters.get_fzy_sorter,
-    },
-    extensions = {
-        fzy_native = {
-            override_generic_sorter = false,
-            override_file_sorter = true,
-        },
-    },
-}
+-- telescope.setup {
+    -- defaults = {
+    --     file_sorter = telescope_sorters.get_fzy_sorter,
+    -- },
+    -- extensions = {
+    --     fzy_native = {
+    --         override_generic_sorter = false,
+    --         override_file_sorter = true,
+    --     },
+    -- },
+-- }
 
-telescope.load_extension "fzy_native"
+-- telescope.load_extension "fzy_native"
+
+-- actually, fzy is a bit strict
+telescope.setup {}
 
 return {
     edit_neovim = function()
