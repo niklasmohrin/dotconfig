@@ -8,11 +8,16 @@ set -x PATH \
     $HOME/.local/bin \
     $HOME/.config/yarn/global/node_modules/.bin \
     $HOME/CTF/tools/bin \
-    $HOME/Documents/Studium/CompProg/toolbin \
+    $HOME/Uni/CompProg/toolbin \
     $HOME/.gem/ruby/2.7.0/bin \
+    $HOME/.local/share/gem/ruby/3.0.0/bin \
     /usr/bin/site_perl \
     /usr/bin/vendor_perl \
     /usr/bin/core_perl
+
+fish_vi_key_bindings
+bind           \cf accept-autosuggestion
+bind -M insert \cf accept-autosuggestion
 
 set VISUAL nvim
 set EDITOR nvim
@@ -20,6 +25,7 @@ set FZF_DEFAULT_COMMAND "rg --files --hidden --iglob '!.git/**'"
 # set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 set -x MANPAGER "nvim -c 'set ft=man' -"
 set XDG_DATA_HOME "$HOME/.local/share"
+export GPG_TTY=(tty)
 
 abbr exa exa -lahF
 alias vim nvim
@@ -33,3 +39,4 @@ alias cal "cal -m"
 
 set fish_greeting
 starship init fish | source
+zoxide init fish | source
