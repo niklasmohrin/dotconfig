@@ -9,4 +9,4 @@ pasystray &
 libinput-gestures-setup start
 blueman-applet &
 optimus-manager-qt &
-
+dunst &
