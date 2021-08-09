@@ -12,13 +12,13 @@ vim.wo.relativenumber = true
 vim.wo.signcolumn = "yes"
 vim.wo.wrap = false
 vim.wo.cursorline = true
-vim.wo.spell = true
+-- vim.wo.spell = true
 vim.wo.list = true
 vim.wo.listchars = "trail:·,tab:>-"
 
 -- local to buffer
-vim.bo.tabstop = 4
-vim.bo.shiftwidth = 4
-vim.bo.expandtab = true
-vim.o.undofile = true
-vim.o.spelllang = "en_us,de_de"
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.undofile = true
+-- vim.o.spelllang = "en_us,de_de"

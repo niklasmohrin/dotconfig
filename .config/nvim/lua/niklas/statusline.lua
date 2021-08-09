@@ -25,12 +25,18 @@ local git_branch = subscribe.buf_autocmd(
     end
 )
 
-local show_current_func = function(window, buffer)
-    if buffer.filetype == 'lua' then
-        return ''
-    end
-
-    return lsp_statusline.current_function(window, buffer)
+local show_current_func = function(win_id)
+    return helper.async_buf_setter(
+        win_id,
+        "el_lsp_cur_func",
+        function (window, buffer)
+            if buffer.filetype == 'lua' then
+                return ''
+            end
+            return lsp_statusline.current_function(window, buffer)
+        end,
+        10000
+    )
 end
 
 local file_icon = subscribe.buf_autocmd(
@@ -56,7 +62,7 @@ local ws_diagnostic_counts = function(_, buffer)
     end
 end
 
-local generator = function(_, _)
+local generator = function(win_id, _)
     return {
         extensions.gen_mode { format_string = ' %s ' },
         git_branch,
@@ -74,7 +80,7 @@ local generator = function(_, _)
         sections.split,
         lsp_statusline.server_progress,
         ws_diagnostic_counts,
-        show_current_func,
+        show_current_func(win_id),
         '[', builtin.line_with_width(3), ':',  builtin.column_with_width(2), ']',
         sections.collapse_builtin {
             '[',
