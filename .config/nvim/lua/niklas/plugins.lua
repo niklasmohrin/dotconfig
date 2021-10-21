@@ -4,7 +4,6 @@ return require("packer").startup {
 
         -- Styling
         -- use "itchyny/lightline.vim"
-        -- use "machakann/vim-highlightedyank"
         use "airblade/vim-gitgutter"        -- Git diff on the left
         use {
             "tjdevries/express_line.nvim",
@@ -13,6 +12,7 @@ return require("packer").startup {
 
         -- Navigation and extensions
         use "airblade/vim-rooter"
+        -- use "ahmedkhalf/project.nvim"
         use "alvan/vim-closetag"
         use "turbio/bracey.vim"             -- Live web server
         use "tpope/vim-commentary"
@@ -31,17 +31,14 @@ return require("packer").startup {
 
         use {
             "nvim-telescope/telescope.nvim",
-            requires = { "nvim-lua/plenary.nvim", "nvim-lua/popup.nvim" },
+            requires = { "nvim-lua/plenary.nvim" },
         }
         use "nvim-telescope/telescope-fzy-native.nvim"
 
         -- Extra syntaxes
-        use "cespare/vim-toml"
         use "stephpy/vim-yaml"
         use "tikhomirov/vim-glsl"
-        use "dag/vim-fish"
         use "rust-lang/rust.vim"
-        -- use "elixir-editors/vim-elixir"
         use {
             "nvim-treesitter/nvim-treesitter",
             run = function() vim.cmd [[TSUpdate]] end

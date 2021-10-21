@@ -1,24 +1,24 @@
--- global
-vim.o.mouse = "a"
-vim.o.splitbelow = true
-vim.o.splitright = true
-vim.o.laststatus = 2
-vim.o.wildmenu = true
-vim.o.wildmode = "longest,list,full"
+vim.opt.mouse = "a"
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.opt.laststatus = 2
+vim.opt.wildmenu = true
+vim.opt.wildmode = "longest,list,full"
 
--- local to window
-vim.wo.number = true
-vim.wo.relativenumber = true
-vim.wo.signcolumn = "yes"
-vim.wo.wrap = false
-vim.wo.cursorline = true
--- vim.wo.spell = true
-vim.wo.list = true
-vim.wo.listchars = "trail:·,tab:>-"
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.signcolumn = "yes"
+vim.opt.wrap = false
+vim.opt.cursorline = true
+vim.opt.spell = true
+vim.opt.list = true
+vim.opt.listchars = "trail:·,tab:>-"
 
--- local to buffer
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.undofile = true
--- vim.o.spelllang = "en_us,de_de"
+vim.opt.spelllang = "en_us,de_de"
+
+vim.opt.scrolloff = 5
+vim.opt.sidescrolloff = 5

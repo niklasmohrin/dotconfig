@@ -1,4 +1,5 @@
 local lspconfig = require "lspconfig"
+local util = require "lspconfig/util"
 -- local completion = require "completion"
 local status = require "lsp-status"
 
@@ -8,6 +9,7 @@ vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
 
 require'compe'.setup {
   enabled = true;
+  preselect = "disable";
   source = {
     path = true;
     buffer = true;
@@ -34,10 +36,12 @@ local on_attach = function(client, bufnr)
     local opts = { noremap=true, silent=true }
     buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    buf_set_keymap('n', 'gi', '<Cmd>lua require"telescope.builtin".lsp_implementations()<CR>', opts)
     buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     buf_set_keymap('n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    buf_set_keymap('v', '<leader>a', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
 
     if filetype == "rust" then
         buf_set_keymap('n', '<leader>T', "<cmd>lua require'lsp_extensions'.inlay_hints{ prefix = ' » ', aligned = true }<CR>", opts)
@@ -69,11 +73,17 @@ local on_attach = function(client, bufnr)
     -- end
 end
 
-local servers = { "rust_analyzer", "clangd", "pylsp", "html", "cssls", "texlab", "r_language_server", "vimls", "dockerls", "clojure_lsp", "tsserver" }
+local servers = {"clangd", "pylsp", "html", "cssls", "texlab", "r_language_server", "vimls", "dockerls", "clojure_lsp", "tsserver" } --, "jsonls" }
 
 for _, server in ipairs(servers) do
     lspconfig[server].setup({ on_attach = on_attach })
 end
+
+lspconfig["rust_analyzer"].setup {
+    on_attach = on_attach,
+    -- don't use the fancy cargo-metadata stuff right now
+    root_pattern = util.root_pattern("rust-project.json", "Cargo.toml"),
+}
 
 -- lspconfig["tsserver"].setup {
 --     cmd = { "tsserver", "--stdio" },

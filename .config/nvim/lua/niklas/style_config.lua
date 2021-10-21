@@ -1,8 +1,8 @@
 vim.o.termguicolors = true
 -- require("colorbuddy").colorscheme("gruvbuddy")
 -- vim.cmd [[let ayucolor="mirage"]]
-vim.cmd [[colorscheme zephyr]]
-vim.cmd [[highlight Normal guibg=NONE ctermbg=NONE]]
+vim.cmd [[colorscheme ayu]]
+-- vim.cmd [[highlight Normal guibg=NONE ctermbg=NONE]]
 
 -- treesitter
 -- vim.treesitter.set_query("rust", "highlights", read_query "~/.config/nvim/queries/rust/highlights.scm")

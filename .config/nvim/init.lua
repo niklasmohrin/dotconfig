@@ -1,4 +1,19 @@
 vim.g.mapleader = " "
+
+P = function(v)
+  print(vim.inspect(v))
+  return v
+end
+
+RELOAD = function(...)
+  return require("plenary.reload").reload_module(...)
+end
+
+R = function(name)
+  RELOAD(name)
+  return require(name)
+end
+
 require("niklas.plugins")
 require("niklas.general_config")
 require("niklas.plugins_config")
