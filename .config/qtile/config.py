@@ -1,4 +1,5 @@
 import os
+import re
 import subprocess
 
 from libqtile.config import Key, Screen, Group, Drag, Click, Match
@@ -33,14 +34,14 @@ keys = [
     Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
     Key([mod], "Return", lazy.spawn(terminal_emulator)),
     Key([mod], "Tab", lazy.next_layout()),
-    Key([mod], "w", lazy.window.kill()),
+    Key([mod], "q", lazy.window.kill()),
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod], "r", lazy.spawn(application_runner)),
     Key([mod], "e", lazy.spawn(file_manager)),
     Key([mod], "b", lazy.spawn(web_browser)),
     Key([mod], "m", lazy.spawn(email_program)),
-    Key([mod], "l", lazy.spawn(lock_command)),
+    Key([mod, "shift"], "l", lazy.spawn(lock_command)),
 ]
 
 mouse = [
@@ -145,6 +146,7 @@ def my_screen(primary):
 screens = [
     my_screen(primary=True),
     my_screen(primary=False),
+    my_screen(primary=False),
 ]
 
 # Configuration constants
@@ -152,14 +154,16 @@ screens = [
 
 floating_layout = layout.Floating(
     float_rules=[
-        {"wmclass": "confirm"},
-        {"wmclass": "dialog"},
-        {"wmclass": "download"},
-        {"wmclass": "error"},
-        {"wmclass": "file_progress"},
-        {"wmclass": "notification"},
-        {"wmclass": "splash"},
-        {"wmclass": "toolbar"},
+        *layout.Floating.default_float_rules,
+        Match(wm_class="confirm"),
+        Match(wm_class="dialog"),
+        Match(wm_class="download"),
+        Match(wm_class="error"),
+        Match(wm_class="file_progress"),
+        Match(wm_class="notification"),
+        Match(wm_class="splash"),
+        Match(wm_class="toolbar"),
+        Match(title=re.compile(r"^Password Required - Mozilla Firefox$")),
     ]
 )
 
