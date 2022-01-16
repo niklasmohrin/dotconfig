@@ -47,3 +47,10 @@ vim.api.nvim_set_keymap(
     [[<Plug>(EasyAlign)]],
     {}
 )
+
+-- https://vim.fandom.com/wiki/Mouse_wheel_for_scroll_only_-_disable_middle_button_paste
+for _, prefix in ipairs({"", "2-", "3-", "4-"}) do
+    local event = string.format("<%sMiddleMouse>", prefix)
+    vim.api.nvim_set_keymap("", event, "<Nop>", {})
+    vim.api.nvim_set_keymap("i", event, "<Nop>", {})
+end

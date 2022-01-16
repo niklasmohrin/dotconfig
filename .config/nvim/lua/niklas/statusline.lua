@@ -70,7 +70,7 @@ local generator = function(win_id, _)
         sections.split,
         file_icon,
         sections.maximum_width(
-            builtin.responsive_file(140, 90),
+            builtin.make_responsive_file(140, 90),
             0.30
         ),
         sections.collapse_builtin {
@@ -80,7 +80,7 @@ local generator = function(win_id, _)
         sections.split,
         lsp_statusline.server_progress,
         ws_diagnostic_counts,
-        show_current_func(win_id),
+        -- show_current_func(win_id), -- broken
         '[', builtin.line_with_width(3), ':',  builtin.column_with_width(2), ']',
         sections.collapse_builtin {
             '[',
