@@ -48,11 +48,24 @@ return require("packer").startup {
         -- LSP
         use "neovim/nvim-lspconfig"
         -- use "nvim-lua/completion-nvim"
-        use "hrsh7th/nvim-compe"
         use "nvim-lua/lsp_extensions.nvim"
         use "nvim-lua/lsp-status.nvim"
         use "psf/black"
         -- use "mattn/emmet-vim"
+
+        -- Completion
+        -- use "hrsh7th/nvim-compe"
+        use "hrsh7th/nvim-cmp"
+        use "hrsh7th/cmp-cmdline"
+        use "hrsh7th/cmp-buffer"
+        use "hrsh7th/cmp-calc"
+        use "hrsh7th/cmp-path"
+        use "hrsh7th/cmp-emoji"
+        use "hrsh7th/cmp-nvim-lua"
+        use "hrsh7th/cmp-nvim-lsp"
+        use "hrsh7th/cmp-nvim-lsp-document-symbol"
+
+        use "L3MON4D3/LuaSnip"
 
         -- use "dstein64/vim-startuptime"
     end

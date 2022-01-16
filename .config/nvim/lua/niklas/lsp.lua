@@ -1,30 +1,15 @@
 local lspconfig = require "lspconfig"
 local util = require "lspconfig/util"
--- local completion = require "completion"
 local status = require "lsp-status"
 
--- compe
 vim.o.completeopt = "menuone,noselect"
 vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
-
-require'compe'.setup {
-  enabled = true;
-  preselect = "disable";
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    treesitter = true,
-  };
-}
+require "niklas.completion"
 
 status.register_progress()
 
 local on_attach = function(client, bufnr)
     status.on_attach(client, bufnr)
-    -- completion.on_attach(client, bufnr)
     local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -73,22 +58,20 @@ local on_attach = function(client, bufnr)
     -- end
 end
 
-local servers = {"clangd", "pylsp", "html", "cssls", "texlab", "r_language_server", "vimls", "dockerls", "clojure_lsp", "tsserver" } --, "jsonls" }
+local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+local servers = { "clangd", "pylsp", "html", "cssls", "texlab", "r_language_server", "vimls", "dockerls", "tsserver", "solargraph", "jsonls" }
 
 for _, server in ipairs(servers) do
-    lspconfig[server].setup({ on_attach = on_attach })
+    lspconfig[server].setup({ on_attach = on_attach, capabilities = capabilities })
 end
 
 lspconfig["rust_analyzer"].setup {
     on_attach = on_attach,
+    capabilities = capabilities,
     -- don't use the fancy cargo-metadata stuff right now
     root_pattern = util.root_pattern("rust-project.json", "Cargo.toml"),
 }
-
--- lspconfig["tsserver"].setup {
---     cmd = { "tsserver", "--stdio" },
---     on_attach = on_attach,
--- }
 
 -- local sumneko_root_path = vim.fn.expand("$HOME/Dev/lua-language-server")
 -- local sumneko_binary = sumneko_root_path .. "/bin/Linux/lua-language-server"
