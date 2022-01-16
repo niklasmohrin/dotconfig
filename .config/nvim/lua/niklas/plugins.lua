@@ -68,5 +68,7 @@ return require("packer").startup {
         use "L3MON4D3/LuaSnip"
 
         -- use "dstein64/vim-startuptime"
+
+        use "mfussenegger/nvim-dap"
     end
 }

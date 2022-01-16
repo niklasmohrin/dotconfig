@@ -100,3 +100,50 @@ lspconfig["rust_analyzer"].setup {
 -- lspconfig["elixirls"].setup {
 --     cmd = { vim.fn.expand "~/Tools/elixir-ls/language_server.sh" },
 -- }
+
+------------------------------
+
+--local dap = require('dap')
+--dap.adapters.lldb = {
+--  type = 'executable',
+--  command = '/bin/lldb-vscode',
+--  name = "lldb"
+--}
+--dap.configurations.rust = {
+--  {
+--    name = "Launch",
+--    type = "lldb",
+--    request = "launch",
+--    program = function()
+--      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+--    end,
+--    cwd = '${workspaceFolder}',
+--    stopOnEntry = false,
+--    args = {},
+
+--    -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
+--    --
+--    --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+--    --
+--    -- Otherwise you might get the following error:
+--    --
+--    --    Error on launch: Failed to attach to the target process
+--    --
+--    -- But you should be aware of the implications:
+--    -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
+--    runInTerminal = false,
+--  },
+--}
+
+---- from :h dap-mappings
+--vim.cmd [[
+--    nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
+--    nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
+--    nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
+--    nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
+--    nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
+--    nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+--    nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+--    nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
+--    nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
+--]]
