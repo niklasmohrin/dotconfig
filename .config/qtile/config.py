@@ -73,7 +73,7 @@ groups = [
 group_labels = [g.name for g in groups]
 
 for i, label in enumerate(group_labels, 1):
-    keys.append(Key([mod], str(i), lazy.group[label].toscreen()))
+    keys.append(Key([mod], str(i), lazy.group[label].toscreen(toggle=True)))
     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(label)))
 
 layout_theme = {

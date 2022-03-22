@@ -19,6 +19,10 @@ def main():
     parser.add_argument(
         "-d", "--direction", choices=["left", "right", "above", "below"]
     )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+    )
     args = parser.parse_args()
 
     if args.mode == "single":
@@ -45,19 +49,21 @@ def main():
 
     print(f"{internal_args=}\n{external_args=}")
 
-    subprocess.run(
-        [
-            "xrandr",
-            "--output",
-            INTERNAL_DISPLAY,
-            *internal_args,
-            "--auto",
-            "--output",
-            EXTERNAL_DISPLAY,
-            "--auto",
-            *external_args,
-        ]
-    )
+    full_command = [
+        "xrandr",
+        "--output",
+        INTERNAL_DISPLAY,
+        *internal_args,
+        "--auto",
+        "--output",
+        EXTERNAL_DISPLAY,
+        "--auto",
+        *external_args,
+    ]
+    print(f"{full_command=}")
+    print(" ".join(full_command))
+    if not args.dry_run:
+        subprocess.run(full_command)
 
 
 if __name__ == "__main__":

@@ -10,6 +10,7 @@ set -x PATH \
     $HOME/CTF/tools/bin \
     $HOME/Uni/CompProg/toolbin \
     $HOME/.gem/ruby/2.7.0/bin \
+    $HOME/.gem/ruby/3.0.0/bin \
     $HOME/.local/share/gem/ruby/3.0.0/bin \
     /usr/bin/site_perl \
     /usr/bin/vendor_perl \
@@ -23,7 +24,7 @@ set VISUAL nvim
 set EDITOR nvim
 set FZF_DEFAULT_COMMAND "rg --files --hidden --iglob '!.git/**'"
 # set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
-set -x MANPAGER "nvim -c 'set ft=man' -"
+set -x MANPAGER "nvim +Man!"
 set XDG_DATA_HOME "$HOME/.local/share"
 export GPG_TTY=(tty)
 
@@ -40,3 +41,5 @@ alias cal "cal -m"
 set fish_greeting
 starship init fish | source
 zoxide init fish | source
+
+abbr triple-monitor 'xrandr --output eDP-1 --auto --output DP-3 --primary --auto --right-of eDP-1 --output DP-1 --auto --right-of DP-3'

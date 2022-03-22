@@ -1,3 +1,3 @@
 configuration {
-	theme: "~/.config/rofi/dt-center.custom.rasi";
 }
+@theme "~/.config/rofi/dt-center.custom.rasi"
