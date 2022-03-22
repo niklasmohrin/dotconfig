@@ -12,3 +12,5 @@ vim.cmd [[let g:closetag_filetypes = 'html,xhtml,eruby']]
 
 require "niklas.telescope"
 require "niklas.statusline"
+
+require("Comment").setup()

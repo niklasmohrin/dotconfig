@@ -42,8 +42,10 @@ cmp.setup {
       { name = 'buffer', keyword_length = 5 },
       { name = 'emoji' },
     },
+    view = {
+        entries = "native",
+    },
     experimental = {
-        native_menu = true,
         ghost_text = true,
     },
 }

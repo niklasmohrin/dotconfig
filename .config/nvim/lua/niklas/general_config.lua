@@ -1,9 +1,11 @@
 vim.opt.mouse = "a"
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.laststatus = 2
+vim.opt.laststatus = 3
 vim.opt.wildmenu = true
 vim.opt.wildmode = "longest,list,full"
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -22,3 +24,5 @@ vim.opt.spelllang = "en_us,de_de"
 
 vim.opt.scrolloff = 5
 vim.opt.sidescrolloff = 5
+
+vim.g.python3_host_prog = "python3"

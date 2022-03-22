@@ -1,30 +1,34 @@
 local telescope = require "telescope"
-local telescope_builtin = require "telescope.builtin"
--- local telescope_sorters = require "telescope.sorters"
 
--- telescope.setup {
-    -- defaults = {
-    --     file_sorter = telescope_sorters.get_fzy_sorter,
-    -- },
-    -- extensions = {
-    --     fzy_native = {
-    --         override_generic_sorter = false,
-    --         override_file_sorter = true,
-    --     },
-    -- },
--- }
-
--- telescope.load_extension "fzy_native"
-
--- actually, fzy is a bit strict
-telescope.setup {}
-
-return {
-    edit_neovim = function()
-        telescope_builtin.find_files {
-            prompt_title = "Neovim dotfiles",
-            shorten_path = false,
-            cwd = "~/.config/nvim",
-        }
-    end,
+telescope.setup {
+    extensions = {
+        ["zf-native"] = {
+            file = {
+                enable = true,
+                highlight_results = true,
+                match_filename = true,
+            },
+            generic = {
+                enable = true,
+                highlight_results = true,
+                match_filename = false,
+            },
+        },
+    },
 }
+telescope.load_extension "zf-native"
+
+local function edit_neovim()
+    require("telescope.builtin").find_files {
+        prompt_title = "Neovim dotfiles",
+        shorten_path = false,
+        cwd = "~/.config/nvim",
+    }
+end
+
+vim.keymap.set("n", "<C-p>", function() require("telescope.builtin").find_files() end)
+vim.keymap.set("n", "<leader>pg", function() require("telescope.builtin").git_files() end)
+vim.keymap.set("n", "<leader>ps", function() require("telescope.builtin").live_grep() end)
+vim.keymap.set("n", "<leader>pw", function() require("telescope.builtin").grep_string() end)
+vim.keymap.set("n", "<leader>pm", function() require("telescope.builtin").man_pages() end)
+vim.keymap.set("n", "<leader>pn", edit_neovim)

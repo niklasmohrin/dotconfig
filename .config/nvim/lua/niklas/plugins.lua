@@ -15,7 +15,8 @@ return require("packer").startup {
         -- use "ahmedkhalf/project.nvim"
         use "alvan/vim-closetag"
         use "turbio/bracey.vim"             -- Live web server
-        use "tpope/vim-commentary"
+        -- use "tpope/vim-commentary"
+        use "numToStr/Comment.nvim"
         use "junegunn/vim-easy-align"
 
         -- Colorschemes
@@ -24,7 +25,9 @@ return require("packer").startup {
         use "gruvbox-community/gruvbox"
         use "ayu-theme/ayu-vim"
         use "vigoux/oak"
-        use "glepnir/zephyr-nvim"
+        -- use "glepnir/zephyr-nvim"
+        use "shaunsingh/nord.nvim"
+        use "rmehri01/onenord.nvim"
 
         -- Debugging
         use { "puremourning/vimspector", disable = true }
@@ -34,11 +37,12 @@ return require("packer").startup {
             requires = { "nvim-lua/plenary.nvim" },
         }
         use "nvim-telescope/telescope-fzy-native.nvim"
+        use "natecraddock/telescope-zf-native.nvim"
 
         -- Extra syntaxes
         use "stephpy/vim-yaml"
         use "tikhomirov/vim-glsl"
-        use "rust-lang/rust.vim"
+        -- use "rust-lang/rust.vim"
         use {
             "nvim-treesitter/nvim-treesitter",
             run = function() vim.cmd [[TSUpdate]] end
@@ -67,7 +71,7 @@ return require("packer").startup {
 
         use "L3MON4D3/LuaSnip"
 
-        -- use "dstein64/vim-startuptime"
+        use "dstein64/vim-startuptime"
 
         use "mfussenegger/nvim-dap"
     end
