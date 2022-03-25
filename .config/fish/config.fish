@@ -16,30 +16,38 @@ set -x PATH \
     /usr/bin/vendor_perl \
     /usr/bin/core_perl
 
-fish_vi_key_bindings
-bind           \cf accept-autosuggestion
-bind -M insert \cf accept-autosuggestion
-
-set VISUAL nvim
-set EDITOR nvim
-set FZF_DEFAULT_COMMAND "rg --files --hidden --iglob '!.git/**'"
-# set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+set -x VISUAL nvim
+set -x EDITOR nvim
 set -x MANPAGER "nvim +Man!"
-set XDG_DATA_HOME "$HOME/.local/share"
-export GPG_TTY=(tty)
+set -x XDG_DATA_HOME "$HOME/.local/share"
+set -x GPG_TTY (tty)
 
-abbr exa exa -lahF
-alias vim nvim
-alias dotfilecfg 'git --git-dir=/home/niklas/dotfiles/ --work-tree=/home/niklas'
-abbr vimcfg "vim ~/.config/nvim/init.vim"
-abbr fishcfg "vim ~/.config/fish/config.fish"
-abbr xclip "xclip -sel clip"
-abbr cc "g++ -std=c++17 -Wall -Wextra"
-abbr open xdg-open
-alias cal "cal -m"
+if status is-interactive
+    fish_vi_key_bindings
+    bind           \cf accept-autosuggestion
+    bind -M insert \cf accept-autosuggestion
+
+    alias dotfilecfg 'git --git-dir=/home/niklas/dotfiles/ --work-tree=/home/niklas'
+    abbr vim nvim
+    abbr cal "cal -m"
+    abbr exa exa -lahF
+    abbr fishcfg "vim ~/.config/fish/config.fish"
+    abbr qtilecfg "vim ~/.config/qtile/config.py"
+    abbr xclip "xclip -sel clip"
+    abbr cc "g++ -std=c++17 -Wall -Wextra"
+    abbr open xdg-open
+    abbr triple-monitor 'xrandr --output eDP-1 --auto --output DP-3 --primary --auto --right-of eDP-1 --output DP-1 --auto --right-of DP-3'
+
+    abbr gs "git status"
+    abbr ga "git add"
+    abbr gap "git add -p"
+    abbr gc "git commit"
+    abbr gca "git commit --amend"
+    abbr gcan "git commit --amend --no-edit"
+    abbr gri "git rebase --interactive --autosquash"
+    abbr gsw "git switch"
+end
 
 set fish_greeting
 starship init fish | source
 zoxide init fish | source
-
-abbr triple-monitor 'xrandr --output eDP-1 --auto --output DP-3 --primary --auto --right-of eDP-1 --output DP-1 --auto --right-of DP-3'
