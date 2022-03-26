@@ -92,4 +92,5 @@ local generator = function(win_id, _)
     }
 end
 
+vim.opt.laststatus = 3 -- global statusline
 require('el').setup { generator = generator }

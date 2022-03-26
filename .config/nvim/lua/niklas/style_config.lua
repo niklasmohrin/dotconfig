@@ -1,8 +1,11 @@
 vim.o.termguicolors = true
+require"xcode-colors".setup { extensions = { "treesitter" } }
+vim.cmd [[colorscheme xcode]]
 -- require("colorbuddy").colorscheme("gruvbuddy")
 -- vim.cmd [[let ayucolor="mirage"]]
-vim.cmd [[colorscheme onenord]]
+-- vim.cmd [[colorscheme onenord]]
 -- vim.cmd [[highlight Normal guibg=NONE ctermbg=NONE]]
+
 
 -- treesitter
 -- vim.treesitter.set_query("rust", "highlights", read_query "~/.config/nvim/queries/rust/highlights.scm")

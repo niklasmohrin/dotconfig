@@ -14,6 +14,14 @@ R = function(name)
   return require(name)
 end
 
+lazy_require = function(module, fn_name, args)
+    args = args or {}
+    return function()
+        -- Note: In Lua 5.2, unpack is moved to table.unpack
+        return require(module)[fn_name](unpack(args))
+    end
+end
+
 require("niklas.plugins")
 require("niklas.general_config")
 require("niklas.plugins_config")

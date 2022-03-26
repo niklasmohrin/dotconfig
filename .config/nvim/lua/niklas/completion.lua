@@ -1,3 +1,6 @@
+vim.o.completeopt = "menuone,noselect"
+vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
+
 local cmp = require "cmp"
 cmp.setup {
     snippet = {
@@ -17,20 +20,6 @@ cmp.setup {
             { "i", "c" }
         ),
         ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-        -- ["<c-space>"] = cmp.mapping {
-        --     i = cmp.mapping.complete(),
-        --     c = function(
-        --         _ --[[fallback]]
-        --         )
-        --         if cmp.visible() then
-        --             if not cmp.confirm { select = true } then
-        --                 return
-        --             end
-        --         else
-        --             cmp.complete()
-        --         end
-        --     end,
-        -- },
     },
     sources = {
       { name = 'nvim_lsp' },

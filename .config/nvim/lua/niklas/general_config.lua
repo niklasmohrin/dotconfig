@@ -1,7 +1,6 @@
 vim.opt.mouse = "a"
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.laststatus = 3
 vim.opt.wildmenu = true
 vim.opt.wildmode = "longest,list,full"
 vim.opt.ignorecase = true
@@ -26,3 +25,4 @@ vim.opt.scrolloff = 5
 vim.opt.sidescrolloff = 5
 
 vim.g.python3_host_prog = "python3"
+vim.g.pyindent_open_paren = vim.fn.shiftwidth()

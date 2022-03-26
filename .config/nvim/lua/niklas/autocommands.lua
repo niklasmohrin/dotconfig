@@ -1,10 +1,13 @@
-vim.cmd [[autocmd Filetype markdown setlocal colorcolumn=80]]
-vim.cmd [[autocmd! BufNewFile,BufRead *.vs,*.fs set ft=glsl]]
-vim.cmd [[autocmd Filetype htmldjango :syntax sync fromstart]]
--- vim.cmd [[autocmd Filetype tex setlocal wrap]]
-vim.cmd [[autocmd Filetype tex setlocal textwidth=100]]
--- vim.cmd [[autocmd Filetype tex nnoremap <leader>b :TexlabBuild<CR>]]
-vim.cmd [[autocmd Filetype tex nnoremap <leader>b :silent :make -s SRC=%<CR>]]
-vim.cmd [[autocmd Filetype c,cpp setlocal commentstring=//\ %s]]
-vim.cmd [[autocmd TextYankPost * lua vim.highlight.on_yank() ]]
-vim.cmd [[let g:pyindent_open_paren=shiftwidth()]]
+local group = vim.api.nvim_create_augroup("niklas", { clear = true })
+vim.api.nvim_create_autocmd("Filetype", { pattern = "markdown",   command = "setlocal colorcolumn=80", group = group })
+vim.api.nvim_create_autocmd("Filetype", { pattern = "htmldjango", command = "syntax sync fromstart", group = group })
+vim.api.nvim_create_autocmd("Filetype", { pattern = "c,cpp",      command = "setlocal commentstring=//\\ %s", group = group })
+vim.api.nvim_create_autocmd("Filetype", { pattern = "tex",        command = "setlocal textwidth=100", group = group })
+vim.api.nvim_create_autocmd("Filetype", {
+    pattern = "tex",
+    callback = function()
+        vim.keymap.set("n", "<leader>b", ":silent :make -s SRC=%<CR>", { buffer = true })
+    end,
+    group = group
+})
+vim.api.nvim_create_autocmd("TextYankPost", { callback = vim.highlight.on_yank, group = group })

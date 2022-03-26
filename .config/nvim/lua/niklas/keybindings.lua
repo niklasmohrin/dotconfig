@@ -41,5 +41,3 @@ for _, prefix in ipairs({"", "2-", "3-", "4-"}) do
     vim.api.nvim_set_keymap("", event, "<Nop>", {})
     vim.api.nvim_set_keymap("i", event, "<Nop>", {})
 end
-
-vim.keymap.set("n", "<leader>K", vim.diagnostic.open_float)
