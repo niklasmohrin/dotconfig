@@ -3,7 +3,7 @@
 sudo localectl set-keymap de-latin1-nodeadkeys
 
 cd /tmp
-git clone https://aur.archlinux.org/paru.git
+git clone https://aur.archlinux.org/paru-bin.git
 cd paru
 makepkg-si
 
