@@ -52,7 +52,7 @@ local ws_diagnostic_counts = function(_, buffer)
         return ""
     end
 
-    local error_count = ws_diagnostics.get_count(buffer.bufnr, "Error")
+    local error_count = #vim.diagnostic.get(buffer.bufnr, { severity = vim.diagnostic.severity.ERROR })
     if error_count == 0 then
         return ""
     else
@@ -67,16 +67,6 @@ local generator = function(win_id, _)
         extensions.gen_mode { format_string = ' %s ' },
         git_branch,
         git_changes,
-        sections.split,
-        file_icon,
-        sections.maximum_width(
-            builtin.make_responsive_file(140, 90),
-            0.30
-        ),
-        sections.collapse_builtin {
-            ' ',
-            builtin.modified_flag
-        },
         sections.split,
         lsp_statusline.server_progress,
         ws_diagnostic_counts,
@@ -94,3 +84,4 @@ end
 
 vim.opt.laststatus = 3 -- global statusline
 require('el').setup { generator = generator }
+vim.opt.winbar = "%=%m %f"

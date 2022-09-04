@@ -7,11 +7,7 @@ set -x PATH \
     $HOME/go/bin \
     $HOME/.local/bin \
     $HOME/.local/share/yarn/global/node_modules/.bin \
-    $HOME/CTF/tools/bin \
-    $HOME/Uni/CompProg/toolbin \
-    $HOME/.gem/ruby/2.7.0/bin \
-    $HOME/.gem/ruby/3.0.0/bin \
-    $HOME/.local/share/gem/ruby/3.0.0/bin \
+    $HOME/Uni/SoSe21/CompProg/toolbin \
     /usr/bin/site_perl \
     /usr/bin/vendor_perl \
     /usr/bin/core_perl
@@ -26,11 +22,13 @@ if status is-interactive
     fish_vi_key_bindings
     bind           \cf accept-autosuggestion
     bind -M insert \cf accept-autosuggestion
+    starship init fish | source
+    zoxide init fish | source
 
     alias dcfg 'git --git-dir=/home/niklas/dotfiles/ --work-tree=/home/niklas'
 
     abbr cal "cal -m"
-    abbr cc "g++ -std=c++17 -Wall -Wextra"
+    abbr cc "g++ -std=c++20 -Wall -Wextra"
     abbr exa exa -lahF
     abbr fishcfg "nvim ~/.config/fish/config.fish"
     abbr open xdg-open
@@ -39,6 +37,7 @@ if status is-interactive
     abbr vim nvim
     abbr xclip "xclip -sel clip"
 
+    abbr g "git"
     abbr ga "git add"
     abbr gap "git add -p"
     abbr gc "git commit"
@@ -53,9 +52,8 @@ if status is-interactive
     abbr gr "git rebase"
     abbr gri "git rebase --interactive --autosquash"
     abbr gs "git status"
+    abbr gsh "git show"
     abbr gsw "git switch"
 end
 
 set fish_greeting
-starship init fish | source
-zoxide init fish | source

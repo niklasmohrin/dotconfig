@@ -1,21 +1,13 @@
-# Configuration for Alacritty, the GPU enhanced terminal emulator.
-
-# Any items in the `env` entry below will be added as
-# environment variables. Some entries may override variables
-# set by alacritty itself.
 env:
   TERM: xterm-256color
 
-# Font configuration
 font:
-  # Normal (roman) font face
   normal:
     family: CaskaydiaCove Nerd Font
 
 # background_opacity: 0.9
 
 cursor:
-  # Values for `style`:
   #   - ▇ Block
   #   - _ Underline
   #   - | Beam
@@ -36,7 +28,6 @@ colors:
     text: '0x282828'
     cursor: '0xd5c4a1'
 
-  # Normal colors
   normal:
     black:   '0x282828'
     red:     '0xfb4934'
@@ -47,7 +38,6 @@ colors:
     cyan:    '0x8ec07c'
     white:   '0xd5c4a1'
 
-  # Bright colors
   bright:
     black:   '0x665c54'
     red:     '0xfb4934'

@@ -23,12 +23,11 @@ return require("packer").startup {
         -- use "tjdevries/colorbuddy.nvim"
         -- use "tjdevries/gruvbuddy.nvim"
         -- use "gruvbox-community/gruvbox"
-        -- use "ayu-theme/ayu-vim"
+        use "ayu-theme/ayu-vim"
         -- use "vigoux/oak"
         -- use "glepnir/zephyr-nvim"
         -- use "shaunsingh/nord.nvim"
-        -- use "rmehri01/onenord.nvim"
-        use "jgvw/xcode-colors.nvim"
+        use "rmehri01/onenord.nvim"
 
         -- Debugging
         -- use "puremourning/vimspector"
@@ -36,6 +35,7 @@ return require("packer").startup {
 
         use {
             "nvim-telescope/telescope.nvim",
+            branch = "0.1.x",
             requires = { "nvim-lua/plenary.nvim" },
         }
         use "nvim-telescope/telescope-fzy-native.nvim"
@@ -44,7 +44,6 @@ return require("packer").startup {
         -- Extra syntaxes
         use "stephpy/vim-yaml"
         use "tikhomirov/vim-glsl"
-        -- use "rust-lang/rust.vim"
         use {
             "nvim-treesitter/nvim-treesitter",
             run = function() vim.cmd [[TSUpdate]] end
@@ -55,6 +54,10 @@ return require("packer").startup {
         use "neovim/nvim-lspconfig"
         use "nvim-lua/lsp_extensions.nvim"
         use "nvim-lua/lsp-status.nvim"
+        use {
+            "jose-elias-alvarez/null-ls.nvim",
+            requires = { "nvim-lua/plenary.nvim" },
+        }
 
         -- Completion
         use "hrsh7th/nvim-cmp"

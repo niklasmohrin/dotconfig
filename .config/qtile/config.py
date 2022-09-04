@@ -2,9 +2,9 @@ import os
 import re
 import subprocess
 
-from libqtile.config import Key, Screen, Group, Drag, Click, Match
+from libqtile import bar, hook, layout, widget
 from libqtile.command import lazy
-from libqtile import layout, bar, widget, hook
+from libqtile.config import Click, Drag, Group, Key, Match, Screen
 
 mod = "mod4"  # Super / Windows Key
 net_interface = "enp0s3"
@@ -13,8 +13,9 @@ file_manager = "nemo"
 application_runner = "rofi -show run"
 web_browser = "firefox"
 email_program = "thunderbird"
-# lock_command = "xscreensaver-command -lock"
-lock_command = "systemctl suspend-then-hibernate"
+lock_command = "\
+        xidlehook-client --socket /tmp/xidlehook.sock \
+        control --action trigger --timer 1"
 
 keys = [
     # Switch between windows in current stack pane
@@ -80,15 +81,15 @@ layout_theme = {
     "border_width": 2,
     "border_focus": "773388",
     "border_normal": "1D1F21",
-    "margin": 8,
+    # "margin": 8,
 }
 
 layouts = [
     layout.MonadTall(**layout_theme),
     layout.Max(**layout_theme),
-    layout.Matrix(columns=3, **layout_theme),
-    layout.MonadWide(**layout_theme),
-    layout.Stack(**layout_theme),
+    # layout.Matrix(columns=3, **layout_theme),
+    # layout.MonadWide(**layout_theme),
+    # layout.Stack(**layout_theme),
 ]
 
 widget_defaults = dict(
@@ -105,7 +106,7 @@ def sep():
 
 def my_screen(primary):
     return Screen(
-        top=bar.Bar(
+        bottom=bar.Bar(
             [
                 widget.GroupBox(
                     disable_drag=True,
@@ -137,7 +138,6 @@ def my_screen(primary):
                 sep(),
                 widget.CurrentLayout(),
             ],
-            opacity=0.8,
             size=28,
         )
     )

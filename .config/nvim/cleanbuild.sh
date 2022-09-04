@@ -16,5 +16,5 @@ git pull --ff-only
 mkdir build
 cd build
 cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo ..
-ninja
+mold --run ninja
 sudo ninja install

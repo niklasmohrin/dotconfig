@@ -1,14 +1,8 @@
 vim.o.termguicolors = true
-require"xcode-colors".setup { extensions = { "treesitter" } }
-vim.cmd [[colorscheme xcode]]
--- require("colorbuddy").colorscheme("gruvbuddy")
 -- vim.cmd [[let ayucolor="mirage"]]
--- vim.cmd [[colorscheme onenord]]
--- vim.cmd [[highlight Normal guibg=NONE ctermbg=NONE]]
+-- vim.cmd [[colorscheme ayu]]
 
-
--- treesitter
--- vim.treesitter.set_query("rust", "highlights", read_query "~/.config/nvim/queries/rust/highlights.scm")
+vim.cmd [[colorscheme onenord]]
 
 -- local parser_configs = require"nvim-treesitter.parsers".get_parser_configs()
 
@@ -27,20 +21,14 @@ vim.cmd [[colorscheme xcode]]
 --     filetype = "ejs",
 -- }
 
--- vim.cmd [[syntax enable]]
 require"nvim-treesitter.configs".setup {
-    ensure_installed = "maintained",
+    ensure_installed = "all",
     highlight = {
         enable = true,
         -- to get rid of the random underlines in code; it has something to with `set spell`
-        additional_vim_regex_highlighting = true,
+        -- additional_vim_regex_highlighting = true,
     },
     playground = {
         enable = true,
     },
 }
-
--- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
---   vim.lsp.diagnostic.on_publish_diagnostics,
---   { underline = false }
--- )

@@ -7,7 +7,7 @@ git clone https://aur.archlinux.org/paru-bin.git
 cd paru
 makepkg-si
 
-paru -S --needed acpid asciiquarium base-devel bat blueman bottom chromium dash dbus-next discord docker emulsion exa fd firefox fzf git-delta iotop libinput-gestures light llpp man-db man-pages mypy network-manager-applet nvtop okular picom pipewire-pulse playerctl pulse-mixer pulsemixer pynvim python-black python-isort python-lsp-black python-lsp-server qtile ripgrep rofi signal-desktop spotify starship telegram-desktop thunderbird tmux typescript vagrant wget wmctrl xclip yarn zoxide
+paru -S --needed - < paru-packages.txt
 
 sudo gpasswd -a $USER input
 libinput-gestures start autostart

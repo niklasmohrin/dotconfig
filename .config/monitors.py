@@ -32,9 +32,11 @@ def main():
     internal_args = []
     external_args = []
     if args.mode == "mirror":
-        assert "direction" not in args
+        assert args.direction is None
         external_args += [
-            f"--scale-from {INTERNAL_RESOLUTION} --same-as",
+            "--scale-from",
+            INTERNAL_RESOLUTION,
+            "--same-as",
             INTERNAL_DISPLAY,
         ]
     else:
