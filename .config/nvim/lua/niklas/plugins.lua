@@ -2,21 +2,20 @@ return require("packer").startup {
     function(use)
         use "wbthomason/packer.nvim"
 
-        -- Styling
-        use "airblade/vim-gitgutter"        -- Git diff on the left
-        use {
-            "feline-nvim/feline.nvim",
-            requires = { "kyazdani42/nvim-web-devicons", "lewis6991/gitsigns.nvim" },
-        }
+        use "nvim-lua/plenary.nvim"
+        use "kyazdani42/nvim-web-devicons"
+        use "lewis6991/gitsigns.nvim"
+        use "feline-nvim/feline.nvim"
 
         -- Navigation and extensions
         use "airblade/vim-rooter"
         use "alvan/vim-closetag"
         -- use "mattn/emmet-vim"
-        use "turbio/bracey.vim"             -- Live web server
+        use "turbio/bracey.vim" -- Live web server
         use "numToStr/Comment.nvim"
         use "junegunn/vim-easy-align"
         use "tpope/vim-fugitive"
+        use "norcalli/nvim-colorizer.lua"
 
         -- Colorschemes
         -- use "tjdevries/colorbuddy.nvim"
@@ -32,11 +31,7 @@ return require("packer").startup {
         -- use "puremourning/vimspector"
         -- use "mfussenegger/nvim-dap"
 
-        use {
-            "nvim-telescope/telescope.nvim",
-            branch = "0.1.x",
-            requires = { "nvim-lua/plenary.nvim" },
-        }
+        use { "nvim-telescope/telescope.nvim", branch = "0.1.x" }
         use "nvim-telescope/telescope-fzy-native.nvim"
         use "natecraddock/telescope-zf-native.nvim"
 
@@ -45,17 +40,16 @@ return require("packer").startup {
         use "tikhomirov/vim-glsl"
         use {
             "nvim-treesitter/nvim-treesitter",
-            run = function() vim.cmd [[TSUpdate]] end
+            run = function()
+                vim.cmd [[TSUpdate]]
+            end,
         }
         use "nvim-treesitter/playground"
 
         -- LSP
         use "neovim/nvim-lspconfig"
         use "nvim-lua/lsp-status.nvim"
-        use {
-            "jose-elias-alvarez/null-ls.nvim",
-            requires = { "nvim-lua/plenary.nvim" },
-        }
+        use "jose-elias-alvarez/null-ls.nvim"
         use "lvimuser/lsp-inlayhints.nvim"
 
         -- Completion
@@ -72,5 +66,5 @@ return require("packer").startup {
         use "L3MON4D3/LuaSnip"
 
         use "dstein64/vim-startuptime"
-    end
+    end,
 }

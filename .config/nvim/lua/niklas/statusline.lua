@@ -11,16 +11,39 @@ local function diagnostic_provider_for(severity)
     end
 end
 
+vim.opt.showmode = false
 vim.opt.laststatus = 3 -- global statusline
 
 feline.setup {
     theme = {
-        TextActive = "#ffffff",
-        TextInactive = "#888888",
-        TextSecondary = "#aaaaaa",
+        TextPrimary = "#ffffff",
+        TextSecondary = "#888888",
         BgPrimary = "#41506d",
         BgSecondary = "#292f3d",
         bg = "#1f222b",
+    },
+    vi_mode_colors = {
+        NORMAL = onenord.fg_light,
+        OP = onenord.fg_light,
+
+        INSERT = onenord.green,
+        REPLACE = onenord.light_green,
+        ["V-REPLACE"] = onenord.light_green,
+
+        VISUAL = onenord.red,
+        LINES = onenord.dark_pink,
+        BLOCK = onenord.pink,
+        SELECT = onenord.dark_red,
+
+        COMMAND = onenord.purple,
+        TERM = onenord.light_purple,
+
+        -- Don't know what these are
+        ENTER = onenord.cyan,
+        MORE = onenord.cyan,
+        SHELL = onenord.cyan,
+
+        NONE = "BgPrimary",
     },
     components = {
         active = {
@@ -28,8 +51,12 @@ feline.setup {
             {
                 { provider = "  ", hl = { bg = "BgPrimary" } },
                 {
-                    provider = "vi_mode",
-                    icon = "",
+                    provider = {
+                        name = "vi_mode",
+                        opts = {
+                            show_mode_name = true,
+                        },
+                    },
                     hl = function()
                         return {
                             name = vi_mode_utils.get_mode_highlight_name(),
@@ -41,7 +68,6 @@ feline.setup {
                     right_sep = {
                         { str = " ", hl = { fg = "NONE", bg = "BgPrimary" } },
                         { str = "slant_right_2", hl = { fg = "BgPrimary", bg = "BgSecondary" } },
-                        -- { str = " ", hl = { fg = "NONE", bg = "BgSecondary" } },
                     },
                 },
                 {
@@ -50,7 +76,7 @@ feline.setup {
                         local head = vim.g.gitsigns_head or "-"
                         return "  " .. head
                     end,
-                    hl = { fg = "TextInactive", bg = "BgSecondary" },
+                    hl = { fg = "TextSecondary", bg = "BgSecondary" },
                     left_sep = { str = " ", hl = { fg = "NONE", bg = "BgSecondary" } },
                 },
                 {
@@ -71,9 +97,7 @@ feline.setup {
                 {
                     hl = { fg = onenord.diff_remove, bg = "BgSecondary" },
                     left_sep = { str = " ", hl = { fg = "NONE", bg = "BgSecondary" }, always_visible = true },
-                    right_sep = {
-                        { str = "slant_right", hl = { fg = "BgSecondary" }, always_visible = true },
-                    },
+                    right_sep = { str = "slant_right", hl = { fg = "BgSecondary" }, always_visible = true },
                 },
                 -- Empty component to fix the highlight till the end of the statusline
                 {},
@@ -84,52 +108,53 @@ feline.setup {
                     provider = function()
                         return vim.trim(require("lsp-status").status())
                     end,
-                    hl = { fg = "TextActive", bg = "BgPrimary" },
+                    hl = { fg = "TextPrimary", bg = "BgPrimary" },
                     left_sep = { str = "", hl = { fg = "BgPrimary" }, always_visible = true },
                     right_sep = { str = "", hl = { fg = onenord.error, bg = "BgPrimary" }, always_visible = true },
                 },
                 {
                     provider = diagnostic_provider_for(vim.diagnostic.severity.ERROR),
-                    hl = { fg = "TextActive", bg = onenord.error },
+                    hl = { fg = "TextPrimary", bg = onenord.error },
                     right_sep = { str = "", hl = { fg = onenord.warn, bg = onenord.error }, always_visible = true },
                 },
                 {
                     provider = diagnostic_provider_for(vim.diagnostic.severity.WARN),
-                    hl = { fg = "TextActive", bg = onenord.warn },
+                    hl = { fg = "TextPrimary", bg = onenord.warn },
                     right_sep = { str = "", hl = { fg = onenord.info, bg = onenord.warn }, always_visible = true },
                 },
                 {
                     provider = diagnostic_provider_for(vim.diagnostic.severity.INFO),
-                    hl = { fg = "TextActive", bg = onenord.info },
+                    hl = { fg = "TextPrimary", bg = onenord.info },
                     right_sep = { str = "", hl = { fg = onenord.hint, bg = onenord.info }, always_visible = true },
                 },
                 {
                     provider = diagnostic_provider_for(vim.diagnostic.severity.HINT),
-                    hl = { fg = "TextActive", bg = onenord.hint },
+                    hl = { fg = "TextPrimary", bg = onenord.hint },
                     right_sep = { str = "", hl = { fg = "BgSecondary", bg = onenord.hint }, always_visible = true },
                 },
 
                 {
                     provider = "line_percentage",
-                    hl = { fg = "TextActive", bg = "BgSecondary" },
+                    hl = { fg = "TextPrimary", bg = "BgSecondary" },
                     left_sep = { str = " ", hl = { bg = "BgSecondary" } },
                 },
                 {
                     provider = "file_size",
-                    hl = { fg = "TextActive", bg = "BgSecondary" },
+                    hl = { fg = "TextPrimary", bg = "BgSecondary" },
                     left_sep = { str = " ", hl = { bg = "BgSecondary" } },
+                    right_sep = { str = " ", hl = { bg = "BgSecondary" } },
                 },
                 {
                     provider = "file_type",
                     hl = {
-                        fg = "TextInactive",
+                        fg = "TextSecondary",
                         bg = "BgPrimary",
                         style = "bold",
                     },
                     left_sep = {
-                        { str = "slant_left", hl = { fg = "BgPrimary", bg = "BgSecondary" } },
-                        { str = " ", hl = { bg = "BgSecondary" } },
-                        { str = " ", hl = { bg = "BgPrimary" } },
+                        { str = "slant_left", hl = { fg = "BgPrimary", bg = "BgSecondary" }, always_visible = true },
+                        { str = " ", hl = { bg = "BgSecondary" }, always_visible = true },
+                        { str = " ", hl = { bg = "BgPrimary" }, always_visible = true },
                     },
                 },
                 { provider = " ", hl = { bg = "BgPrimary" } },
@@ -149,15 +174,15 @@ feline.winbar.setup {
                         name = "file_info",
                         opts = { type = "relative" },
                     },
-                    hl = { fg = "TextActive", bg = "NONE", style = "bold" },
+                    hl = { fg = "TextPrimary", bg = "NONE", style = "bold" },
                 },
                 {
                     provider = " @ ",
-                    hl = { fg = "TextInactive", bg = "NONE" },
+                    hl = { fg = "TextSecondary", bg = "NONE" },
                 },
                 {
                     provider = "position",
-                    hl = { fg = "TextInactive", bg = "NONE" },
+                    hl = { fg = "TextSecondary", bg = "NONE" },
                 },
             },
         },
@@ -169,15 +194,15 @@ feline.winbar.setup {
                         name = "file_info",
                         opts = { type = "relative" },
                     },
-                    hl = { fg = "TextInactive", bg = "NONE" },
+                    hl = { fg = "TextSecondary", bg = "NONE" },
                 },
                 {
                     provider = " @ ",
-                    hl = { fg = "TextInactive", bg = "NONE" },
+                    hl = { fg = "TextSecondary", bg = "NONE" },
                 },
                 {
                     provider = "position",
-                    hl = { fg = "TextInactive", bg = "NONE" },
+                    hl = { fg = "TextSecondary", bg = "NONE" },
                 },
             },
         },
