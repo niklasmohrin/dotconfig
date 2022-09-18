@@ -15,6 +15,7 @@ git pull --ff-only
 
 mkdir build
 cd build
-cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo ..
-mold --run ninja
+cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_FLAGS="-fuse-ld=mold" ..
+ninja
+sudo rm -rf /usr/local/share/nvim/runtime/
 sudo ninja install
