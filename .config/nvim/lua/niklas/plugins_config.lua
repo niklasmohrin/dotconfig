@@ -5,6 +5,5 @@ vim.g.rooter_patterns = { ".git", ".vim-rooter" }
 vim.cmd [[let g:closetag_filetypes = 'html,xhtml,eruby']]
 
 require "niklas.telescope"
-require "niklas.statusline"
 
 require("Comment").setup()

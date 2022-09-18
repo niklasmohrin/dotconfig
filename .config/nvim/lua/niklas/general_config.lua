@@ -18,7 +18,7 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.undofile = true
-vim.opt.spell = false
+vim.opt.spell = true
 vim.opt.spelllang = "en_us,de_de"
 
 vim.opt.scrolloff = 5

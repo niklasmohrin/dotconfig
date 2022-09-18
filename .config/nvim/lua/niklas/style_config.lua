@@ -2,7 +2,7 @@ vim.o.termguicolors = true
 -- vim.cmd [[let ayucolor="mirage"]]
 -- vim.cmd [[colorscheme ayu]]
 
-vim.cmd [[colorscheme onenord]]
+require("onenord").setup()
 
 -- local parser_configs = require"nvim-treesitter.parsers".get_parser_configs()
 
@@ -21,7 +21,7 @@ vim.cmd [[colorscheme onenord]]
 --     filetype = "ejs",
 -- }
 
-require"nvim-treesitter.configs".setup {
+require("nvim-treesitter.configs").setup {
     ensure_installed = "all",
     highlight = {
         enable = true,

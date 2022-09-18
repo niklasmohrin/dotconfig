@@ -5,8 +5,8 @@ return require("packer").startup {
         -- Styling
         use "airblade/vim-gitgutter"        -- Git diff on the left
         use {
-            "tjdevries/express_line.nvim",
-            requires = { "nvim-lua/plenary.nvim", "kyazdani42/nvim-web-devicons" },
+            "feline-nvim/feline.nvim",
+            requires = { "kyazdani42/nvim-web-devicons", "lewis6991/gitsigns.nvim" },
         }
 
         -- Navigation and extensions
@@ -16,7 +16,6 @@ return require("packer").startup {
         use "turbio/bracey.vim"             -- Live web server
         use "numToStr/Comment.nvim"
         use "junegunn/vim-easy-align"
-        -- use "bobrown101/git_blame.nvim"
         use "tpope/vim-fugitive"
 
         -- Colorschemes
@@ -52,12 +51,12 @@ return require("packer").startup {
 
         -- LSP
         use "neovim/nvim-lspconfig"
-        use "nvim-lua/lsp_extensions.nvim"
         use "nvim-lua/lsp-status.nvim"
         use {
             "jose-elias-alvarez/null-ls.nvim",
             requires = { "nvim-lua/plenary.nvim" },
         }
+        use "lvimuser/lsp-inlayhints.nvim"
 
         -- Completion
         use "hrsh7th/nvim-cmp"

@@ -1,87 +1,185 @@
-local builtin = require("el.builtin")
-local extensions = require("el.extensions")
-local helper = require("el.helper")
-local lsp_statusline = require("el.plugins.lsp_status")
-local sections = require("el.sections")
-local subscribe = require("el.subscribe")
-local has_lsp_extensions, ws_diagnostics = pcall(require, 'lsp_extensions.workspace.diagnostic')
+require("gitsigns").setup()
+local feline = require "feline"
+local vi_mode_utils = require "feline.providers.vi_mode"
+local onenord = require("onenord.colors").load()
 
-local git_changes = subscribe.buf_autocmd(
-    "el_git_changes",
-    "BufWritePost",
-    function(window, buffer)
-        return extensions.git_changes(window, buffer)
+-- Adapted from https://github.com/EdenEast/nyx/blob/8a9819e/config/.config/nvim/lua/eden/modules/ui/feline/init.lua
+local function diagnostic_provider_for(severity)
+    return function()
+        local count = #vim.diagnostic.get(0, { severity = severity })
+        return (count > 0) and " " .. count .. " " or ""
     end
-)
-
-local git_branch = subscribe.buf_autocmd(
-    "el_git_branch",
-    "BufEnter",
-    function(window, buffer)
-        local branch = extensions.git_branch(window, buffer)
-        if branch then
-            return ' ' .. extensions.git_icon() .. ' ' .. branch
-        end
-    end
-)
-
-local show_current_func = function(win_id)
-    return helper.async_buf_setter(
-        win_id,
-        "el_lsp_cur_func",
-        function (window, buffer)
-            if buffer.filetype == 'lua' then
-                return ''
-            end
-            return lsp_statusline.current_function(window, buffer)
-        end,
-        10000
-    )
-end
-
-local file_icon = subscribe.buf_autocmd(
-    "el_file_icon",
-    "BufRead",
-    function(_, buffer)
-        return extensions.file_icon(_, buffer)
-    end
-)
-
-local ws_diagnostic_counts = function(_, buffer)
-    if not has_lsp_extensions then
-        return ""
-    end
-
-    local error_count = #vim.diagnostic.get(buffer.bufnr, { severity = vim.diagnostic.severity.ERROR })
-    if error_count == 0 then
-        return ""
-    else
-        local x = "⬤"
-        error_count = math.min(error_count, 5)
-        return string.format('%s#%s#%s%%*', '%', "StatuslineError" .. error_count, x)
-    end
-end
-
-local generator = function(win_id, _)
-    return {
-        extensions.gen_mode { format_string = ' %s ' },
-        git_branch,
-        git_changes,
-        sections.split,
-        lsp_statusline.server_progress,
-        ws_diagnostic_counts,
-        -- show_current_func(win_id), -- broken
-        '[', builtin.line_with_width(3), ':',  builtin.column_with_width(2), ']',
-        sections.collapse_builtin {
-            '[',
-            builtin.help_list,
-            builtin.readonly_list,
-            ']',
-        },
-        builtin.filetype,
-    }
 end
 
 vim.opt.laststatus = 3 -- global statusline
-require('el').setup { generator = generator }
-vim.opt.winbar = "%=%m %f"
+
+feline.setup {
+    theme = {
+        TextActive = "#ffffff",
+        TextInactive = "#888888",
+        TextSecondary = "#aaaaaa",
+        BgPrimary = "#41506d",
+        BgSecondary = "#292f3d",
+        bg = "#1f222b",
+    },
+    components = {
+        active = {
+            -- Left side
+            {
+                { provider = "  ", hl = { bg = "BgPrimary" } },
+                {
+                    provider = "vi_mode",
+                    icon = "",
+                    hl = function()
+                        return {
+                            name = vi_mode_utils.get_mode_highlight_name(),
+                            fg = vi_mode_utils.get_mode_color(),
+                            bg = "BgPrimary",
+                            style = "bold",
+                        }
+                    end,
+                    right_sep = {
+                        { str = " ", hl = { fg = "NONE", bg = "BgPrimary" } },
+                        { str = "slant_right_2", hl = { fg = "BgPrimary", bg = "BgSecondary" } },
+                        -- { str = " ", hl = { fg = "NONE", bg = "BgSecondary" } },
+                    },
+                },
+                {
+                    provider = function()
+                        -- Similar to builtin provider "git_branch", but uses vim.g instead of vim.b to show the branch of the working directory, not the file
+                        local head = vim.g.gitsigns_head or "-"
+                        return "  " .. head
+                    end,
+                    hl = { fg = "TextInactive", bg = "BgSecondary" },
+                    left_sep = { str = " ", hl = { fg = "NONE", bg = "BgSecondary" } },
+                },
+                {
+                    provider = "git_diff_added",
+                    icon = " +",
+                    hl = { fg = onenord.diff_add, bg = "BgSecondary" },
+                },
+                {
+                    provider = "git_diff_changed",
+                    icon = " ~",
+                    hl = { fg = onenord.diff_change, bg = "BgSecondary" },
+                },
+                {
+                    provider = "git_diff_removed",
+                    icon = " -",
+                    hl = { fg = onenord.diff_remove, bg = "BgSecondary" },
+                },
+                {
+                    hl = { fg = onenord.diff_remove, bg = "BgSecondary" },
+                    left_sep = { str = " ", hl = { fg = "NONE", bg = "BgSecondary" }, always_visible = true },
+                    right_sep = {
+                        { str = "slant_right", hl = { fg = "BgSecondary" }, always_visible = true },
+                    },
+                },
+                -- Empty component to fix the highlight till the end of the statusline
+                {},
+            },
+            -- Right side
+            {
+                {
+                    provider = function()
+                        return vim.trim(require("lsp-status").status())
+                    end,
+                    hl = { fg = "TextActive", bg = "BgPrimary" },
+                    left_sep = { str = "", hl = { fg = "BgPrimary" }, always_visible = true },
+                    right_sep = { str = "", hl = { fg = onenord.error, bg = "BgPrimary" }, always_visible = true },
+                },
+                {
+                    provider = diagnostic_provider_for(vim.diagnostic.severity.ERROR),
+                    hl = { fg = "TextActive", bg = onenord.error },
+                    right_sep = { str = "", hl = { fg = onenord.warn, bg = onenord.error }, always_visible = true },
+                },
+                {
+                    provider = diagnostic_provider_for(vim.diagnostic.severity.WARN),
+                    hl = { fg = "TextActive", bg = onenord.warn },
+                    right_sep = { str = "", hl = { fg = onenord.info, bg = onenord.warn }, always_visible = true },
+                },
+                {
+                    provider = diagnostic_provider_for(vim.diagnostic.severity.INFO),
+                    hl = { fg = "TextActive", bg = onenord.info },
+                    right_sep = { str = "", hl = { fg = onenord.hint, bg = onenord.info }, always_visible = true },
+                },
+                {
+                    provider = diagnostic_provider_for(vim.diagnostic.severity.HINT),
+                    hl = { fg = "TextActive", bg = onenord.hint },
+                    right_sep = { str = "", hl = { fg = "BgSecondary", bg = onenord.hint }, always_visible = true },
+                },
+
+                {
+                    provider = "line_percentage",
+                    hl = { fg = "TextActive", bg = "BgSecondary" },
+                    left_sep = { str = " ", hl = { bg = "BgSecondary" } },
+                },
+                {
+                    provider = "file_size",
+                    hl = { fg = "TextActive", bg = "BgSecondary" },
+                    left_sep = { str = " ", hl = { bg = "BgSecondary" } },
+                },
+                {
+                    provider = "file_type",
+                    hl = {
+                        fg = "TextInactive",
+                        bg = "BgPrimary",
+                        style = "bold",
+                    },
+                    left_sep = {
+                        { str = "slant_left", hl = { fg = "BgPrimary", bg = "BgSecondary" } },
+                        { str = " ", hl = { bg = "BgSecondary" } },
+                        { str = " ", hl = { bg = "BgPrimary" } },
+                    },
+                },
+                { provider = " ", hl = { bg = "BgPrimary" } },
+            },
+        },
+        inactive = {},
+    },
+}
+
+feline.winbar.setup {
+    components = {
+        active = {
+            {},
+            {
+                {
+                    provider = {
+                        name = "file_info",
+                        opts = { type = "relative" },
+                    },
+                    hl = { fg = "TextActive", bg = "NONE", style = "bold" },
+                },
+                {
+                    provider = " @ ",
+                    hl = { fg = "TextInactive", bg = "NONE" },
+                },
+                {
+                    provider = "position",
+                    hl = { fg = "TextInactive", bg = "NONE" },
+                },
+            },
+        },
+        inactive = {
+            {},
+            {
+                {
+                    provider = {
+                        name = "file_info",
+                        opts = { type = "relative" },
+                    },
+                    hl = { fg = "TextInactive", bg = "NONE" },
+                },
+                {
+                    provider = " @ ",
+                    hl = { fg = "TextInactive", bg = "NONE" },
+                },
+                {
+                    provider = "position",
+                    hl = { fg = "TextInactive", bg = "NONE" },
+                },
+            },
+        },
+    },
+}

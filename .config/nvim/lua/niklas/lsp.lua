@@ -1,15 +1,24 @@
 local lspconfig = require "lspconfig"
 local util = require "lspconfig/util"
 local status = require "lsp-status"
+local inlay_hints = require "lsp-inlayhints"
 
 require "niklas.completion"
 
+status.config { diagnostics = false, status_symbol = "" }
 status.register_progress()
+inlay_hints.setup {
+    inlay_hints = {
+        highlight = "Comment",
+    },
+}
+require("lsp-inlayhints.adapter").set_old_tsserver()
 
 vim.keymap.set("n", "<leader>K", vim.diagnostic.open_float)
 
 local on_attach = function(client, bufnr)
     status.on_attach(client, bufnr)
+    -- inlay_hints.on_attach(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
     local keymap_opts = { silent = true, buffer = bufnr }
@@ -34,7 +43,7 @@ end
 
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local servers = {
+local servers_with_default_settings = {
     "clangd",
     "cssls",
     "dockerls",
@@ -45,13 +54,30 @@ local servers = {
     "rust_analyzer",
     "solargraph",
     "texlab",
-    "tsserver",
     "vimls",
 }
 
-for _, server in ipairs(servers) do
+for _, server in ipairs(servers_with_default_settings) do
     lspconfig[server].setup { on_attach = on_attach, capabilities = capabilities }
 end
+
+tsserver_inlay_hints_settings = {
+    includeInlayParameterNameHints = "all",
+    includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+    includeInlayFunctionParameterTypeHints = true,
+    includeInlayVariableTypeHints = true,
+    includeInlayPropertyDeclarationTypeHints = true,
+    includeInlayFunctionLikeReturnTypeHints = true,
+    includeInlayEnumMemberValueHints = true,
+}
+lspconfig["tsserver"].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        typescript = { inlayHints = tsserver_inlay_hints_settings },
+        javascript = { inlayHints = tsserver_inlay_hints_settings },
+    },
+}
 
 lspconfig["pylsp"].setup {
     on_attach = on_attach,
