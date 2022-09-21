@@ -153,7 +153,7 @@ feline.setup {
                     },
                     left_sep = {
                         { str = "slant_left", hl = { fg = "BgPrimary", bg = "BgSecondary" }, always_visible = true },
-                        { str = " ", hl = { bg = "BgSecondary" }, always_visible = true },
+                        -- { str = " ", hl = { bg = "BgSecondary" }, always_visible = true },
                         { str = " ", hl = { bg = "BgPrimary" }, always_visible = true },
                     },
                 },
@@ -164,47 +164,39 @@ feline.setup {
     },
 }
 
+local function make_winbar_components(is_active)
+    local text_fg = is_active and "TextPrimary" or "TextSecondary"
+    local text_bg = is_active and "BgPrimary" or "BgSecondary"
+    return {
+        { { hl = { bg = "NONE" } } },
+        {
+            {
+                provider = {
+                    name = "file_info",
+                    opts = { type = "relative" },
+                },
+                hl = { fg = text_fg, bg = text_bg, style = "bold" },
+                left_sep = {
+                    { str = "slant_left_2", hl = { fg = text_bg, bg = "NONE" } },
+                    -- { str = " ", hl = { bg = "NONE" } },
+                    { str = " ", hl = { bg = text_bg } },
+                },
+            },
+            {
+                provider = " @ ",
+                hl = { fg = "TextSecondary", bg = text_bg },
+            },
+            {
+                provider = "position",
+                hl = { fg = "TextSecondary", bg = text_bg },
+            },
+        },
+    }
+end
+
 feline.winbar.setup {
     components = {
-        active = {
-            {},
-            {
-                {
-                    provider = {
-                        name = "file_info",
-                        opts = { type = "relative" },
-                    },
-                    hl = { fg = "TextPrimary", bg = "NONE", style = "bold" },
-                },
-                {
-                    provider = " @ ",
-                    hl = { fg = "TextSecondary", bg = "NONE" },
-                },
-                {
-                    provider = "position",
-                    hl = { fg = "TextSecondary", bg = "NONE" },
-                },
-            },
-        },
-        inactive = {
-            {},
-            {
-                {
-                    provider = {
-                        name = "file_info",
-                        opts = { type = "relative" },
-                    },
-                    hl = { fg = "TextSecondary", bg = "NONE" },
-                },
-                {
-                    provider = " @ ",
-                    hl = { fg = "TextSecondary", bg = "NONE" },
-                },
-                {
-                    provider = "position",
-                    hl = { fg = "TextSecondary", bg = "NONE" },
-                },
-            },
-        },
+        active = make_winbar_components(true),
+        inactive = make_winbar_components(false),
     },
 }
