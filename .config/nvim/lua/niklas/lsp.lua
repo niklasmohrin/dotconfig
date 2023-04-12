@@ -17,6 +17,9 @@ require("lsp-inlayhints.adapter").set_old_tsserver()
 vim.keymap.set("n", "<leader>K", vim.diagnostic.open_float)
 
 local on_attach = function(client, bufnr)
+    -- Disable semantic highlighting
+    client.server_capabilities.semanticTokensProvider = nil
+
     status.on_attach(client, bufnr)
     -- inlay_hints.on_attach(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -41,7 +44,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set("v", "<leader>f", vim.lsp.buf.range_formatting, keymap_opts)
 end
 
-local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local servers_with_default_settings = {
     "clangd",
@@ -49,6 +52,7 @@ local servers_with_default_settings = {
     "dockerls",
     "hls",
     "html",
+    "jdtls",
     "jsonls",
     "r_language_server",
     "rust_analyzer",
