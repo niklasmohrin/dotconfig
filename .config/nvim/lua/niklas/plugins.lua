@@ -20,12 +20,13 @@ return require("packer").startup {
         -- Colorschemes
         -- use "tjdevries/colorbuddy.nvim"
         -- use "tjdevries/gruvbuddy.nvim"
-        -- use "gruvbox-community/gruvbox"
+        use "gruvbox-community/gruvbox"
         use "ayu-theme/ayu-vim"
         -- use "vigoux/oak"
         -- use "glepnir/zephyr-nvim"
         -- use "shaunsingh/nord.nvim"
         use "rmehri01/onenord.nvim"
+        use "rebelot/kanagawa.nvim"
 
         -- Debugging
         -- use "puremourning/vimspector"
@@ -44,14 +45,12 @@ return require("packer").startup {
                 vim.cmd [[TSUpdate]]
             end,
         }
-        use "nvim-treesitter/playground"
         use "nvim-treesitter/nvim-treesitter-context"
 
         -- LSP
         use "neovim/nvim-lspconfig"
         use "nvim-lua/lsp-status.nvim"
         use "jose-elias-alvarez/null-ls.nvim"
-        use "lvimuser/lsp-inlayhints.nvim"
 
         -- Completion
         use "hrsh7th/nvim-cmp"

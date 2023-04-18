@@ -12,4 +12,5 @@ vim.api.nvim_create_autocmd("Colorscheme", {
     group = augroup,
 })
 
-require("onenord").setup()
+-- require("onenord").setup()
+vim.cmd [[ colorscheme kanagawa ]]
