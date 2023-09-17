@@ -86,7 +86,7 @@ layout_theme = {
 
 layouts = [
     layout.MonadTall(**layout_theme),
-    layout.Max(**layout_theme),
+    layout.Max(),
     # layout.Matrix(columns=3, **layout_theme),
     # layout.MonadWide(**layout_theme),
     # layout.Stack(**layout_theme),
@@ -106,6 +106,8 @@ def sep():
 
 def my_screen(primary):
     return Screen(
+        wallpaper="~/Pictures/qtile_wallpaper",
+        wallpaper_mode="fill",
         bottom=bar.Bar(
             [
                 widget.GroupBox(
@@ -139,7 +141,7 @@ def my_screen(primary):
                 widget.CurrentLayout(),
             ],
             size=28,
-        )
+        ),
     )
 
 

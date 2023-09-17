@@ -1,9 +1,9 @@
 #!/bin/sh
 
 picom &
-nitrogen --restore &
+# nitrogen --restore &
 dunst &
-libinput-gestures-setup start
+libinput-gestures-setup start &
 
 nm-applet &
 pasystray &
@@ -23,5 +23,5 @@ xidlehook \
     --socket '/tmp/xidlehook.sock' \
     --timer 600 'light -O; light -S 5' 'light -I' \
     --timer 10 'light -I; i3lock --color 000000' '' \
-    --timer 300 'systemctl suspend-then-hibernate' '' \
+    --timer 1200 'systemctl suspend-then-hibernate' '' \
     &
