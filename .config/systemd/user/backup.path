@@ -1,0 +1,10 @@
+# https://wiki.archlinux.org/title/Rsync
+
+[Unit]
+Description=Checks if paths that are currently being backed up have changed
+
+[Path]
+PathChanged=%h/Sync
+
+[Install]
+WantedBy=default.target
