@@ -17,6 +17,7 @@ telescope.setup {
     },
 }
 telescope.load_extension "zf-native"
+-- telescope.load_extension "fzy_native"
 
 local function edit_neovim()
     require("telescope.builtin").find_files {

@@ -88,7 +88,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, keymap_opts)
         vim.keymap.set("n", "gi", lazy_require("telescope.builtin", "lsp_implementations"), keymap_opts)
         vim.keymap.set("n", "K", vim.lsp.buf.hover, keymap_opts)
-        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, keymap_opts)
         vim.keymap.set("n", "gr", vim.lsp.buf.references, keymap_opts)
         vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, keymap_opts)
         vim.keymap.set("n", "<leader>a", vim.lsp.buf.code_action, keymap_opts)

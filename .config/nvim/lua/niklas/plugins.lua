@@ -11,7 +11,6 @@ return require("packer").startup {
         use "airblade/vim-rooter"
         use "alvan/vim-closetag"
         -- use "mattn/emmet-vim"
-        use "turbio/bracey.vim" -- Live web server
         use "numToStr/Comment.nvim"
         use "junegunn/vim-easy-align"
         use "tpope/vim-fugitive"
@@ -33,7 +32,7 @@ return require("packer").startup {
         -- use "mfussenegger/nvim-dap"
 
         use { "nvim-telescope/telescope.nvim", branch = "0.1.x" }
-        use "nvim-telescope/telescope-fzy-native.nvim"
+        -- use "nvim-telescope/telescope-fzy-native.nvim"
         use "natecraddock/telescope-zf-native.nvim"
 
         -- Extra syntaxes
@@ -46,6 +45,7 @@ return require("packer").startup {
             end,
         }
         use "nvim-treesitter/nvim-treesitter-context"
+        use { "kaarmu/typst.vim", ft = "typst" }
 
         -- LSP
         use "neovim/nvim-lspconfig"
