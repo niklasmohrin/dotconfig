@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
-{
+let
+  configRepo = /home/niklas/dotconfig;
+in {
   home.username = "niklas";
   home.homeDirectory = "/home/niklas";
 
@@ -21,7 +23,7 @@
     linkedFiles = [ ".config/alacritty" ".config/qtile" ".config/nvim" ".tmux.conf" ];
     linkedFilesConfig = builtins.listToAttrs (map (name: {
       inherit name;
-      value.source = ./. + "/${name}";
+      value.source = link (configRepo + "/${name}");
     }) linkedFiles);
   in {} // linkedFilesConfig;
 
