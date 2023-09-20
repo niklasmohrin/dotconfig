@@ -20,7 +20,7 @@ in {
 
   home.file = let
     link = config.lib.file.mkOutOfStoreSymlink;
-    linkedFiles = [ ".config/alacritty" ".config/qtile" ".config/nvim" ".tmux.conf" ];
+    linkedFiles = [ ".config/alacritty" ".config/qtile" ".config/nvim" ".tmux.conf" ".config/latexmk" ];
     linkedFilesConfig = builtins.listToAttrs (map (name: {
       inherit name;
       value.source = link (configRepo + "/${name}");
@@ -41,6 +41,7 @@ in {
 
     # TODO: signing
 
+    ignores = [ ".vim-rooter" ];
     difftastic.enable = true;
   };
 
