@@ -28,6 +28,8 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
+    CARGO_TARGET_DIR = "$XDG_CACHE_HOME/cargo-target-dir";
+    MANPAGER = "nvim +Man!";
   };
 
   programs.git = {
@@ -42,7 +44,32 @@
 
   programs.fish = {
     enable = true;
-    shellAbbrs = { vim = "nvim"; };
+    interactiveShellInit = ''
+      set fish_greeting
+      fish_vi_key_bindings
+      bind           \cf accept-autosuggestion
+      bind -M insert \cf accept-autosuggestion
+    '';
+    shellAbbrs = {
+      vim = "nvim";
+      cal = "cal -m";
+      open = "xdg-open";
+      xclip = "xclip -sel clip";
+      ga = "git add";
+      gap = "git add -p";
+      gc = "git commit";
+      gd = "git diff";
+      gds = "git diff --staged";
+      gff = "git pull --ff-only";
+      gffu = "git pull --ff-only upstream (git branch --show-current)";
+      gl = "git log";
+      gp = "git push";
+      gr = "git rebase";
+      gri = "git rebase --interactive --autosquash";
+      gs = "git status";
+      gsh = "git show";
+      gsw = "git switch";
+    };
   };
   programs.nix-index = {
     enable = true;
