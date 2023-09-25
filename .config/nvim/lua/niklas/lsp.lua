@@ -10,13 +10,13 @@ status.register_progress()
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local servers_with_default_settings = {
-    "clangd",
     "cssls",
     "dockerls",
     "hls",
     "html",
     "jdtls",
     "jsonls",
+    "nil_ls",
     "pylsp",
     "r_language_server",
     "rust_analyzer",
@@ -30,7 +30,6 @@ for _, server in ipairs(servers_with_default_settings) do
     lspconfig[server].setup {
         capabilities = capabilities,
         settings = {
-            ["clangd"] = { semantic_tokens = { enable = false } },
             ["pylsp"] = {
                 plugins = {
                     pycodestyle = {
@@ -41,29 +40,41 @@ for _, server in ipairs(servers_with_default_settings) do
                     yapf = { enabled = false },
                 },
             },
+            ["nil"] = { formatting = { command = { "nixpkgs-fmt" } } },
         },
     }
 end
 
-lspconfig["emmet_ls"].setup {
-    cmd = { "node", "/home/niklas/Tools/emmet-ls/out/server.js", "--stdio" },
+lspconfig["clangd"].setup {
     capabilities = capabilities,
-    filetypes = {
-        "html",
-        "css",
-        "htmldjango",
-    },
-    settings = {
-        html_filetypes = { "html", "htmldjango" },
-        css_filetypes = { "html", "htmldjango", "css" },
-    },
+    root_dir = util.root_pattern(".git", ".envrc"),
+    settings = { ["clangd"] = { semantic_tokens = { enable = false } } },
 }
+
+lspconfig["typst_lsp"].setup {
+    capabilities = capabilities,
+    settings = { experimentalFormatterMode = "on" },
+}
+
+-- lspconfig["emmet_ls"].setup {
+--     cmd = { "node", "/home/niklas/Tools/emmet-ls/out/server.js", "--stdio" },
+--     capabilities = capabilities,
+--     filetypes = {
+--         "html",
+--         "css",
+--         "htmldjango",
+--     },
+--     settings = {
+--         html_filetypes = { "html", "htmldjango" },
+--         css_filetypes = { "html", "htmldjango", "css" },
+--     },
+-- }
 
 local null_ls = require "null-ls"
 null_ls.setup {
     sources = {
-        null_ls.builtins.formatting.prettierd,
-        null_ls.builtins.diagnostics.eslint_d,
+        -- null_ls.builtins.formatting.prettierd,
+        -- null_ls.builtins.diagnostics.eslint_d,
         null_ls.builtins.formatting.stylua,
     },
 }

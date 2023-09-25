@@ -19,11 +19,11 @@ telescope.setup {
 telescope.load_extension "zf-native"
 -- telescope.load_extension "fzy_native"
 
-local function edit_neovim()
-    require("telescope.builtin").find_files {
+local function edit_config()
+    require("telescope.builtin").git_files {
         prompt_title = "Neovim dotfiles",
         shorten_path = false,
-        cwd = "~/.config/nvim",
+        cwd = "~/dotconfig/",
     }
 end
 
@@ -42,4 +42,4 @@ end)
 vim.keymap.set("n", "<leader>pm", function()
     require("telescope.builtin").man_pages()
 end)
-vim.keymap.set("n", "<leader>pn", edit_neovim)
+vim.keymap.set("n", "<leader>pn", edit_config)

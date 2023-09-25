@@ -93,8 +93,8 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="Cascadia Code Bold",
-    fontsize=13,
+    font="Ubuntu Nerd Font Med",
+    fontsize=14,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
