@@ -13,9 +13,10 @@ file_manager = "nemo"
 application_runner = "rofi -show run"
 web_browser = "firefox"
 email_program = "thunderbird"
-lock_command = "\
-        xidlehook-client --socket /tmp/xidlehook.sock \
-        control --action trigger --timer 1"
+lock_command = "i3lock --color 000000"
+# lock_command = "\
+#         xidlehook-client --socket /tmp/xidlehook.sock \
+#         control --action trigger --timer 1"
 
 keys = [
     # Switch between windows in current stack pane
@@ -43,6 +44,13 @@ keys = [
     Key([mod], "b", lazy.spawn(web_browser)),
     Key([mod], "m", lazy.spawn(email_program)),
     Key([mod, "shift"], "l", lazy.spawn(lock_command)),
+
+    Key([], "XF86AudioLowerVolume", lazy.spawn("wpctl set-volume @DEFAULT_SINK@ 5%-")),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("wpctl set-volume @DEFAULT_SINK@ 5%+")),
+    Key([], "XF86AudioMute", lazy.spawn("wpctl set-mute @DEFAULT_SINK@ toggle")),
+    Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
+    Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
+    Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
 ]
 
 mouse = [
@@ -116,7 +124,7 @@ def my_screen(primary):
                     highlight_color=["000000", "553388"],
                 ),
                 sep(),
-                widget.WindowName(),
+                widget.TaskList(),
                 sep(),
                 widget.Clock(format="%H:%M | %d. %b %y | %A"),
                 sep(),
