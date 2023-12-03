@@ -1,7 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, lib, ... }:
 
 let
-  inherit (pkgs.lib.meta) hiPrio;
+  inherit (lib.meta) hiPrio;
   configRepo = /home/niklas/dotconfig;
   enableWithFish = { enable = true; enableFishIntegration = true; };
 in
@@ -12,8 +12,7 @@ in
   home.stateVersion = "23.05"; # Please read the comment before changing.
   programs.home-manager.enable = true;
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "discord"
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "spotify"
   ];
   home.packages = with pkgs; [
@@ -27,18 +26,23 @@ in
 
     libinput-gestures
     wmctrl
+    playerctl
 
     cinnamon.nemo
+    libsForQt5.ark
     firefox
+    ungoogled-chromium
     thunderbird
     keepassxc
     libreoffice
-    discord
+    pkgs-unstable.discord
     spotify
     telegram-desktop
     signal-desktop
     vlc
     obs-studio
+    gnome.eog
+    gimp
 
     pinentry-curses
 
@@ -54,7 +58,9 @@ in
     typst
     typst-lsp
     typst-fmt
-    texlive.combined.scheme-medium
+    (texlive.combine {
+      inherit (texlive) scheme-medium enumitem titling todonotes cleveref;
+    })
     okular
     zathura
 
@@ -83,24 +89,26 @@ in
       package = pkgs.numix-cursor-theme;
     };
 
-    gtk3.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
-    };
+    gtk3.extraConfig.Settings = ''
+      gtk-application-prefer-dark-theme=1
+    '';
 
-    gtk4.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
-    };
+
+    gtk4.extraConfig.Settings = ''
+      gtk-application-prefer-dark-theme=1
+    '';
   };
   home.sessionVariables.GTK_THEME = "palenight";
+  qt = {
+    enable = true;
+    platformTheme = "gtk";
+    style.name = "adwaita-dark";
+  };
 
   home.file =
     let
       link = config.lib.file.mkOutOfStoreSymlink;
-      linkedFiles = [ ".config/alacritty" ".config/qtile" ".config/nvim" ".tmux.conf" ".config/latexmk" ".config/systemd/user/backup.service" ".config/systemd/user/backup.path" ];
+      linkedFiles = [ ".config/alacritty" ".config/qtile" ".config/nvim" ".tmux.conf" ".config/latexmk" ];
       linkedFilesConfig = builtins.listToAttrs (map
         (name: {
           inherit name;
@@ -110,16 +118,23 @@ in
     in
     { } // linkedFilesConfig;
 
+  xdg.enable = true;
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
-    CARGO_TARGET_DIR = "$XDG_CACHE_HOME/cargo-target-dir";
+    CARGO_TARGET_DIR = "${config.xdg.cacheHome}/cargo-target-dir";
     MANPAGER = "nvim +Man!";
   };
 
   services.picom = {
     enable = true;
     vSync = true;
+  };
+
+  # Fix tray.target not being present (https://github.com/nix-community/home-manager/issues/2064)
+  systemd.user.targets.tray.Unit = {
+    Description = "Home Manager System Tray";
+    Requires = [ "graphical-session-pre.target" ];
   };
   services.pasystray.enable = true;
   services.dunst.enable = true;
@@ -187,5 +202,20 @@ in
   programs.exa = {
     enable = true;
     enableAliases = true;
+  };
+
+  services.flameshot.enable = true;
+
+  systemd.user.services.backup = {
+    Unit.Description = "Backs up files";
+    Service = {
+      ExecStart = "${pkgs.rsync}/bin/rsync %h/Sync -CERrltm pi:Sync";
+      Environment = "PATH=${lib.makeBinPath [ pkgs.openssh ]}";
+    };
+  };
+  systemd.user.paths.backup = {
+    Unit.Description = "Checks if paths that are currently being backed up have changed";
+    Path.PathChanged = "%h/Sync";
+    Install.WantedBy = [ "default.target" ];
   };
 }

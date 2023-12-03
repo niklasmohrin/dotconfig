@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, username, ... }:
 
 {
   system.stateVersion = "23.05";
@@ -66,7 +66,7 @@
       experimental-features = [ "nix-command" "flakes" ];
       max-jobs = "auto";
       trusted-substituters = [ "https://lean4.cachix.org/" ];
-      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "lean4.cachix.org-1:mawtxSxcaiWE24xCXXgh3qnvlTkyU7evRRnGeAhD4Wk=" ];
+      trusted-public-keys = [ "lean4.cachix.org-1:mawtxSxcaiWE24xCXXgh3qnvlTkyU7evRRnGeAhD4Wk=" ];
     };
     extraOptions = ''
       keep-outputs = true  # Do not garbage-collect build time-only dependencies (e.g. clang)
@@ -77,12 +77,15 @@
     "cudatoolkit"
     "nvidia-x11"
     "nvidia-settings"
+    "steam"
+    "steam-original"
+    "steam-run"
   ];
 
-  users.users.niklas = {
+  users.users."${username}" = {
     isNormalUser = true;
-    description = "niklas";
-    extraGroups = [ "networkmanager" "wheel" "docker" "input" ];
+    description = "${username}";
+    extraGroups = [ "networkmanager" "wheel" "docker" "input" "scanner" "lp" "libvirtd" ];
     shell = pkgs.fish;
   };
   programs.fish.enable = true;
@@ -104,18 +107,6 @@
     windowManager.qtile.enable = true;
   };
   console.keyMap = "de-latin1-nodeadkeys";
-  # systemd.services.libinput-gestures = {
-  #   enable = true;
-  #   description = "Start libinput-gestures";
-  #   after = [ "graphical.target" ];
-  #   wantedBy = [ "graphical.target" ];
-  #   environment.DISPLAY = ":0";
-  #
-  #   serviceConfig = {
-  #     Type = "simple";
-  #     ExecStart = "${pkgs.libinput-gestures}/bin/libinput-gestures";
-  #   };
-  # };
 
   services.pipewire = {
     enable = true;
@@ -125,14 +116,37 @@
   };
   security.rtkit.enable = true; # Let audio services acquire realtime scheduling priority
 
+  services.acpid = {
+    enable = true;
+    handlers =
+      let
+        event-to-action = {
+          "video/brightnessup" = "${pkgs.brightnessctl}/bin/brightnessctl set +10%";
+          "video/brightnessdown" = "${pkgs.brightnessctl}/bin/brightnessctl set 10%-";
+        };
+      in
+      builtins.listToAttrs (map
+        (event: {
+          name = builtins.replaceStrings [ "/" ] [ "-" ] event;
+          value = {
+            inherit event;
+            action = event-to-action.${event};
+          };
+        })
+        (builtins.attrNames event-to-action));
+  };
+
   environment.systemPackages = with pkgs; [
     bat
+    brightnessctl
+    clamav
     curl
     fd
     file
     fzf
     git
     htop
+    input-utils
     lshw
     neovim
     nvtop
@@ -143,11 +157,37 @@
     tmux
     usbutils
     vim
+    virt-manager
     wget
   ];
 
+  services.clamav.updater = { enable = true; interval = "daily"; };
+
+  # virtualisation.virtualbox.host.enable = true;
   virtualisation.docker.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu.ovmf.enable = true;
+  };
+
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = false;
+  services.blueman.enable = true;
+
   services.gvfs.enable = true; # file manager support for android phone
-  services.blueman.enable = true; # bluetooth
-  programs.dconf.enable = true; # gnome theming thing (used for gtk theming)
+  programs.dconf.enable = true; # gnome theming thing (used for gtk theming) + virt-manager requires dconf to remember settings
+
+  services.avahi.enable = true; # service discovery (for example printers)
+  services.avahi.nssmdns = true; # resolving xyz.local
+  services.avahi.openFirewall = true;
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [ gutenprint foomatic-db ];
+  };
+  hardware.sane = {
+    enable = true;
+    extraBackends = [ pkgs.sane-airscan ];
+  };
+
+  programs.steam.enable = true;
 }
