@@ -1,5 +1,4 @@
-return require("packer").startup {
-    function(use)
+return require("packer").startup { function(use)
         use "wbthomason/packer.nvim"
 
         use "nvim-lua/plenary.nvim"
@@ -29,7 +28,7 @@ return require("packer").startup {
 
         -- Debugging
         -- use "puremourning/vimspector"
-        -- use "mfussenegger/nvim-dap"
+        use "mfussenegger/nvim-dap"
 
         use { "nvim-telescope/telescope.nvim", branch = "0.1.x" }
         -- use "nvim-telescope/telescope-fzy-native.nvim"
@@ -51,6 +50,7 @@ return require("packer").startup {
         use "neovim/nvim-lspconfig"
         use "nvim-lua/lsp-status.nvim"
         use "jose-elias-alvarez/null-ls.nvim"
+        use "Julian/lean.nvim"
 
         -- Completion
         use "hrsh7th/nvim-cmp"

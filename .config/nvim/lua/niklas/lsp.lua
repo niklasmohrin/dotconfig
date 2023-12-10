@@ -11,11 +11,10 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local servers_with_default_settings = {
     "cssls",
+    "clojure_lsp",
     "dockerls",
     "hls",
     "html",
-    "jdtls",
-    "jsonls",
     "nil_ls",
     "pylsp",
     "r_language_server",
@@ -56,27 +55,20 @@ lspconfig["typst_lsp"].setup {
     settings = { experimentalFormatterMode = "on" },
 }
 
--- lspconfig["emmet_ls"].setup {
---     cmd = { "node", "/home/niklas/Tools/emmet-ls/out/server.js", "--stdio" },
---     capabilities = capabilities,
---     filetypes = {
---         "html",
---         "css",
---         "htmldjango",
---     },
---     settings = {
---         html_filetypes = { "html", "htmldjango" },
---         css_filetypes = { "html", "htmldjango", "css" },
---     },
--- }
+lspconfig["jsonls"].setup { cmd = { "vscode-json-languageserver", "--stdio" } }
 
 local null_ls = require "null-ls"
 null_ls.setup {
     sources = {
-        -- null_ls.builtins.formatting.prettierd,
+        null_ls.builtins.formatting.prettier,
         -- null_ls.builtins.diagnostics.eslint_d,
         null_ls.builtins.formatting.stylua,
     },
+}
+
+require("lean").setup {
+    mappings = true,
+    lsp = { root_dir = util.root_pattern("flake.nix", ".git") },
 }
 
 vim.keymap.set("n", "<leader>K", vim.diagnostic.open_float)
@@ -106,7 +98,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
             vim.lsp.buf.format {
                 async = true,
                 filter = function(client)
-                    return client.name ~= "tsserver"
+                    return client.name ~= "tsserver" and client.name ~= "java_language_server"
                 end,
             }
         end, keymap_opts)

@@ -1,4 +1,5 @@
 vim.g.mapleader = " "
+vim.g.maplocalleader = "  "
 
 P = function(v)
   print(vim.inspect(v))
@@ -26,6 +27,7 @@ require("niklas.plugins")
 require("niklas.general_config")
 require("niklas.plugins_config")
 require("niklas.lsp")
+require("niklas.dap")
 require("niklas.keybindings")
 require("niklas.autocommands")
 require("niklas.colors")
