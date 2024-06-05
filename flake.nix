@@ -22,13 +22,13 @@
       username = "niklas";
     in
     {
-      nixosConfigurations."${username}" = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.niks-xps = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           ./configuration.nix
           nixos-hardware.nixosModules.dell-xps-15-7590-nvidia
         ];
-        specialArgs = { inherit username; };
+        specialArgs = { inherit username nixpkgs nixpkgs-unstable; };
       };
       homeConfigurations."${username}" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;

@@ -96,7 +96,7 @@ layouts = [
     layout.MonadTall(**layout_theme),
     layout.Max(),
     # layout.Matrix(columns=3, **layout_theme),
-    # layout.MonadWide(**layout_theme),
+    layout.MonadWide(**layout_theme),
     # layout.Stack(**layout_theme),
 ]
 
@@ -128,7 +128,7 @@ def my_screen(primary):
                 sep(),
                 widget.Clock(format="%H:%M | %d. %b %y | %A"),
                 sep(),
-                widget.Net(format="{down} ↓↑ {up}"),
+                widget.Net(),
                 sep(),
                 *([widget.Systray(), sep()] if primary else []),
                 widget.Backlight(

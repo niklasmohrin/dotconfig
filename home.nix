@@ -50,6 +50,7 @@ in
     tealdeer
     du-dust
     rsync
+    unzip
 
     clang
     (hiPrio gcc)
@@ -63,11 +64,17 @@ in
     })
     okular
     zathura
+    pdftk
+    ghostscript
+
+    linux-wifi-hotspot
 
     nil
     nixpkgs-fmt
     stylua
     tree-sitter
+    pkgs-unstable.nh
+    pkgs-unstable.nix-output-monitor
   ];
   fonts.fontconfig.enable = true;
 
@@ -115,8 +122,15 @@ in
           value.source = link (configRepo + "/${name}");
         })
         linkedFiles);
+      otherFilesConfig = {
+        ".config/gdb/gdbinit".text = ''
+          set history save on
+          set history size 1024
+          set history filename ${config.xdg.cacheHome}/gdb_history
+        '';
+      };
     in
-    { } // linkedFilesConfig;
+    linkedFilesConfig // otherFilesConfig;
 
   xdg.enable = true;
   home.sessionVariables = {
@@ -155,6 +169,8 @@ in
       signByDefault = true;
     };
     ignores = [ ".vim-rooter" ".direnv" ];
+    extraConfig."init"."defaultBranch" = "main";
+
     difftastic.enable = true;
   };
   programs.gh.enable = true;
@@ -199,7 +215,7 @@ in
   };
   programs.zoxide = enableWithFish;
 
-  programs.exa = {
+  programs.eza = {
     enable = true;
     enableAliases = true;
   };

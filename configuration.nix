@@ -1,4 +1,4 @@
-{ config, pkgs, username, ... }:
+inputs@{ config, pkgs, username, ... }:
 
 {
   system.stateVersion = "23.05";
@@ -71,6 +71,9 @@
     extraOptions = ''
       keep-outputs = true  # Do not garbage-collect build time-only dependencies (e.g. clang)
     '';
+
+    registry.nixpkgs.flake = inputs.nixpkgs;
+    registry.nixpkgs-unstable.flake = inputs.nixpkgs-unstable;
   };
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
@@ -164,10 +167,13 @@
   services.clamav.updater = { enable = true; interval = "daily"; };
 
   # virtualisation.virtualbox.host.enable = true;
-  virtualisation.docker.enable = true;
-  virtualisation.libvirtd = {
-    enable = true;
-    qemu.ovmf.enable = true;
+  virtualisation = {
+    docker.enable = true;
+    podman.enable = true;
+    libvirtd = {
+      enable = true;
+      qemu.ovmf.enable = true;
+    };
   };
 
   hardware.bluetooth.enable = true;
