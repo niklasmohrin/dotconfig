@@ -1,5 +1,7 @@
 inputs@{ config, pkgs, username, ... }:
-
+let
+  inherit (pkgs) lib;
+in
 {
   system.stateVersion = "23.05";
 
@@ -76,14 +78,13 @@ inputs@{ config, pkgs, username, ... }:
     registry.nixpkgs-unstable.flake = inputs.nixpkgs-unstable;
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "cudatoolkit"
-    "nvidia-x11"
-    "nvidia-settings"
-    "steam"
-    "steam-original"
-    "steam-run"
-  ];
+  nixpkgs.config = {
+    allowUnfreePredicate = pkg:
+      builtins.elem pkg.meta.license.shortName [ "CUDA EULA" "CUDA TOOLKIT" ] ||
+      builtins.elem (lib.getName pkg) [ "nvidia-settings" "nvidia-x11" "steam" "steam-original" "steam-run" ];
+  };
+
+  programs.nh.enable = true;
 
   users.users."${username}" = {
     isNormalUser = true;

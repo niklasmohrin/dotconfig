@@ -44,8 +44,6 @@ in
     gnome.eog
     gimp
 
-    pinentry-curses
-
     btop
     tealdeer
     du-dust
@@ -73,8 +71,7 @@ in
     nixpkgs-fmt
     stylua
     tree-sitter
-    pkgs-unstable.nh
-    pkgs-unstable.nix-output-monitor
+    nix-output-monitor
   ];
   fonts.fontconfig.enable = true;
 
@@ -157,7 +154,7 @@ in
 
   programs.gpg.enable = true;
   services.gpg-agent = enableWithFish // {
-    pinentryFlavor = "curses";
+    pinentryPackage = pkgs.pinentry-curses;
   };
 
   programs.git = {
@@ -214,11 +211,7 @@ in
     nix-direnv.enable = true;
   };
   programs.zoxide = enableWithFish;
-
-  programs.eza = {
-    enable = true;
-    enableAliases = true;
-  };
+  programs.eza = enableWithFish;
 
   services.flameshot.enable = true;
 
