@@ -11,7 +11,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware, ... }:
+  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
@@ -19,18 +19,22 @@
         inherit system;
         config.allowUnfreePredicate = pkg: nixpkgs.lib.getName pkg == "discord";
       };
+      inherit (pkgs) lib;
       username = "niklas";
     in
+    rec
     {
+      nixosModules = lib.mapAttrs'
+        (filename: _: { name = lib.strings.removeSuffix ".nix" filename; value = import ./nixosModules/${filename}; })
+        (builtins.readDir ./nixosModules);
+
       nixosConfigurations.niks-xps = nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = [
-          ./configuration.nix
-          nixos-hardware.nixosModules.dell-xps-15-7590-nvidia
-        ];
-        specialArgs = { inherit username nixpkgs nixpkgs-unstable; };
+        modules = [ ./machines/niks-xps ];
+        specialArgs = { inherit inputs username nixosModules pkgs-unstable; };
       };
-      homeConfigurations."${username}" = home-manager.lib.homeManagerConfiguration {
+
+      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ ./home.nix ];
         extraSpecialArgs = { inherit pkgs-unstable; };
