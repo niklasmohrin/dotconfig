@@ -1,4 +1,0 @@
-add_newline = false
-
-# Disable "bottleneck" modules
-battery.disabled = true

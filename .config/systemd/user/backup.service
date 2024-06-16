@@ -1,7 +1,0 @@
-# https://wiki.archlinux.org/title/Rsync
-
-[Unit]
-Description=Backs up files
-
-[Service]
-ExecStart=/usr/bin/rsync %h/Sync -CERrltm pi:Sync
