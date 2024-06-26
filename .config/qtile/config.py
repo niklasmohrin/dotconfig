@@ -6,6 +6,8 @@ from libqtile import bar, hook, layout, widget
 from libqtile.command import lazy
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 
+os.environ["LANG"] = "en_US"
+
 mod = "mod4"  # Super / Windows Key
 net_interface = "enp0s3"
 terminal_emulator = "alacritty"
@@ -14,37 +16,23 @@ application_runner = "rofi -show run"
 web_browser = "firefox"
 email_program = "thunderbird"
 lock_command = "i3lock --color 000000"
-# lock_command = "\
-#         xidlehook-client --socket /tmp/xidlehook.sock \
-#         control --action trigger --timer 1"
 
 keys = [
-    # Switch between windows in current stack pane
     Key([mod], "k", lazy.layout.down()),
     Key([mod], "j", lazy.layout.up()),
-    # Move windows up or down in current stack
     Key([mod, "control"], "k", lazy.layout.shuffle_down()),
     Key([mod, "control"], "j", lazy.layout.shuffle_up()),
-    # Switch window focus to other pane(s) of stack
     Key([mod], "space", lazy.layout.next()),
-    # Swap panes of split stack
-    Key([mod, "shift"], "space", lazy.layout.rotate()),
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
-    Key([mod], "Return", lazy.spawn(terminal_emulator)),
     Key([mod], "Tab", lazy.next_layout()),
-    Key([mod], "q", lazy.window.kill()),
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
+    Key([mod, "shift"], "l", lazy.spawn(lock_command)),
+    Key([mod], "q", lazy.window.kill()),
+    Key([mod], "Return", lazy.spawn(terminal_emulator)),
     Key([mod], "r", lazy.spawn(application_runner)),
     Key([mod], "e", lazy.spawn(file_manager)),
     Key([mod], "b", lazy.spawn(web_browser)),
     Key([mod], "m", lazy.spawn(email_program)),
-    Key([mod, "shift"], "l", lazy.spawn(lock_command)),
-
     Key([], "XF86AudioLowerVolume", lazy.spawn("wpctl set-volume @DEFAULT_SINK@ 5%-")),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("wpctl set-volume @DEFAULT_SINK@ 5%+")),
     Key([], "XF86AudioMute", lazy.spawn("wpctl set-mute @DEFAULT_SINK@ toggle")),
@@ -64,7 +52,6 @@ mouse = [
         [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
     ),
     Click([mod], "Button2", lazy.window.toggle_floating()),
-    # Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 
 groups = [
@@ -72,24 +59,19 @@ groups = [
     Group("Code", layout="max"),
     Group("Web"),
     Group("Media", matches=[Match(wm_class=["spotify", "Spotify"])]),
-    Group(
-        "Com",
-        matches=[
-            Match(wm_class=["discord"]),
-        ],
-    ),
+    Group("Com", matches=[Match(wm_class=["discord"])]),
 ]
-group_labels = [g.name for g in groups]
 
-for i, label in enumerate(group_labels, 1):
-    keys.append(Key([mod], str(i), lazy.group[label].toscreen(toggle=True)))
-    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(label)))
+for i, group in enumerate(groups, 1):
+    keys.append(Key([mod], str(i), lazy.group[group.name].toscreen(toggle=True)))
+    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(group.name)))
+
+accent_color = "117fb2"
 
 layout_theme = {
-    "border_width": 2,
-    "border_focus": "773388",
+    "border_width": 1,
+    "border_focus": accent_color,
     "border_normal": "1D1F21",
-    # "margin": 8,
 }
 
 layouts = [
@@ -109,44 +91,41 @@ extension_defaults = widget_defaults.copy()
 
 
 def sep():
-    return widget.TextBox("|", foreground="#aaaaaa")
+    return widget.Sep(padding=4)
 
 
 def my_screen(primary):
     return Screen(
         wallpaper="~/Pictures/qtile_wallpaper",
         wallpaper_mode="fill",
-        bottom=bar.Bar(
+        top=bar.Bar(
             [
-                widget.GroupBox(
-                    disable_drag=True,
-                    highlight_method="line",
-                    highlight_color=["000000", "553388"],
+                widget.GroupBox(disable_drag=True, highlight_method="block"),
+                sep(),
+                widget.TaskList(border=accent_color, borderwidth=1, max_title_width=200),
+                widget.Clock(format="%a, %d %b %y, %H:%M"),
+                widget.Spacer(length=bar.STRETCH),
+                sep(),
+                widget.WidgetBox(
+                    close_button_location="right",
+                    widgets=[
+                        widget.CPU(),
+                        widget.Sep(),
+                        widget.Net(),
+                        widget.Sep(),
+                        widget.CurrentLayout(),
+                        widget.Sep(),
+                    ],
                 ),
-                sep(),
-                widget.TaskList(),
-                sep(),
-                widget.Clock(format="%H:%M | %d. %b %y | %A"),
-                sep(),
-                widget.Net(),
                 sep(),
                 *([widget.Systray(), sep()] if primary else []),
                 widget.Backlight(
                     format="☀{percent: 2.0%}", backlight_name="intel_backlight"
                 ),
                 sep(),
-                widget.Mpris2(
-                    objname="org.mpris.MediaPlayer2.spotify",
-                    display_metadata=["xesam:title", "xesam:artist"],
-                    scroll_wait_intervals=10000,
-                    scroll_chars=50,
-                    stop_pause_text="Paused",
-                ),
-                sep(),
-                widget.BatteryIcon(),
+                widget.BatteryIcon(scale=1.2),
                 widget.Battery(format="{percent:2.0%}"),
-                sep(),
-                widget.CurrentLayout(),
+                widget.Spacer(length=5),
             ],
             size=28,
         ),
@@ -158,9 +137,6 @@ screens = [
     my_screen(primary=False),
     my_screen(primary=False),
 ]
-
-# Configuration constants
-# http://docs.qtile.org/en/latest/manual/config/index.html#configuration-variables
 
 floating_layout = layout.Floating(
     float_rules=[
@@ -176,8 +152,6 @@ floating_layout = layout.Floating(
         Match(title=re.compile(r"^Password Required - Mozilla Firefox$")),
     ]
 )
-
-wmname = "LG3D"
 
 
 @hook.subscribe.startup_once
