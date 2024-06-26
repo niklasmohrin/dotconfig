@@ -9,7 +9,6 @@ from libqtile.config import Click, Drag, Group, Key, Match, Screen
 os.environ["LANG"] = "en_US"
 
 mod = "mod4"  # Super / Windows Key
-net_interface = "enp0s3"
 terminal_emulator = "alacritty"
 file_manager = "nemo"
 application_runner = "env LANG=en_US.UTF-8 rofi -show combi"
@@ -58,8 +57,8 @@ groups = [
     Group("Side"),
     Group("Code", layout="max"),
     Group("Web"),
-    Group("Media", matches=[Match(wm_class=["spotify", "Spotify"])]),
-    Group("Com", matches=[Match(wm_class=["discord"])]),
+    Group("Media", matches=[Match(wm_class=re.compile("spotify|Spotify"))]),
+    Group("Com", matches=[Match(wm_class="discord")]),
 ]
 
 for i, group in enumerate(groups, 1):
@@ -102,7 +101,9 @@ def my_screen(primary):
             [
                 widget.GroupBox(disable_drag=True, highlight_method="block"),
                 sep(),
-                widget.TaskList(border=accent_color, borderwidth=1, max_title_width=200),
+                widget.TaskList(
+                    border=accent_color, borderwidth=1, max_title_width=200
+                ),
                 widget.Clock(format="%a, %d %b %y, %H:%M"),
                 widget.Spacer(length=bar.STRETCH),
                 sep(),
@@ -149,7 +150,7 @@ floating_layout = layout.Floating(
         Match(wm_class="notification"),
         Match(wm_class="splash"),
         Match(wm_class="toolbar"),
-        Match(title=re.compile(r"^Password Required - Mozilla Firefox$")),
+        Match(title="Password Required - Mozilla Firefox"),
     ]
 )
 
