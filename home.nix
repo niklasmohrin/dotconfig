@@ -65,8 +65,6 @@ in
     pdftk
     ghostscript
 
-    linux-wifi-hotspot
-
     nil
     nixpkgs-fmt
     stylua
@@ -124,6 +122,16 @@ in
           set history save on
           set history size 1024
           set history filename ${config.xdg.cacheHome}/gdb_history
+        '';
+        ".config/rofi/config.rasi".text = ''
+          configuration {
+              modi: "combi";
+              font: "Ubuntu Regular 11";
+              show-icons: true;
+              terminal: "alacritty";
+              ssh-command: "{terminal} -e ssh {host}";
+              combi-modi: "drun,ssh,window";
+          }
         '';
       };
     in
