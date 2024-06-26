@@ -12,7 +12,7 @@ mod = "mod4"  # Super / Windows Key
 net_interface = "enp0s3"
 terminal_emulator = "alacritty"
 file_manager = "nemo"
-application_runner = "rofi -show run"
+application_runner = "env LANG=en_US.UTF-8 rofi -show combi"
 web_browser = "firefox"
 email_program = "thunderbird"
 lock_command = "i3lock --color 000000"
