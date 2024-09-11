@@ -70,6 +70,7 @@ in
     stylua
     tree-sitter
     nix-output-monitor
+    zotero
   ];
   fonts.fontconfig.enable = true;
 
