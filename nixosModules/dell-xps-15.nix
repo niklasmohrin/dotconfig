@@ -47,5 +47,8 @@ in
       builtins.elem (lib.getName pkg) [ "nvidia-settings" "nvidia-x11" "steam" "steam-original" "steam-run" ];
   };
 
-  environment.systemPackages = [ pkgs.powertop ];
+  environment.systemPackages = with pkgs; [
+    powertop
+    nvtopPackages.nvidia
+  ];
 }
