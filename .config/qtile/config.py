@@ -6,12 +6,10 @@ from libqtile import bar, hook, layout, widget
 from libqtile.command import lazy
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 
-os.environ["LANG"] = "en_US"
-
 mod = "mod4"  # Super / Windows Key
 terminal_emulator = "alacritty"
 file_manager = "nemo"
-application_runner = "env LANG=en_US.UTF-8 rofi -show combi"
+application_runner = "rofi -show combi"
 web_browser = "firefox"
 email_program = "thunderbird"
 lock_command = "i3lock --color 000000"
