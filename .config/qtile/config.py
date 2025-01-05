@@ -3,8 +3,8 @@ import re
 import subprocess
 
 from libqtile import bar, hook, layout, widget
-from libqtile.command import lazy
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.lazy import lazy
 
 mod = "mod4"  # Super / Windows Key
 terminal_emulator = "alacritty"
@@ -19,6 +19,9 @@ keys = [
     Key([mod], "j", lazy.layout.up()),
     Key([mod, "control"], "k", lazy.layout.shuffle_down()),
     Key([mod, "control"], "j", lazy.layout.shuffle_up()),
+    Key([mod, "control"], "Left", lazy.layout.shrink_main()),
+    Key([mod, "control"], "Right", lazy.layout.grow_main()),
+
     Key([mod], "space", lazy.layout.next()),
     Key([mod], "Tab", lazy.next_layout()),
     Key([mod, "control"], "r", lazy.restart()),
