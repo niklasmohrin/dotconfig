@@ -23,6 +23,7 @@ in
     rofi
     xclip
     i3lock
+    git-absorb
 
     libinput-gestures
     wmctrl
@@ -60,10 +61,12 @@ in
     (texlive.combine {
       inherit (texlive) scheme-medium enumitem titling todonotes cleveref;
     })
+    ipe
     okular
     zathura
     pdftk
     ghostscript
+    pkgs-unstable.musescore
 
     nil
     nixpkgs-fmt

@@ -39,5 +39,19 @@
         modules = [ ./home.nix ];
         extraSpecialArgs = { inherit pkgs-unstable; };
       };
+
+      devShells.${system}.default = pkgs.mkShell {
+        packages = [
+          (pkgs.python3.withPackages (ps: with ps; [
+            python-lsp-server
+            pylsp-mypy
+            pylsp-rope
+            python-lsp-black
+            isort
+            python-lsp-ruff
+            qtile
+          ]))
+        ];
+      };
     };
 }

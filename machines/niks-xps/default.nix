@@ -88,5 +88,9 @@ in
 
   environment.systemPackages = [ pkgs.vim ];
 
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
   programs.steam.enable = true;
 }

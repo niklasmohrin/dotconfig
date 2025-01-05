@@ -50,5 +50,6 @@ in
   environment.systemPackages = with pkgs; [
     powertop
     nvtopPackages.nvidia
+    config.boot.kernelPackages.perf
   ];
 }
