@@ -1,6 +1,14 @@
 local telescope = require "telescope"
+local telescopeConfig = require "telescope.config"
+
+local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+table.insert(vimgrep_arguments, "--hidden")
+table.insert(vimgrep_arguments, "--glob")
+table.insert(vimgrep_arguments, "!**/.git/*")
 
 telescope.setup {
+    defaults = { vimgrep_arguments = vimgrep_arguments },
+    pickers = { find_files = { find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" } } },
     extensions = {
         ["zf-native"] = {
             file = {
@@ -17,29 +25,18 @@ telescope.setup {
     },
 }
 telescope.load_extension "zf-native"
--- telescope.load_extension "fzy_native"
 
 local function edit_config()
     require("telescope.builtin").git_files {
-        prompt_title = "Neovim dotfiles",
+        prompt_title = "Dotfiles",
         shorten_path = false,
         cwd = "~/dotconfig/",
     }
 end
 
-vim.keymap.set("n", "<C-p>", function()
-    require("telescope.builtin").find_files { hidden = true }
-end)
-vim.keymap.set("n", "<leader>pg", function()
-    require("telescope.builtin").git_files()
-end)
-vim.keymap.set("n", "<leader>ps", function()
-    require("telescope.builtin").live_grep()
-end)
-vim.keymap.set("n", "<leader>pw", function()
-    require("telescope.builtin").grep_string()
-end)
-vim.keymap.set("n", "<leader>pm", function()
-    require("telescope.builtin").man_pages()
-end)
+vim.keymap.set("n", "<C-p>", require("telescope.builtin").find_files)
+vim.keymap.set("n", "<leader>pg", require("telescope.builtin").git_files)
+vim.keymap.set("n", "<leader>ps", require("telescope.builtin").live_grep)
+vim.keymap.set("n", "<leader>pw", require("telescope.builtin").grep_string)
+vim.keymap.set("n", "<leader>pm", require("telescope.builtin").man_pages)
 vim.keymap.set("n", "<leader>pn", edit_config)

@@ -68,6 +68,7 @@ in
     nil
     nixpkgs-fmt
     stylua
+    lua-language-server
     tree-sitter
     nix-output-monitor
     zotero
