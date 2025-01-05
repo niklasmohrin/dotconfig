@@ -29,7 +29,7 @@ in
     wmctrl
     playerctl
 
-    cinnamon.nemo
+    nemo
     libsForQt5.ark
     firefox
     ungoogled-chromium
@@ -42,7 +42,7 @@ in
     signal-desktop
     vlc
     obs-studio
-    gnome.eog
+    eog
     gimp
 
     btop
@@ -108,7 +108,7 @@ in
   home.sessionVariables.GTK_THEME = "palenight";
   qt = {
     enable = true;
-    platformTheme = "gtk";
+    platformTheme.name = "gtk";
     style.name = "adwaita-dark";
   };
 

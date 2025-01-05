@@ -84,7 +84,7 @@ in
   };
   programs.fish.enable = true;
 
-  console.keyMap = "de-latin1-nodeadkeys";
+  console.useXkbConfig = true;
 
   environment.systemPackages = [ pkgs.vim ];
 
