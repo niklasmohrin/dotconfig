@@ -26,10 +26,6 @@ return require("packer").startup { function(use)
         use "rmehri01/onenord.nvim"
         use "rebelot/kanagawa.nvim"
 
-        -- Debugging
-        -- use "puremourning/vimspector"
-        use "mfussenegger/nvim-dap"
-
         use { "nvim-telescope/telescope.nvim", branch = "0.1.x" }
         -- use "nvim-telescope/telescope-fzy-native.nvim"
         use "natecraddock/telescope-zf-native.nvim"
