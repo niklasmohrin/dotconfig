@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   services.xserver = {
     enable = true;
@@ -18,6 +19,10 @@
     };
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+  };
   services.gvfs.enable = true; # file manager support for android phone
   programs.dconf.enable = true; # gnome theming thing (used for gtk theming)
 }
