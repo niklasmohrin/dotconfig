@@ -23,12 +23,7 @@ lazy_require = function(module, fn_name, args)
     end
 end
 
-require("niklas.plugins")
+require("niklas.lazy")
 require("niklas.general_config")
-require("niklas.plugins_config")
-require("niklas.lsp")
 require("niklas.keybindings")
 require("niklas.autocommands")
-require("niklas.colors")
-require("niklas.treesitter")
-require("niklas.statusline")
