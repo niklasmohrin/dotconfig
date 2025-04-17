@@ -72,7 +72,7 @@ in
     nixpkgs-fmt
     stylua
     lua-language-server
-    tree-sitter
+    (pkgs-unstable.tree-sitter)
     nix-output-monitor
     zotero
   ];
