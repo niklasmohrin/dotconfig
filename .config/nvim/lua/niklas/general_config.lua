@@ -32,3 +32,9 @@ vim.g.tex_flavor = "latex"
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
+
+vim.cmd [[set shortmess+=c]]
+vim.cmd [[filetype plugin on]]
+
+vim.o.completeopt = "menuone,noselect"
+vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }

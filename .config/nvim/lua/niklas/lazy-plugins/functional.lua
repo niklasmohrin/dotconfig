@@ -22,5 +22,8 @@ return {
 
     -- "L3MON4D3/LuaSnip",
 
-    -- "dstein64/vim-startuptime",
+    {
+        "dstein64/vim-startuptime",
+        cmd = "StartupTime",
+    },
 }
