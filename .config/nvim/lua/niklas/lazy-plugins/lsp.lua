@@ -130,5 +130,5 @@ return {
             -- lsp = { root_dir = util.root_pattern("lean-toolchain", "flake.nix", ".git") },
         }
     },
-    { "kaarmu/typst.vim", ft = "typst" },
+    -- { "kaarmu/typst.vim", ft = "typst" },
 }

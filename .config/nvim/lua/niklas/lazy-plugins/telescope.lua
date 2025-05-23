@@ -3,9 +3,8 @@ return {
         "nvim-telescope/telescope.nvim",
         branch = "0.1.x",
         dependencies = {
-            "nvim-lua/plenary.nvim",
+            { "nvim-lua/plenary.nvim", commit = "857c5ac632080dba10aae49dba902ce3abf91b35" },
             "nvim-tree/nvim-web-devicons",
-            "natecraddock/telescope-zf-native.nvim",
         },
         config = function()
             local telescope = require "telescope"
@@ -19,22 +18,7 @@ return {
             telescope.setup {
                 defaults = { vimgrep_arguments = vimgrep_arguments },
                 pickers = { find_files = { find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" } } },
-                extensions = {
-                    ["zf-native"] = {
-                        file = {
-                            enable = true,
-                            highlight_results = true,
-                            match_filename = true,
-                        },
-                        generic = {
-                            enable = true,
-                            highlight_results = true,
-                            match_filename = false,
-                        },
-                    },
-                },
             }
-            telescope.load_extension "zf-native"
 
             local function edit_config()
                 require("telescope.builtin").git_files {
