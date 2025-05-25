@@ -14,4 +14,9 @@ vim.api.nvim_create_autocmd("Filetype", {
     end,
     group = group,
 })
-vim.api.nvim_create_autocmd("TextYankPost", { callback = vim.highlight.on_yank, group = group })
+vim.api.nvim_create_autocmd("TextYankPost", {
+    callback = function()
+        vim.hl.on_yank()
+    end,
+    group = group
+})
