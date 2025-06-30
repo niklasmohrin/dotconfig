@@ -19,7 +19,8 @@ in
     alacritty
     arandr
     autorandr
-    (nerdfonts.override { fonts = [ "CascadiaCode" "Ubuntu" ]; })
+    nerd-fonts.caskaydia-cove
+    nerd-fonts.ubuntu
     rofi
     xclip
     i3lock
@@ -56,13 +57,12 @@ in
     rustup
 
     typst
-    typst-lsp
     typst-fmt
     (texlive.combine {
       inherit (texlive) scheme-medium enumitem titling todonotes cleveref;
     })
     ipe
-    okular
+    kdePackages.okular
     zathura
     pdftk
     ghostscript
@@ -167,7 +167,7 @@ in
 
   programs.gpg.enable = true;
   services.gpg-agent = enableWithFish // {
-    pinentryPackage = pkgs.pinentry-curses;
+    pinentry.package = pkgs.pinentry-curses;
   };
 
   programs.git = {
