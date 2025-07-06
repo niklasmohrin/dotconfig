@@ -194,6 +194,7 @@ in
       fish_vi_key_bindings
       bind           \cf accept-autosuggestion
       bind -M insert \cf accept-autosuggestion
+      for mode in (bind --list-modes); bind -M $mode ctrl-c cancel-commandline; end
     '';
     shellAbbrs = {
       vim = "nvim";
