@@ -9,6 +9,7 @@
 
     windowManager.qtile.enable = true;
   };
+  programs.i3lock.enable = true;
 
   services.displayManager.sddm.enable = true;
   services.libinput = {

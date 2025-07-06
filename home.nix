@@ -23,7 +23,6 @@ in
     nerd-fonts.ubuntu
     rofi
     xclip
-    i3lock
     git-absorb
 
     libinput-gestures
