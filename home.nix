@@ -178,7 +178,10 @@ in
       signByDefault = true;
     };
     ignores = [ ".vim-rooter" ".direnv" ];
-    extraConfig."init"."defaultBranch" = "main";
+    extraConfig = {
+      "init"."defaultBranch" = "main";
+      "branch"."sort" = "-committerdate";
+    };
 
     difftastic.enable = true;
   };
@@ -216,6 +219,9 @@ in
       gs = "git status";
       gsh = "git show";
       gsw = "git switch";
+      gcp = "git cherry-pick";
+      gcpc = "git cherry-pick --continue";
+      gcpa = "git cherry-pick --abort";
     };
   };
   programs.nix-index = enableWithFish;
