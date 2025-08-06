@@ -26,4 +26,5 @@
   };
   services.gvfs.enable = true; # file manager support for android phone
   programs.dconf.enable = true; # gnome theming thing (used for gtk theming)
+  services.speechd.enable = false; # Enabled by default, but don't need it
 }
