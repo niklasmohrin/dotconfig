@@ -149,17 +149,17 @@ in
     MANPAGER = "nvim +Man!";
   };
 
-  services.picom = {
-    enable = true;
-    vSync = true;
-  };
+  # services.picom = {
+  #   enable = true;
+  #   vSync = true;
+  # };
 
   # Fix tray.target not being present (https://github.com/nix-community/home-manager/issues/2064)
   systemd.user.targets.tray.Unit = {
     Description = "Home Manager System Tray";
     Requires = [ "graphical-session-pre.target" ];
   };
-  services.pasystray.enable = true;
+  # services.pasystray.enable = true;
   services.dunst.enable = true;
   services.network-manager-applet.enable = true;
   services.blueman-applet.enable = true;
@@ -232,7 +232,7 @@ in
   programs.zoxide = enableWithFish;
   programs.eza = enableWithFish;
 
-  services.flameshot.enable = true;
+  # services.flameshot.enable = true;
 
   systemd.user.services.backup = {
     Unit.Description = "Backs up files";

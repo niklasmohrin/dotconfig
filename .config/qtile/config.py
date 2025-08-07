@@ -156,7 +156,14 @@ floating_layout = layout.Floating(
 )
 
 
-@hook.subscribe.startup_once
-def start_once():
-    home = os.path.expanduser("~")
-    subprocess.call([home + "/.config/qtile/autostart.sh"])
+# @hook.subscribe.startup_once
+# def start_once():
+#     home = os.path.expanduser("~")
+#     subprocess.call([home + "/.config/qtile/autostart.sh"])
+
+from libqtile.backend.wayland import InputConfig
+
+wl_input_rules = {
+    "type: keyboard": InputConfig(kb_layout="us"),
+
+}
