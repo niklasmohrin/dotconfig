@@ -13,6 +13,7 @@ return {
                 "pylsp",
                 "r_language_server",
                 "rust_analyzer",
+                "sqls",
                 "texlab",
                 "ts_ls",
             }

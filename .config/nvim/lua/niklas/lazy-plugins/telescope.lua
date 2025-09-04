@@ -1,6 +1,8 @@
 return {
     {
         "nvim-telescope/telescope.nvim",
+        -- TODO: continue at actions/layout.lua
+        commit = "a0bbec21143c7bc5f8bb02e0005fa0b982edc026",
         branch = "0.1.x",
         dependencies = {
             { "nvim-lua/plenary.nvim", commit = "857c5ac632080dba10aae49dba902ce3abf91b35" },
