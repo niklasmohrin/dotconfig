@@ -1,7 +1,10 @@
 #!/bin/sh
 
-autorandr --change &
-libinput-gestures &
+systemctl --user import-environment WAYLAND_DISPLAY
+systemctl --user start qtile-session.target
+
+# autorandr --change &
+# libinput-gestures &
 
 # libinput-gestures-setup start &
 

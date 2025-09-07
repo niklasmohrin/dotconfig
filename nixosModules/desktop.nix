@@ -1,23 +1,39 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   services.xserver = {
     enable = true;
     windowManager.qtile.enable = true;
   };
+
+  # https://github.com/NixOS/nixpkgs/pull/297434#issuecomment-2348783988
+  # systemd.services.display-manager.environment.XDG_CURRENT_DESKTOP = "X-NIXOS-SYSTEMD-AWARE";
+
+  # From https://wiki.archlinux.org/title/Sway#Manage_Sway-specific_daemons_with_systemd`
+  systemd.user.targets.qtile-session = {
+    bindsTo = [ "graphical-session.target" ];
+    wants = [ "graphical-session-pre.target" ];
+    after = [ "graphical-session-pre.target" ];
+
+  };
   programs.i3lock.enable = true;
 
-  services.displayManager.sddm = {
-    enable = true;
-    # wayland.enable = true;
+  # environment.systemPackages = [ pkgs.kanshi ];
+  # From https://wiki.archlinux.org/title/Kanshi#Manage_kanshi_with_systemd
+  systemd.user.services.kanshi = {
+    wantedBy = [ "qtile-session.target" ];
+    serviceConfig.ExecStart = lib.getExe pkgs.kanshi;
   };
+
+  services.displayManager.ly.enable = true;
   security.polkit.enable = true;
 
   services.libinput = {
     enable = true;
-    touchpad = {
-      naturalScrolling = true;
-      disableWhileTyping = true;
-    };
+    # not used by wayland?
+    # touchpad = {
+    #   naturalScrolling = true;
+    #   disableWhileTyping = true;
+    # };
   };
 
   xdg.portal = {

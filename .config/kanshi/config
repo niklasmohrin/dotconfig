@@ -1,0 +1,7 @@
+output eDP-1 {
+    alias $INTERNAL
+    scale 2
+}
+profile single {
+	output $INTERNAL enable
+}

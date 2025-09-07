@@ -114,7 +114,7 @@ in
   home.file =
     let
       link = config.lib.file.mkOutOfStoreSymlink;
-      linkedFiles = [ ".config/alacritty" ".config/qtile" ".config/nvim" ".tmux.conf" ".config/latexmk" ];
+      linkedFiles = [ ".config/alacritty" ".config/qtile" ".config/nvim" ".tmux.conf" ".config/latexmk" ".config/kanshi" ];
       linkedFilesConfig = builtins.listToAttrs (map
         (name: {
           inherit name;
