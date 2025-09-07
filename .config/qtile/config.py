@@ -122,7 +122,7 @@ def my_screen(primary):
                 sep(),
                 *([widget.Systray(), sep()] if primary else []),
                 widget.Backlight(
-                    format="☀{percent: 2.0%}", backlight_name="intel_backlight"
+                    format="☀{percent: 2.0%}", backlight_name="amdgpu_bl1"
                 ),
                 sep(),
                 widget.BatteryIcon(scale=1.2),

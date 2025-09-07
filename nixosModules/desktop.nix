@@ -2,11 +2,6 @@
 {
   services.xserver = {
     enable = true;
-    xkb = {
-      layout = "de";
-      variant = "nodeadkeys";
-    };
-
     windowManager.qtile.enable = true;
   };
   programs.i3lock.enable = true;

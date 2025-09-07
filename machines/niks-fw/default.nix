@@ -7,16 +7,20 @@ in
 
   imports = [
     ./hardware.nix
-    inputs.nixos-hardware.nixosModules.dell-xps-15-7590-nvidia
+    inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
 
+    nixosModules.acpid-brightness
     nixosModules.audio
     nixosModules.clamav
-    nixosModules.dell-xps-15
+    # nixosModules.framework-amd-ai-300
     nixosModules.desktop
     nixosModules.dev-tools
     nixosModules.office
     nixosModules.virtualisation
   ];
+
+  # Don't need it
+  hardware.framework.enableKmod = false;
 
   boot = {
     loader = {
@@ -37,7 +41,7 @@ in
   };
 
   networking = {
-    hostName = "niks-xps";
+    hostName = "niks-fw";
     networkmanager.enable = true;
   };
   services.openvpn.servers.homeVPN = {
@@ -63,8 +67,6 @@ in
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       max-jobs = "auto";
-      trusted-substituters = [ "https://lean4.cachix.org/" ];
-      trusted-public-keys = [ "lean4.cachix.org-1:mawtxSxcaiWE24xCXXgh3qnvlTkyU7evRRnGeAhD4Wk=" ];
     };
     extraOptions = ''
       keep-outputs = true  # Do not garbage-collect build time-only dependencies (e.g. clang)
@@ -84,17 +86,37 @@ in
   };
   programs.fish.enable = true;
 
-  services.xserver.xkb = {
-    layout = "de";
-    variant = "nodeadkeys";
+  services.xserver = {
+    # dpi = 200;
+    monitorSection = "DisplaySize 285 190";
+    # deviceSection = ''
+    #   Option "VariableRefresh" "true"
+    # '';
+    xkb = {
+      layout = "us";
+      # variant = "nodeadkeys";
+    };
   };
   console.useXkbConfig = true;
+  environment.variables = {
+    GDK_SCALE = "2";
+    GDK_DPI_SCALE = "0.5";
+    _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    QT_ENABLE_HIGHDPI_SCALING = "1";
+  };
 
-  environment.systemPackages = [ pkgs.vim ];
+  environment.systemPackages = with pkgs; [ vim nvtopPackages.amd ];
 
   programs.appimage = {
     enable = true;
     binfmt = true;
   };
+
   programs.steam.enable = true;
+
+  nixpkgs.config = {
+    allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [ "steam" "steam-unwrapped" "steam-original" "steam-run" ];
+  };
 }

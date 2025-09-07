@@ -28,10 +28,17 @@
         (filename: _: { name = lib.strings.removeSuffix ".nix" filename; value = import ./nixosModules/${filename}; })
         (builtins.readDir ./nixosModules);
 
-      nixosConfigurations.niks-xps = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [ ./machines/niks-xps ];
-        specialArgs = { inherit inputs username nixosModules pkgs-unstable; };
+      nixosConfigurations = {
+        niks-xps = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [ ./machines/niks-xps ];
+          specialArgs = { inherit inputs username nixosModules pkgs-unstable; };
+        };
+        niks-fw = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [ ./machines/niks-fw ];
+          specialArgs = { inherit inputs username nixosModules pkgs-unstable; };
+        };
       };
 
       homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
