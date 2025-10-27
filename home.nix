@@ -16,21 +16,19 @@ in
     "spotify"
   ];
   home.packages = with pkgs; [
-    alacritty
-    arandr
-    autorandr
+    wdisplays
+    wlr-randr
+    wl-clipboard
+
     nerd-fonts.caskaydia-cove
     nerd-fonts.ubuntu
-    rofi
-    xclip
+    pkgs-unstable.rofi
     git-absorb
 
-    libinput-gestures
-    wmctrl
     playerctl
 
     nemo
-    libsForQt5.ark
+    kdePackages.ark
     firefox
     ungoogled-chromium
     thunderbird
@@ -43,12 +41,13 @@ in
     vlc
     obs-studio
     eog
-    gimp
+    gimp3
 
     btop
     tealdeer
     du-dust
     rsync
+    zip
     unzip
 
     clang
@@ -114,7 +113,7 @@ in
   home.file =
     let
       link = config.lib.file.mkOutOfStoreSymlink;
-      linkedFiles = [ ".config/alacritty" ".config/qtile" ".config/nvim" ".tmux.conf" ".config/latexmk" ".config/kanshi" ];
+      linkedFiles = [ ".config/alacritty" ".config/qtile" ".config/nvim" ".tmux.conf" ".config/latexmk" ".config/kanshi" ".config/niri" ".config/waybar" ];
       linkedFilesConfig = builtins.listToAttrs (map
         (name: {
           inherit name;
@@ -137,6 +136,23 @@ in
               combi-modi: "drun,ssh,window";
           }
         '';
+        ".config/hypr/hyprlock.conf".text = ''
+          source = ${pkgs.hyprlock}/share/hypr/hyprlock.conf
+          auth {
+              fingerprint {
+                  enabled = true
+                  ready_message = Scan fingerprint to unlock
+                  present_message = Scanning...
+                  retry_delay = 250 # in milliseconds
+              }
+          }
+        '';
+        ".config/hypr/hypridle.conf".text = ''
+          general {
+            lock_cmd = pidof hyprlock || hyprlock
+            before_sleep_cmd = loginctl lock-session
+          }
+        '';
       };
     in
     linkedFilesConfig // otherFilesConfig;
@@ -149,11 +165,6 @@ in
     MANPAGER = "nvim +Man!";
   };
 
-  # services.picom = {
-  #   enable = true;
-  #   vSync = true;
-  # };
-
   # Fix tray.target not being present (https://github.com/nix-community/home-manager/issues/2064)
   systemd.user.targets.tray.Unit = {
     Description = "Home Manager System Tray";
@@ -161,8 +172,10 @@ in
   };
   # services.pasystray.enable = true;
   services.dunst.enable = true;
+  xsession.preferStatusNotifierItems = true;
   services.network-manager-applet.enable = true;
   services.blueman-applet.enable = true;
+  services.flameshot.enable = true;
 
   programs.gpg.enable = true;
   services.gpg-agent = enableWithFish // {
@@ -231,8 +244,6 @@ in
   };
   programs.zoxide = enableWithFish;
   programs.eza = enableWithFish;
-
-  # services.flameshot.enable = true;
 
   systemd.user.services.backup = {
     Unit.Description = "Backs up files";

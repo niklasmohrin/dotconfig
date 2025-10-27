@@ -13,7 +13,8 @@ in
     nixosModules.audio
     nixosModules.clamav
     # nixosModules.framework-amd-ai-300
-    nixosModules.desktop
+    nixosModules.qtile
+    nixosModules.niri
     nixosModules.dev-tools
     nixosModules.office
     nixosModules.virtualisation
@@ -120,4 +121,9 @@ in
     allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [ "steam" "steam-unwrapped" "steam-original" "steam-run" ];
   };
+
+
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = false;
+  services.blueman.enable = true;
 }

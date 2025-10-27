@@ -12,7 +12,7 @@ in
     nixosModules.audio
     nixosModules.clamav
     nixosModules.dell-xps-15
-    nixosModules.desktop
+    nixosModules.qtile
     nixosModules.dev-tools
     nixosModules.office
     nixosModules.virtualisation
