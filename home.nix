@@ -45,7 +45,7 @@ in
 
     btop
     tealdeer
-    du-dust
+    dust
     rsync
     zip
     unzip
@@ -55,7 +55,6 @@ in
     rustup
 
     typst
-    typst-fmt
     (texlive.combine {
       inherit (texlive) scheme-medium enumitem titling todonotes cleveref;
     })
@@ -177,7 +176,7 @@ in
   xsession.preferStatusNotifierItems = true;
   services.network-manager-applet.enable = true;
   services.blueman-applet.enable = true;
-  services.flameshot.enable = true;
+  # services.flameshot.enable = true;
 
   programs.gpg.enable = true;
   services.gpg-agent = enableWithFish // {
@@ -186,21 +185,20 @@ in
 
   programs.git = {
     enable = true;
-    userName = "Niklas Mohrin";
-    userEmail = "dev@niklasmohrin.de";
     signing = {
       key = null; # Use key matching the commit author
       signByDefault = true;
     };
     ignores = [ ".vim-rooter" ".direnv" ];
-    extraConfig = {
-      "init"."defaultBranch" = "main";
-      "branch"."sort" = "-committerdate";
-    };
 
-    difftastic.enable = true;
+    settings.user.name = "Niklas Mohrin";
+    settings.user.email = "dev@niklasmohrin.de";
+    settings.init.defaultBranch = "main";
+    settings.branch.sort = "-committerdate";
   };
   programs.gh.enable = true;
+  programs.difftastic.enable = true;
+  programs.difftastic.git.enable = true;
 
   programs.fish = {
     enable = true;

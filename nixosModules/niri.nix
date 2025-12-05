@@ -1,11 +1,8 @@
 { pkgs, lib, ... }:
 {
-  services.xserver = {
+  services.displayManager.gdm = {
     enable = true;
-    displayManager.gdm = {
-      enable = true;
-      wayland = true;
-    };
+    wayland = true;
   };
   # services.displayManager.ly.enable = true;
   # # https://codeberg.org/fairyglade/ly/issues/706#issuecomment-5460939
