@@ -16,6 +16,7 @@ return {
                 "sqls",
                 "texlab",
                 "ts_ls",
+                "zls",
             }
             for _, server in ipairs(servers_with_default_settings) do
                 lspconfig[server].setup {

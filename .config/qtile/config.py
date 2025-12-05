@@ -3,16 +3,20 @@ import re
 import subprocess
 
 from libqtile import bar, hook, layout, widget
+from libqtile.backend.wayland import InputConfig
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
+from qtile_extras import widget as extras_widget
 
 mod = "mod4"  # Super / Windows Key
+alt = "mod1"
 terminal_emulator = "alacritty"
 file_manager = "nemo"
 application_runner = "rofi -show combi"
 web_browser = "firefox"
 email_program = "thunderbird"
 lock_command = "i3lock --color 000000"
+screenshot_command = "grim -g \"$(slurp)\" | wl-copy"
 
 keys = [
     Key([mod], "k", lazy.layout.down()),
@@ -21,10 +25,9 @@ keys = [
     Key([mod, "control"], "j", lazy.layout.shuffle_up()),
     Key([mod, "control"], "Left", lazy.layout.shrink_main()),
     Key([mod, "control"], "Right", lazy.layout.grow_main()),
-
     Key([mod], "space", lazy.layout.next()),
     Key([mod], "Tab", lazy.next_layout()),
-    Key([mod, "control"], "r", lazy.restart()),
+    Key([mod, "control"], "r", lazy.reload_config()),
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod, "shift"], "l", lazy.spawn(lock_command)),
     Key([mod], "q", lazy.window.kill()),
@@ -33,6 +36,7 @@ keys = [
     Key([mod], "e", lazy.spawn(file_manager)),
     Key([mod], "b", lazy.spawn(web_browser)),
     Key([mod], "m", lazy.spawn(email_program)),
+    Key([mod], "s", lazy.spawn(screenshot_command)),
     Key([], "XF86AudioLowerVolume", lazy.spawn("wpctl set-volume @DEFAULT_SINK@ 5%-")),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("wpctl set-volume @DEFAULT_SINK@ 5%+")),
     Key([], "XF86AudioMute", lazy.spawn("wpctl set-mute @DEFAULT_SINK@ toggle")),
@@ -40,6 +44,19 @@ keys = [
     Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
     Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
 ]
+
+alt_bindings = {
+    "u": "ü",
+    "a": "ä",
+    "o": "ö",
+    "s": "ß",
+    "e": "€",
+}
+
+keys.extend(
+    Key([alt], normal, lazy.spawn(f"wtype {target}"))
+    for normal, target in alt_bindings.items()
+)
 
 mouse = [
     Drag(
@@ -120,7 +137,7 @@ def my_screen(primary):
                     ],
                 ),
                 sep(),
-                *([widget.Systray(), sep()] if primary else []),
+                *([extras_widget.StatusNotifier(), sep()] if primary else []),
                 widget.Backlight(
                     format="☀{percent: 2.0%}", backlight_name="amdgpu_bl1"
                 ),
@@ -161,7 +178,6 @@ def start_once():
     home = os.path.expanduser("~")
     subprocess.call([home + "/.config/qtile/autostart.sh"])
 
-from libqtile.backend.wayland import InputConfig
 
 wl_input_rules = {
     "type:keyboard": InputConfig(kb_layout="us"),

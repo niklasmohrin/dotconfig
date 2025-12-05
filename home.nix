@@ -72,7 +72,9 @@ in
     lua-language-server
     (pkgs-unstable.tree-sitter)
     nix-output-monitor
+
     zotero
+    logseq
   ];
   fonts.fontconfig.enable = true;
 
