@@ -123,3 +123,11 @@ CLI
 MSRV
 disjointness
 unary
+infeasible
+satisfiability
+satisfiable
+FPT
+reachability
+planarity
+pathwidth
+monadic

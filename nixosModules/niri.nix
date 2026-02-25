@@ -12,7 +12,7 @@
   programs.niri.enable = true;
   programs.niri.useNautilus = false;
   services.gnome.gnome-keyring.enable = false;
-  environment.systemPackages = with pkgs; [ kanshi wl-clipboard xwayland-satellite swaybg alacritty brightnessctl ];
+  environment.systemPackages = with pkgs; [ kanshi wl-clipboard xwayland-satellite swaybg alacritty brightnessctl pavucontrol ];
 
   services.hypridle.enable = true;
   programs.hyprlock.enable = true;
@@ -52,6 +52,6 @@
       };
     in
     (make "kanshi") // {
-      waybar.path = with pkgs; [ alacritty brightnessctl htop networkmanager ];
+      waybar.path = with pkgs; [ alacritty brightnessctl htop networkmanager pavucontrol ];
     };
 }

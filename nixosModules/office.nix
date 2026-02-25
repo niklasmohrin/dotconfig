@@ -6,6 +6,7 @@
   services.printing = {
     enable = true;
     drivers = with pkgs; [ gutenprint foomatic-db ];
+    webInterface = false;
   };
   hardware.sane = {
     enable = true;
@@ -13,4 +14,5 @@
   };
 
   users.users.${username}.extraGroups = [ "wheel" "input" "scanner" "lp" ];
+  environment.systemPackages = with pkgs; [ system-config-printer ];
 }
