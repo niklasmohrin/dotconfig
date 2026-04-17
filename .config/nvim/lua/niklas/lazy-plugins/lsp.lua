@@ -14,13 +14,11 @@ return {
                 "r_language_server",
                 "rust_analyzer",
                 "sqls",
-                "texlab",
                 "ts_ls",
                 "zls",
             }
             for _, server in ipairs(servers_with_default_settings) do
                 lspconfig[server].setup {
-                    -- capabilities = capabilities,
                     settings = {
                         ["pylsp"] = {
                             plugins = {
@@ -71,6 +69,14 @@ return {
             }
 
             lspconfig["jsonls"].setup { cmd = { "vscode-json-languageserver", "--stdio" } }
+            lspconfig["texlab"].setup {
+                cmd = { vim.env.CARGO_TARGET_DIR .. "/release/texlab" },
+                settings = {
+                    texlab = {
+                        bibtexFormatter = "latexindent",
+                    },
+                },
+            }
 
             vim.keymap.set("n", "<leader>K", vim.diagnostic.open_float)
 
