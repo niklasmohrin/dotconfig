@@ -74,6 +74,7 @@ in
 
     zotero
     logseq
+    qbittorrent
   ];
   fonts.fontconfig.enable = true;
 

@@ -110,10 +110,7 @@ in
 
   environment.systemPackages = with pkgs; [ vim nvtopPackages.amd ];
 
-  programs.appimage = {
-    enable = true;
-    binfmt = true;
-  };
+  programs.appimage.enable = true;
 
   programs.steam.enable = true;
 
