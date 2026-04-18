@@ -3,87 +3,24 @@ vim.pack.add({
     "https://github.com/nvim-lua/lsp-status.nvim",
 })
 
-
-local lspconfig = require "lspconfig"
-local util = require "lspconfig/util"
-
-local servers_with_default_settings = {
+vim.lsp.enable {
+    "clangd",
     "cssls",
-    "dockerls",
     "html",
+    "lua_ls",
     "nil_ls",
     "pylsp",
-    "r_language_server",
     "rust_analyzer",
-    "sqls",
+    "texlab",
+    "tinymist",
     "ts_ls",
     "zls",
 }
-for _, server in ipairs(servers_with_default_settings) do
-    lspconfig[server].setup {
-        settings = {
-            ["pylsp"] = {
-                plugins = {
-                    pycodestyle = {
-                        maxLineLength = 88, -- same as Black
-                    },
-                    -- pylint = { enabled = true },
-                    black = { enabled = true },
-                    yapf = { enabled = false },
-                },
-            },
-            ["nil"] = { formatting = { command = { "nixpkgs-fmt" } } },
-            ["rust-analyzer"] = {
-                server = {
-                    extraEnv = {
-                        RUSTFLAGS = vim.env.RUSTFLAGS,
-                        CARGO_TARGET_DIR = vim.env.CARGO_TARGET_DIR,
-                    },
-                },
-            },
-        },
-    }
-end
-
-lspconfig.lua_ls.setup {
-    on_init = function(client)
-        client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-            runtime = { version = "LuaJIT" },
-            workspace = {
-                checkThirdParty = false,
-                library = { vim.env.VIMRUNTIME },
-            },
-        })
-    end,
-    settings = { Lua = {} },
-}
-
-lspconfig["clangd"].setup {
-    capabilities = capabilities,
-    root_dir = util.root_pattern(".git", ".envrc"),
-    settings = { ["clangd"] = { semantic_tokens = { enable = false } } },
-}
-
-lspconfig["tinymist"].setup {
-    capabilities = capabilities,
-    root_dir = util.root_pattern(".git", "flake.nix"),
-    settings = { formatterMode = "typstyle" },
-}
-
-lspconfig["jsonls"].setup { cmd = { "vscode-json-languageserver", "--stdio" } }
-lspconfig["texlab"].setup {
-    cmd = { vim.env.CARGO_TARGET_DIR .. "/release/texlab" },
-    settings = {
-        texlab = {
-            bibtexFormatter = "latexindent",
-        },
-    },
-}
-
-vim.keymap.set("n", "<leader>K", vim.diagnostic.open_float)
 
 vim.o.completeopt = "menuone,noselect,popup"
 vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
+
+vim.keymap.set("n", "<leader>K", vim.diagnostic.open_float)
 
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("niklas_lsp", { clear = true }),
