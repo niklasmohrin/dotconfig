@@ -17,10 +17,11 @@ vim.lsp.enable {
     "zls",
 }
 
-vim.o.completeopt = "menuone,noselect,popup"
+vim.o.completeopt = "menuone,noinsert,popup"
 vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
 
 vim.keymap.set("n", "<leader>K", vim.diagnostic.open_float)
+vim.keymap.set("i", "<C-space>", function() vim.lsp.completion.get() end)
 
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("niklas_lsp", { clear = true }),
@@ -29,8 +30,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
         local client = vim.lsp.get_client_by_id(args.data.client_id)
         assert(client ~= nil)
 
-        vim.lsp.completion.enable(true, client.id, bufnr, {
-            autotrigger = true,
+        vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = false })
+        vim.api.nvim_create_autocmd("InsertCharPre", {
+            buffer = bufnr,
+            callback = function() vim.lsp.completion.get() end,
         })
 
         -- Disable semantic highlighting
