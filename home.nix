@@ -165,6 +165,11 @@ in
     VISUAL = "nvim";
     CARGO_TARGET_DIR = "${config.xdg.cacheHome}/cargo-target-dir";
     MANPAGER = "nvim +Man!";
+    RIPGREP_CONFIG_PATH = pkgs.writeText "ripgrep-config" ''
+      --hidden
+      -g
+      !.git
+    '';
   };
 
   # Fix tray.target not being present (https://github.com/nix-community/home-manager/issues/2064)
