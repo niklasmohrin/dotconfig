@@ -71,9 +71,11 @@ in
     lua-language-server
     (pkgs-unstable.tree-sitter)
     nix-output-monitor
+    nix-tree
 
     zotero
-    logseq
+    # See https://github.com/NixOS/nixpkgs/issues/521305 and https://github.com/NixOS/nixpkgs/pull/515504
+    # logseq
     qbittorrent
   ];
   fonts.fontconfig.enable = true;
@@ -90,6 +92,7 @@ in
       name = "palenight";
       package = pkgs.palenight-theme;
     };
+    gtk4.theme = config.gtk.theme;
 
     cursorTheme = {
       name = "Numix-Cursor";

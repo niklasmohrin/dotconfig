@@ -1,9 +1,7 @@
 { pkgs, lib, ... }:
 {
-  services.displayManager.gdm = {
-    enable = true;
-    wayland = true;
-  };
+  services.displayManager.gdm.enable = true;
+
   # services.displayManager.ly.enable = true;
   # # https://codeberg.org/fairyglade/ly/issues/706#issuecomment-5460939
   # systemd.services.display-manager.environment.XDG_CURRENT_DESKTOP = "X-NIXOS-SYSTEMD-AWARE";
@@ -12,6 +10,7 @@
   programs.niri.enable = true;
   programs.niri.useNautilus = false;
   services.gnome.gnome-keyring.enable = false;
+
   environment.systemPackages = with pkgs; [ kanshi wl-clipboard xwayland-satellite swaybg alacritty brightnessctl pavucontrol ];
 
   services.hypridle.enable = true;
@@ -25,11 +24,8 @@
   xdg.portal = {
     enable = true;
     wlr.enable = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal-gtk xdg-desktop-portal-gnome ];
-    # https://cashmere.rs/blog/20250612002456-how_to_fix_screensharing_for_niri_wm_under_nixos.html
-    config.niri = {
-      default = [ "gtk" "gnome" ];
-    };
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+    # Used to follow https://cashmere.rs/blog/20250612002456-how_to_fix_screensharing_for_niri_wm_under_nixos.html, but 26.05 introduced some settings based on programs.niri
   };
 
   environment.sessionVariables = {
