@@ -30,11 +30,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
         local client = vim.lsp.get_client_by_id(args.data.client_id)
         assert(client ~= nil)
 
-        vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = false })
-        vim.api.nvim_create_autocmd("InsertCharPre", {
-            buffer = bufnr,
-            callback = function() vim.lsp.completion.get() end,
-        })
+        vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+        -- vim.api.nvim_create_autocmd("InsertCharPre", {
+        --     buffer = bufnr,
+        --     callback = function() vim.lsp.completion.get() end,
+        -- })
 
         -- Disable semantic highlighting
         client.server_capabilities.semanticTokensProvider = nil

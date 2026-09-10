@@ -4,7 +4,7 @@ vim.pack.add({
     --     version = "039f76baf948acfc7c7d987ad9392fdc2a0e8a1c",
     -- },
     "https://github.com/jpwol/thorn.nvim",
-    -- "https://github.com/rebelot/kanagawa.nvim",
+    "https://github.com/rebelot/kanagawa.nvim",
 })
 
 vim.o.termguicolors = true

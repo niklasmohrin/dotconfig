@@ -59,6 +59,7 @@ in
       inherit (texlive) scheme-medium enumitem titling todonotes cleveref;
     })
     ipe
+    diffpdf
     kdePackages.okular
     zathura
     pdftk
