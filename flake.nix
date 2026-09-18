@@ -20,7 +20,7 @@
       pkgs = import nixpkgs { inherit system; };
       pkgs-unstable = import nixpkgs-unstable {
         inherit system;
-        config.allowUnfreePredicate = pkg: nixpkgs.lib.getName pkg == "discord";
+        config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) ["discord" "discord-unwrapped"];
       };
       inherit (pkgs) lib;
       username = "niklas";
