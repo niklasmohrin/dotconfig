@@ -1,9 +1,16 @@
-{ config, pkgs, pkgs-unstable, lib, ... }:
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 
 let
-  inherit (lib.meta) hiPrio;
   configRepo = /home/niklas/dotconfig;
-  enableWithFish = { enable = true; enableFishIntegration = true; };
+  enableWithFish = {
+    enable = true;
+    enableFishIntegration = true;
+  };
 in
 {
   home.username = "niklas";
@@ -12,37 +19,12 @@ in
   home.stateVersion = "23.05"; # Please read the comment before changing.
   programs.home-manager.enable = true;
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "spotify"
-  ];
   home.packages = with pkgs; [
-    wdisplays
-    wlr-randr
-    wl-clipboard
-
-    nerd-fonts.caskaydia-cove
-    nerd-fonts.ubuntu
-    pkgs-unstable.rofi
-    git-absorb
-
-    playerctl
-
-    nemo
     kdePackages.ark
-    firefox
-    ungoogled-chromium
-    thunderbird
+    pkgs-unstable.rofi
     keepassxc
-    libreoffice
-    pkgs-unstable.discord
-    spotify
-    telegram-desktop
-    signal-desktop
-    vlc
-    obs-studio
-    eog
-    gimp3
 
+    git-absorb
     btop
     tealdeer
     dust
@@ -50,13 +32,15 @@ in
     zip
     unzip
 
-    clang
-    (hiPrio gcc)
-    rustup
-
     typst
     (texlive.combine {
-      inherit (texlive) scheme-medium enumitem titling todonotes cleveref;
+      inherit (texlive)
+        scheme-medium
+        enumitem
+        titling
+        todonotes
+        cleveref
+        ;
     })
     ipe
     diffpdf
@@ -64,7 +48,6 @@ in
     zathura
     pdftk
     ghostscript
-    pkgs-unstable.musescore
 
     nil
     nixpkgs-fmt
@@ -75,57 +58,28 @@ in
     nix-tree
 
     zotero
-    # See https://github.com/NixOS/nixpkgs/issues/521305 and https://github.com/NixOS/nixpkgs/pull/515504
-    # logseq
-    qbittorrent
+    super-productivity
   ];
   fonts.fontconfig.enable = true;
-
-  gtk = {
-    enable = true;
-
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
-    };
-
-    theme = {
-      name = "palenight";
-      package = pkgs.palenight-theme;
-    };
-    gtk4.theme = config.gtk.theme;
-
-    cursorTheme = {
-      name = "Numix-Cursor";
-      package = pkgs.numix-cursor-theme;
-    };
-
-    gtk3.extraConfig.Settings = ''
-      gtk-application-prefer-dark-theme=1
-    '';
-
-
-    gtk4.extraConfig.Settings = ''
-      gtk-application-prefer-dark-theme=1
-    '';
-  };
-  home.sessionVariables.GTK_THEME = "palenight";
-  qt = {
-    enable = true;
-    platformTheme.name = "gtk";
-    style.name = "adwaita-dark";
-  };
-
   home.file =
     let
       link = config.lib.file.mkOutOfStoreSymlink;
-      linkedFiles = [ ".config/alacritty" ".config/qtile" ".config/nvim" ".tmux.conf" ".config/latexmk" ".config/kanshi" ".config/niri" ".config/waybar" ];
-      linkedFilesConfig = builtins.listToAttrs (map
-        (name: {
+      linkedFiles = [
+        ".config/alacritty"
+        ".config/qtile"
+        ".config/nvim"
+        ".tmux.conf"
+        ".config/latexmk"
+        ".config/kanshi"
+        ".config/niri"
+        ".config/waybar"
+      ];
+      linkedFilesConfig = builtins.listToAttrs (
+        map (name: {
           inherit name;
           value.source = link (configRepo + "/${name}");
-        })
-        linkedFiles);
+        }) linkedFiles
+      );
       otherFilesConfig = {
         ".config/gdb/gdbinit".text = ''
           set history save on
@@ -176,30 +130,16 @@ in
     '';
   };
 
-  # Fix tray.target not being present (https://github.com/nix-community/home-manager/issues/2064)
-  systemd.user.targets.tray.Unit = {
-    Description = "Home Manager System Tray";
-    Requires = [ "graphical-session-pre.target" ];
-  };
-  # services.pasystray.enable = true;
-  services.dunst.enable = true;
-  xsession.preferStatusNotifierItems = true;
-  services.network-manager-applet.enable = true;
-  services.blueman-applet.enable = true;
-  # services.flameshot.enable = true;
-
-  programs.gpg.enable = true;
-  services.gpg-agent = enableWithFish // {
-    pinentry.package = pkgs.pinentry-curses;
-  };
-
   programs.git = {
     enable = true;
     signing = {
       key = null; # Use key matching the commit author
       signByDefault = true;
     };
-    ignores = [ ".vim-rooter" ".direnv" ];
+    ignores = [
+      ".vim-rooter"
+      ".direnv"
+    ];
 
     settings.user.name = "Niklas Mohrin";
     settings.user.email = "dev@niklasmohrin.de";
@@ -254,17 +194,4 @@ in
   };
   programs.zoxide = enableWithFish;
   programs.eza = enableWithFish;
-
-  systemd.user.services.backup = {
-    Unit.Description = "Backs up files";
-    Service = {
-      ExecStart = "${pkgs.rsync}/bin/rsync %h/Sync -CERrltm pi:Sync";
-      Environment = "PATH=${lib.makeBinPath [ pkgs.openssh ]}";
-    };
-  };
-  systemd.user.paths.backup = {
-    Unit.Description = "Checks if paths that are currently being backed up have changed";
-    Path.PathChanged = "%h/Sync";
-    Install.WantedBy = [ "default.target" ];
-  };
 }

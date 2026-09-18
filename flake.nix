@@ -44,10 +44,17 @@
         };
       };
 
-      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [ ./home.nix ];
-        extraSpecialArgs = { inherit pkgs-unstable; };
+      homeConfigurations = {
+        "niklas@niks-fw" = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [ ./home.nix ./homeModules/niri.nix ];
+          extraSpecialArgs = { inherit pkgs-unstable; };
+        };
+        "niklas@BETAL207479" = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [ ./home.nix ];
+          extraSpecialArgs = { inherit pkgs-unstable; };
+        };
       };
 
       devShells.${system}.default = pkgs.mkShell {

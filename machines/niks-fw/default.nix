@@ -13,7 +13,7 @@ in
     nixosModules.audio
     nixosModules.clamav
     # nixosModules.framework-amd-ai-300
-    nixosModules.qtile
+    # nixosModules.qtile
     nixosModules.niri
     nixosModules.dev-tools
     nixosModules.office
