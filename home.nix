@@ -57,6 +57,7 @@ in
     pdftk
     ghostscript
 
+    nh
     nil
     nixpkgs-fmt
     stylua

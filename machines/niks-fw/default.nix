@@ -77,8 +77,6 @@ in
     registry.nixpkgs-unstable.flake = inputs.nixpkgs-unstable;
   };
 
-  programs.nh.enable = true;
-
   users.users.${username} = {
     isNormalUser = true;
     description = username;
