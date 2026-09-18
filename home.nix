@@ -24,6 +24,14 @@ in
     pkgs-unstable.rofi
     keepassxc
 
+    neovim
+    bat
+    fd
+    git
+    htop
+    ripgrep
+    tmux
+
     git-absorb
     btop
     tealdeer
