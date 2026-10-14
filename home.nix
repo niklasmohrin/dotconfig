@@ -66,6 +66,7 @@ in
     nix-output-monitor
     nix-tree
 
+    firefox
     zotero
     super-productivity
   ];
@@ -159,6 +160,7 @@ in
   programs.difftastic.enable = true;
   programs.difftastic.git.enable = true;
 
+  programs.bash.enable = true;
   programs.fish = {
     enable = true;
     functions = {
@@ -171,6 +173,9 @@ in
       bind -M insert \cf accept-autosuggestion
       for mode in (bind --list-modes); bind -M $mode ctrl-c cancel-commandline; end
     '';
+    shellAliases = {
+        l = "ll";
+    };
     shellAbbrs = {
       vim = "nvim";
       cal = "cal -m";
@@ -203,4 +208,6 @@ in
   };
   programs.zoxide = enableWithFish;
   programs.eza = enableWithFish;
+
+  services.nextcloud-client.enable = true;
 }

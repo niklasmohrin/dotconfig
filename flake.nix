@@ -52,7 +52,7 @@
         };
         "niklas@BETAL207479" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          modules = [ ./home.nix ];
+          modules = [ ./home.nix ./homeModules/ubuntu.nix ];
           extraSpecialArgs = { inherit pkgs-unstable; };
         };
       };

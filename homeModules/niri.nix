@@ -25,7 +25,6 @@ in
 
     playerctl
     nemo
-    firefox
     ungoogled-chromium
     thunderbird
     libreoffice
