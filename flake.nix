@@ -4,9 +4,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
     home-manager = {
-      url = "github:nix-community/home-manager/release-26.05";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nixos-hardware = {
         url = "github:NixOS/nixos-hardware/master";
@@ -18,10 +19,7 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
-      pkgs-unstable = import nixpkgs-unstable {
-        inherit system;
-        config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) ["discord" "discord-unwrapped"];
-      };
+      pkgs-unstable = import nixpkgs-unstable { inherit system; };
       inherit (pkgs) lib;
       username = "niklas";
     in
@@ -46,14 +44,12 @@
 
       homeConfigurations = {
         "niklas@niks-fw" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+          pkgs = pkgs-unstable;
           modules = [ ./home.nix ./homeModules/niri.nix ];
-          extraSpecialArgs = { inherit pkgs-unstable; };
         };
         "niklas@BETAL207479" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+          pkgs = pkgs-unstable;
           modules = [ ./home.nix ./homeModules/ubuntu.nix ];
-          extraSpecialArgs = { inherit pkgs-unstable; };
         };
       };
 

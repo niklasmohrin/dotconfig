@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  pkgs-unstable,
   lib,
   ...
 }:
@@ -13,6 +12,8 @@ in
     pkg:
     builtins.elem (lib.getName pkg) [
       "spotify"
+      "discord"
+      "discord-unwrapped"
     ];
 
   home.packages = with pkgs; [
@@ -29,7 +30,7 @@ in
     thunderbird
     libreoffice
 
-    pkgs-unstable.discord
+    discord
     spotify
     telegram-desktop
     signal-desktop
@@ -42,7 +43,7 @@ in
     (hiPrio gcc)
     rustup
 
-    pkgs-unstable.musescore
+    musescore
     qbittorrent
   ];
 

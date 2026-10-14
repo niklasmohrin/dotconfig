@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  pkgs-unstable,
   ...
 }:
 
@@ -21,7 +20,7 @@ in
 
   home.packages = with pkgs; [
     kdePackages.ark
-    pkgs-unstable.rofi
+    rofi
     keepassxc
 
     neovim
@@ -62,7 +61,7 @@ in
     nixpkgs-fmt
     stylua
     lua-language-server
-    (pkgs-unstable.tree-sitter)
+    tree-sitter
     nix-output-monitor
     nix-tree
 
