@@ -25,6 +25,8 @@
     in
     rec
     {
+      inherit pkgs pkgs-unstable;
+
       nixosModules = lib.mapAttrs'
         (filename: _: { name = lib.strings.removeSuffix ".nix" filename; value = import ./nixosModules/${filename}; })
         (builtins.readDir ./nixosModules);
