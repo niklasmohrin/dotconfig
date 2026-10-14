@@ -40,15 +40,15 @@ in
     unzip
 
     typst
-    (texlive.combine {
-      inherit (texlive)
+    (texliveMedium.withPackages (
+      ps: with ps; [
         scheme-medium
         enumitem
         titling
         todonotes
         cleveref
-        ;
-    })
+      ]
+    ))
     ipe
     diffpdf
     kdePackages.okular
@@ -173,7 +173,7 @@ in
       for mode in (bind --list-modes); bind -M $mode ctrl-c cancel-commandline; end
     '';
     shellAliases = {
-        l = "ll";
+      l = "ll";
     };
     shellAbbrs = {
       vim = "nvim";
